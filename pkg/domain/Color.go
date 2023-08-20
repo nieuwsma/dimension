@@ -1,4 +1,4 @@
-package main
+package domain
 
 func (g Color) LongHand() string {
 	switch g {

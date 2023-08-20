@@ -1,4 +1,4 @@
-package main
+package domain
 
 type Rules struct {
 	Rules map[int]Rule

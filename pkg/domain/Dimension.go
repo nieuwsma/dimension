@@ -1,21 +1,90 @@
-package main
+package domain
 
 import (
+	"errors"
 	"fmt"
 	"sort"
 	"strings"
 )
 
+type SphereID string
+
+const (
+	A SphereID = "a"
+	B SphereID = "b"
+	C SphereID = "c"
+	D SphereID = "d"
+	E SphereID = "e"
+	F SphereID = "f"
+	G SphereID = "g"
+	H SphereID = "h"
+	I SphereID = "i"
+	J SphereID = "j"
+	K SphereID = "k"
+	L SphereID = "l"
+	M SphereID = "m"
+	N SphereID = "n"
+)
+
+type SpherePair struct {
+	ID     SphereID
+	Sphere *Sphere
+}
+
+func NewSphere(color Color) *Sphere {
+	return &Sphere{Color: color}
+}
+
 type Sphere struct {
 	Color Color
 }
 
-// NewDimension is a factory function for creating a Dimension with its map initialized.
-func NewDimension() *Dimension {
-	return &Dimension{
+func NewDimension(pairs ...SpherePair) (*Dimension, error) {
+	dim := &Dimension{
 		Dimension: make(map[string]*Sphere),
 	}
+
+	for _, pair := range pairs {
+		dim.Dimension[string(pair.ID)] = pair.Sphere
+	}
+
+	err := dim.ValidateGeometry()
+	if err == nil {
+		err = dim.ValidateSpheres()
+	}
+
+	return dim, err
 }
+
+//// NewDimension is a factory function for creating a Dimension with its map initialized.
+//func NewDimension(a, b, c, d, e, f, g, h, i, j, k, l, m, n *Sphere) (dim *Dimension, err error) {
+//
+//	dim = &Dimension{
+//		Dimension: make(map[string]*Sphere),
+//	}
+//
+//	dim.Dimension["a"] = a
+//	dim.Dimension["b"] = b
+//	dim.Dimension["c"] = c
+//	dim.Dimension["d"] = d
+//	dim.Dimension["e"] = e
+//	dim.Dimension["f"] = f
+//	dim.Dimension["g"] = g
+//	dim.Dimension["h"] = h
+//	dim.Dimension["i"] = i
+//	dim.Dimension["j"] = j
+//	dim.Dimension["k"] = k
+//	dim.Dimension["l"] = l
+//	dim.Dimension["m"] = m
+//	dim.Dimension["n"] = n
+//
+//	err = dim.ValidateGeometry()
+//	if err == nil {
+//		err = dim.ValidateSpheres()
+//	}
+//	return dim, err
+//
+//}
 
 type Dimension struct {
 	Dimension map[string]*Sphere
@@ -40,8 +109,7 @@ func (d *Dimension) String() string {
 	return strings.Join(entries, "\n")
 }
 
-// todo return an err instead of bool
-func (d *Dimension) ValidateGeometry() bool {
+func (d *Dimension) ValidateSpheres() error {
 	count := 0
 	colorCounts := make(map[Color]int)
 
@@ -55,19 +123,20 @@ func (d *Dimension) ValidateGeometry() bool {
 			// Check for any color exceeding the limit of 3
 			if colorCounts[sphere.Color] > 3 {
 				//exceeded color count
-				return false
+				return fmt.Errorf("%s has %d spheres, maximum is 3", sphere.Color.LongHand(), colorCounts[sphere.Color])
 			}
 		}
 	}
 
-	if count > 11 {
-		return false //too many spheres
-	}
-
-	return count <= 11
+	return nil
 }
 
-func (d *Dimension) IsValid() bool {
+func (d *Dimension) ValidateGeometry() error {
+	//the length can be bigger than 11
+	if len(d.Dimension) > 11 {
+		return errors.New("too many spheres")
+	}
+
 	// Rule 1: a can always be present
 	// (This rule doesn't need explicit code)
 
@@ -84,7 +153,7 @@ func (d *Dimension) IsValid() bool {
 	}
 	if len(tropicalPresent) > 0 {
 		if _, ok := d.Dimension["a"]; !ok {
-			return false
+			return errors.New("missing center sphere")
 		}
 	}
 
@@ -101,7 +170,7 @@ func (d *Dimension) IsValid() bool {
 		neighbors := requiredNeighbors[t]
 		for _, neighbor := range neighbors {
 			if _, ok := d.Dimension[neighbor]; !ok {
-				return false
+				return fmt.Errorf("%s is missing a required neighbor %s", t, neighbor)
 			}
 		}
 	}
@@ -129,23 +198,23 @@ func (d *Dimension) IsValid() bool {
 		}
 	}
 	if !matchedConfig {
-		return false
+		return errors.New("invalid tropical ring configuration")
 	}
 
 	// Rule 4: Check Top Sphere
 	if _, ok := d.Dimension["n"]; ok {
 		if _, ok := d.Dimension["a"]; !ok {
-			return false
+			return errors.New("missing center sphere")
 		}
 		for _, s := range []string{"b", "c", "d", "e", "f", "g"} {
 			if _, ok := d.Dimension[s]; !ok {
-				return false
+				return fmt.Errorf("missing a equitorial ring sphere neighbor %s", s)
 			}
 		}
 		if !matchedConfig {
-			return false
+			return errors.New("invalid tropical ring configuration")
 		}
 	}
 
-	return true
+	return nil
 }

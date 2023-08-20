@@ -1,4 +1,4 @@
-package main
+package domain
 
 type Geometry struct {
 	PolarAngle       float64  `json:"polarAngle"`
