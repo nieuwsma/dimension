@@ -62,42 +62,75 @@ func Parse(expr string) (Expr, error) {
 }
 
 func parseRecursively(expr string) (Expr, error) {
-	if idx := strings.Index(expr, "|"); idx != -1 {
-		left, err := parseRecursively(expr[:idx])
-		if err != nil {
-			return nil, err
-		}
+	expr = strings.TrimSpace(expr)
 
-		right, err := parseRecursively(expr[idx+1:])
-		if err != nil {
-			return nil, err
-		}
-
-		return &OrExpr{left, right}, nil
-	}
-
-	if idx := strings.Index(expr, "&"); idx != -1 {
-		left, err := parseRecursively(expr[:idx])
-		if err != nil {
-			return nil, err
-		}
-
-		right, err := parseRecursively(expr[idx+1:])
-		if err != nil {
-			return nil, err
-		}
-
-		return &AndExpr{left, right}, nil
-	}
-
+	// Check for surrounding parentheses
 	if strings.HasPrefix(expr, "(") && strings.HasSuffix(expr, ")") {
+		// Check if the entire expression is surrounded by parentheses
+		depth := 0
+		for i := 0; i < len(expr); i++ {
+			switch expr[i] {
+			case '(':
+				depth++
+			case ')':
+				depth--
+				if depth == 0 && i < len(expr)-1 {
+					goto NoSurroundingParens
+				}
+			}
+		}
 		return parseRecursively(expr[1 : len(expr)-1])
 	}
 
+NoSurroundingParens:
+	// Parse "OR" expression, ensuring we're getting the outermost '|' not enclosed in parentheses
+	for i, depth := 0, 0; i < len(expr); i++ {
+		switch expr[i] {
+		case '(':
+			depth++
+		case ')':
+			depth--
+		case '|':
+			if depth == 0 {
+				left, err := parseRecursively(expr[:i])
+				if err != nil {
+					return nil, err
+				}
+				right, err := parseRecursively(expr[i+1:])
+				if err != nil {
+					return nil, err
+				}
+				return &OrExpr{left, right}, nil
+			}
+		}
+	}
+
+	// Parse "AND" expression, ensuring we're getting the outermost '&' not enclosed in parentheses
+	for i, depth := 0, 0; i < len(expr); i++ {
+		switch expr[i] {
+		case '(':
+			depth++
+		case ')':
+			depth--
+		case '&':
+			if depth == 0 {
+				left, err := parseRecursively(expr[:i])
+				if err != nil {
+					return nil, err
+				}
+				right, err := parseRecursively(expr[i+1:])
+				if err != nil {
+					return nil, err
+				}
+				return &AndExpr{left, right}, nil
+			}
+		}
+	}
+
+	// If neither '|' nor '&' are found, it should be a value
 	value, err := strconv.Atoi(expr)
 	if err != nil {
 		return nil, errors.New("invalid expression")
 	}
-
 	return &VarExpr{Value: value}, nil
 }

@@ -30,7 +30,10 @@ func main() {
 
 	dim := NewDimension()
 
-	expression, _ := Parse("((7 & 9 & 11) | (12 & 10 & 8))")
+	expression, err := Parse("((7 & 9 & 11) | (12 & 10 & 8))")
+	if err != nil {
+		print(err)
+	}
 	dim.Dimension[7] = &Sphere{
 		Green,
 	}
