@@ -1,0 +1,354 @@
+{
+    "Rules": [
+        {
+            "Rule": "QUANTITY-1-G",
+            "Quantity": "1",
+            "Description": "The quantity of green should be exactly 1."
+        },
+        {
+            "Rule": "QUANTITY-1-O",
+            "Quantity": "1",
+            "Description": "The quantity of orange should be exactly 1."
+        },
+        {
+            "Rule": "QUANTITY-1-K",
+            "Quantity": "1",
+            "Description": "The quantity of black should be exactly 1."
+        },
+        {
+            "Rule": "QUANTITY-1-W",
+            "Quantity": "1",
+            "Description": "The quantity of white should be exactly 1."
+        },
+        {
+            "Rule": "QUANTITY-1-B",
+            "Quantity": "1",
+            "Description": "The quantity of blue should be exactly 1."
+        },
+        {
+            "Rule": "QUANTITY-2-G",
+            "Quantity": "1",
+            "Description": "The quantity of green should be exactly 2."
+        },
+        {
+            "Rule": "QUANTITY-2-O",
+            "Quantity": "1",
+            "Description": "The quantity of orange should be exactly 2."
+        },
+        {
+            "Rule": "QUANTITY-2-K",
+            "Quantity": "1",
+            "Description": "The quantity of black should be exactly 2."
+        },
+        {
+            "Rule": "QUANTITY-2-W",
+            "Quantity": "1",
+            "Description": "The quantity of white should be exactly 2."
+        },
+        {
+            "Rule": "QUANTITY-2-B",
+            "Quantity": "1",
+            "Description": "The quantity of blue should be exactly 2."
+        },
+        {
+            "Rule": "TOP-G",
+            "Quantity": "1",
+            "Description": "No other colors may be below green."
+        },
+        {
+            "Rule": "TOP-O",
+            "Quantity": "1",
+            "Description": "No other colors may be below orange."
+        },
+        {
+            "Rule": "TOP-K",
+            "Quantity": "1",
+            "Description": "No other colors may be below black."
+        },
+        {
+            "Rule": "TOP-W",
+            "Quantity": "1",
+            "Description": "No other colors may be below white."
+        },
+        {
+            "Rule": "TOP-B",
+            "Quantity": "1",
+            "Description": "No other colors may be below blue."
+        },
+        {
+            "Rule": "NOTTOP-G",
+            "Quantity": "1",
+            "Description": "No other colors may be above green."
+        },
+        {
+            "Rule": "NOTTOP-O",
+            "Quantity": "1",
+            "Description": "No other colors may be above orange."
+        },
+        {
+            "Rule": "NOTTOP-K",
+            "Quantity": "1",
+            "Description": "No other colors may be above black."
+        },
+        {
+            "Rule": "NOTTOP-W",
+            "Quantity": "1",
+            "Description": "No other colors may be above white."
+        },
+        {
+            "Rule": "NOTTOP-B",
+            "Quantity": "1",
+            "Description": "No other colors may be above blue."
+        },
+        {
+            "Rule": "TOUCH-G-G",
+            "Quantity": "1",
+            "Description": "Every green must touch another green."
+        },
+        {
+            "Rule": "TOUCH-O-O",
+            "Quantity": "1",
+            "Description": "Every orange must touch another orange."
+        },
+        {
+            "Rule": "TOUCH-K-K",
+            "Quantity": "1",
+            "Description": "Every black must touch another black."
+        },
+        {
+            "Rule": "TOUCH-W-W",
+            "Quantity": "1",
+            "Description": "Every white must touch another white."
+        },
+        {
+            "Rule": "TOUCH-B-B",
+            "Quantity": "1",
+            "Description": "Every blue must touch another blue."
+        },
+        {
+            "Rule": "NOTOUCH-G-G",
+            "Quantity": "1",
+            "Description": "Every green must not touch another green."
+        },
+        {
+            "Rule": "NOTOUCH-O-O",
+            "Quantity": "1",
+            "Description": "Every orange must not touch another orange."
+        },
+        {
+            "Rule": "NOTOUCH-K-K",
+            "Quantity": "1",
+            "Description": "Every black must not touch another black."
+        },
+        {
+            "Rule": "NOTOUCH-W-W",
+            "Quantity": "1",
+            "Description": "Every white must not touch another white."
+        },
+        {
+            "Rule": "NOTOUCH-B-B",
+            "Quantity": "1",
+            "Description": "Every blue must not touch another blue."
+        },
+        {
+            "Rule": "TOUCH-G-O",
+            "Quantity": "1",
+            "Description": "Every green must touch another orange."
+        },
+        {
+            "Rule": "TOUCH-G-B",
+            "Quantity": "1",
+            "Description": "Every green must touch another blue."
+        },
+        {
+            "Rule": "TOUCH-G-W",
+            "Quantity": "1",
+            "Description": "Every green must touch another white."
+        },
+        {
+            "Rule": "TOUCH-G-K",
+            "Quantity": "1",
+            "Description": "Every green must touch another black."
+        },
+        {
+            "Rule": "TOUCH-O-B",
+            "Quantity": "1",
+            "Description": "Every orange must touch another blue."
+        },
+        {
+            "Rule": "TOUCH-O-W",
+            "Quantity": "1",
+            "Description": "Every orange must touch another white."
+        },
+        {
+            "Rule": "TOUCH-O-K",
+            "Quantity": "1",
+            "Description": "Every orange must touch another black."
+        },
+        {
+            "Rule": "TOUCH-K-W",
+            "Quantity": "1",
+            "Description": "Every black must touch another white."
+        },
+        {
+            "Rule": "TOUCH-K-B",
+            "Quantity": "1",
+            "Description": "Every black must touch another blue."
+        },
+        {
+            "Rule": "TOUCH-B-W",
+            "Quantity": "1",
+            "Description": "Every blue must touch another white."
+        },
+        {
+            "Rule": "NOTOUCH-G-O",
+            "Quantity": "1",
+            "Description": "Every green must not touch another orange."
+        },
+        {
+            "Rule": "NOTOUCH-G-B",
+            "Quantity": "1",
+            "Description": "Every green must not touch another blue."
+        },
+        {
+            "Rule": "NOTOUCH-G-W",
+            "Quantity": "1",
+            "Description": "Every green must not touch another white."
+        },
+        {
+            "Rule": "NOTOUCH-G-K",
+            "Quantity": "1",
+            "Description": "Every green must not touch another black."
+        },
+        {
+            "Rule": "NOTOUCH-O-B",
+            "Quantity": "1",
+            "Description": "Every orange must not touch another blue."
+        },
+        {
+            "Rule": "NOTOUCH-O-W",
+            "Quantity": "1",
+            "Description": "Every orange must not touch another white."
+        },
+        {
+            "Rule": "NOTOUCH-O-K",
+            "Quantity": "1",
+            "Description": "Every orange must not touch another black."
+        },
+        {
+            "Rule": "NOTOUCH-K-W",
+            "Quantity": "1",
+            "Description": "Every black must not touch another white."
+        },
+        {
+            "Rule": "NOTOUCH-K-B",
+            "Quantity": "1",
+            "Description": "Every black must not touch another blue."
+        },
+        {
+            "Rule": "NOTOUCH-B-W",
+            "Quantity": "1",
+            "Description": "Every blue must not touch another white."
+        },
+        {
+            "Rule": "RATIO4-G-O",
+            "Quantity": "1",
+            "Description": "The sum of green to orange must be exactly 4."
+        },
+        {
+            "Rule": "RATIO4-G-B",
+            "Quantity": "1",
+            "Description": "The sum of green to blue must be exactly 4."
+        },
+        {
+            "Rule": "RATIO4-G-W",
+            "Quantity": "1",
+            "Description": "The sum of green to white must be exactly 4."
+        },
+        {
+            "Rule": "RATIO4-G-K",
+            "Quantity": "1",
+            "Description": "The sum of green to black must be exactly 4."
+        },
+        {
+            "Rule": "RATIO4-O-B",
+            "Quantity": "1",
+            "Description": "The sum of orange to blue must be exactly 4."
+        },
+        {
+            "Rule": "RATIO4-O-W",
+            "Quantity": "1",
+            "Description": "The sum of orange to white must be exactly 4."
+        },
+        {
+            "Rule": "RATIO4-O-K",
+            "Quantity": "1",
+            "Description": "The sum of orange to black must be exactly 4."
+        },
+        {
+            "Rule": "RATIO4-K-W",
+            "Quantity": "1",
+            "Description": "The sum of black to white must be exactly 4."
+        },
+        {
+            "Rule": "RATIO4-K-B",
+            "Quantity": "1",
+            "Description": "The sum of black to blue must be exactly 4."
+        },
+        {
+            "Rule": "RATIO4-B-W",
+            "Quantity": "1",
+            "Description": "The sum of blue to white must be exactly 4."
+        },
+        {
+            "Rule": "GT-G-O",
+            "Quantity": "1",
+            "Description": "The count of green must be greater than orange."
+        },
+        {
+            "Rule": "GT-G-B",
+            "Quantity": "1",
+            "Description": "The count of green must be greater than blue."
+        },
+        {
+            "Rule": "GT-G-W",
+            "Quantity": "1",
+            "Description": "The count of green must be greater than white."
+        },
+        {
+            "Rule": "GT-G-K",
+            "Quantity": "1",
+            "Description": "The count of green must be greater than black."
+        },
+        {
+            "Rule": "GT-O-B",
+            "Quantity": "1",
+            "Description": "The count of orange must be greater than blue."
+        },
+        {
+            "Rule": "GT-O-W",
+            "Quantity": "1",
+            "Description": "The count of orange must be greater than white."
+        },
+        {
+            "Rule": "GT-O-K",
+            "Quantity": "1",
+            "Description": "The count of orange must be greater than black."
+        },
+        {
+            "Rule": "GT-K-W",
+            "Quantity": "1",
+            "Description": "The count of black must be greater than white."
+        },
+        {
+            "Rule": "GT-K-B",
+            "Quantity": "1",
+            "Description": "The count of black must be greater than blue."
+        },
+        {
+            "Rule": "GT-B-W",
+            "Quantity": "1",
+            "Description": "The count of blue must be greater than white."
+        }
+    ]
+}

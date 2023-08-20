@@ -1,0 +1,71 @@
+﻿Rule,Quantity,Description
+QUANTITY-1-G,1,The quantity of green should be exactly 1.
+QUANTITY-1-O,1,The quantity of orange should be exactly 1.
+QUANTITY-1-K,1,The quantity of black should be exactly 1.
+QUANTITY-1-W,1,The quantity of white should be exactly 1.
+QUANTITY-1-B,1,The quantity of blue should be exactly 1.
+QUANTITY-2-G,1,The quantity of green should be exactly 2.
+QUANTITY-2-O,1,The quantity of orange should be exactly 2.
+QUANTITY-2-K,1,The quantity of black should be exactly 2.
+QUANTITY-2-W,1,The quantity of white should be exactly 2.
+QUANTITY-2-B,1,The quantity of blue should be exactly 2.
+TOP-G,1,No other colors may be below green.
+TOP-O,1,No other colors may be below orange.
+TOP-K,1,No other colors may be below black.
+TOP-W,1,No other colors may be below white.
+TOP-B,1,No other colors may be below blue.
+NOTTOP-G,1,No other colors may be above green.
+NOTTOP-O,1,No other colors may be above orange.
+NOTTOP-K,1,No other colors may be above black.
+NOTTOP-W,1,No other colors may be above white.
+NOTTOP-B,1,No other colors may be above blue.
+TOUCH-G-G,1,Every green must touch another green.
+TOUCH-O-O,1,Every orange must touch another orange.
+TOUCH-K-K,1,Every black must touch another black.
+TOUCH-W-W,1,Every white must touch another white.
+TOUCH-B-B,1,Every blue must touch another blue.
+NOTOUCH-G-G,1,Every green must not touch another green.
+NOTOUCH-O-O,1,Every orange must not touch another orange.
+NOTOUCH-K-K,1,Every black must not touch another black.
+NOTOUCH-W-W,1,Every white must not touch another white.
+NOTOUCH-B-B,1,Every blue must not touch another blue.
+TOUCH-G-O,1,Every green must touch another orange.
+TOUCH-G-B,1,Every green must touch another blue.
+TOUCH-G-W,1,Every green must touch another white.
+TOUCH-G-K,1,Every green must touch another black.
+TOUCH-O-B,1,Every orange must touch another blue.
+TOUCH-O-W,1,Every orange must touch another white.
+TOUCH-O-K,1,Every orange must touch another black.
+TOUCH-K-W,1,Every black must touch another white.
+TOUCH-K-B,1,Every black must touch another blue.
+TOUCH-B-W,1,Every blue must touch another white.
+NOTOUCH-G-O,1,Every green must not touch another orange.
+NOTOUCH-G-B,1,Every green must not touch another blue.
+NOTOUCH-G-W,1,Every green must not touch another white.
+NOTOUCH-G-K,1,Every green must not touch another black.
+NOTOUCH-O-B,1,Every orange must not touch another blue.
+NOTOUCH-O-W,1,Every orange must not touch another white.
+NOTOUCH-O-K,1,Every orange must not touch another black.
+NOTOUCH-K-W,1,Every black must not touch another white.
+NOTOUCH-K-B,1,Every black must not touch another blue.
+NOTOUCH-B-W,1,Every blue must not touch another white.
+RATIO4-G-O,1,The sum of green to orange must be exactly 4.
+RATIO4-G-B,1,The sum of green to blue must be exactly 4.
+RATIO4-G-W,1,The sum of green to white must be exactly 4.
+RATIO4-G-K,1,The sum of green to black must be exactly 4.
+RATIO4-O-B,1,The sum of orange to blue must be exactly 4.
+RATIO4-O-W,1,The sum of orange to white must be exactly 4.
+RATIO4-O-K,1,The sum of orange to black must be exactly 4.
+RATIO4-K-W,1,The sum of black to white must be exactly 4.
+RATIO4-K-B,1,The sum of black to blue must be exactly 4.
+RATIO4-B-W,1,The sum of blue to white must be exactly 4.
+GT-G-O,1,The count of green must be greater than orange.
+GT-G-B,1,The count of green must be greater than blue.
+GT-G-W,1,The count of green must be greater than white.
+GT-G-K,1,The count of green must be greater than black.
+GT-O-B,1,The count of orange must be greater than blue.
+GT-O-W,1,The count of orange must be greater than white.
+GT-O-K,1,The count of orange must be greater than black.
+GT-K-W,1,The count of black must be greater than white.
+GT-K-B,1,The count of black must be greater than blue.
+GT-B-W,1,The count of blue must be greater than white.
