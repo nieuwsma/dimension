@@ -418,3 +418,77 @@ NoSurroundingParens:
 	}
 	return &VarExpr{Value: value}, nil
 }
+
+func IsValidConfiguration(spheres []string) bool {
+	// Define the presence of each sphere as a boolean.
+	a := contains(spheres, "a")
+	b := contains(spheres, "b")
+	c := contains(spheres, "c")
+	d := contains(spheres, "d")
+	e := contains(spheres, "e")
+	f := contains(spheres, "f")
+	g := contains(spheres, "g")
+	h := contains(spheres, "h")
+	i := contains(spheres, "i")
+	j := contains(spheres, "j")
+	k := contains(spheres, "k")
+	l := contains(spheres, "l")
+	m := contains(spheres, "m")
+	n := contains(spheres, "n")
+
+	// Define the various rules based on the logical conditions.
+
+	// Rule for h
+	if h && !(b && c) {
+		return false
+	}
+
+	// Rule for i
+	if i && !(c && d) {
+		return false
+	}
+
+	// Rule for j
+	if j && !(d && e) {
+		return false
+	}
+
+	// Rule for k
+	if k && !(e && f) {
+		return false
+	}
+
+	// Rule for l
+	if l && !(f && g) {
+		return false
+	}
+
+	// Rule for m
+	if m && !(g && b) {
+		return false
+	}
+
+	// Tropical ring configurations
+	validThreeConfig := (h && j && l) || (i && k && m)
+	validTwoConfig := ((h && k) || (i && l) || (j && m)) && !n
+
+	if !(validThreeConfig || validTwoConfig || (!h && !i && !j && !k && !l && !m)) {
+		return false
+	}
+
+	// Rule for n
+	if n && !(a && b && c && d && e && f && g && validThreeConfig) {
+		return false
+	}
+
+	return true
+}
+
+func contains(spheres []string, s string) bool {
+	for _, sphere := range spheres {
+		if sphere == s {
+			return true
+		}
+	}
+	return false
+}
