@@ -1,5 +1,10 @@
 package domain
 
+import (
+	_ "embed"
+	"encoding/json"
+)
+
 func (g Color) LongHand() string {
 	switch g {
 	case Green:
@@ -46,4 +51,19 @@ func (s Color) String() string {
 
 func (s Color) Equals(other Color) bool {
 	return s == other
+}
+
+type Colors []ColorRecord
+
+type ColorRecord struct {
+	Name string `json:"name"`
+	Code string `json:"code"`
+}
+
+//go:embed colors.json
+var ColorsData []byte
+
+func GetColors() (c Colors) {
+	_ = json.Unmarshal(ColorsData, &c)
+	return
 }

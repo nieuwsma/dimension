@@ -1,0 +1,24 @@
+{
+    "Colors": [
+        {
+            "Name": "GREEN",
+            "Code": "G"
+        },
+        {
+            "Name": "ORANGE",
+            "Code": "O"
+        },
+        {
+            "Name": "BLACK",
+            "Code": "K"
+        },
+        {
+            "Name": "WHITE",
+            "Code": "W"
+        },
+        {
+            "Name": "BLUE",
+            "Code": "B"
+        }
+    ]
+}

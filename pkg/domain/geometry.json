@@ -1,0 +1,102 @@
+{
+    "Geometry": [
+        {
+            "polarAngle": 0,
+            "inclinationAngle": 0,
+            "radialDistance": 1,
+            "id": "b",
+            "neighbors": ["c", "a", "g", "m", "h"]
+        },
+        {
+            "polarAngle": 60,
+            "inclinationAngle": 0,
+            "radialDistance": 1,
+            "id": "c",
+            "neighbors": ["b", "a", "d", "h", "i"]
+        },
+        {
+            "polarAngle": 120,
+            "inclinationAngle": 0,
+            "radialDistance": 1,
+            "id": "d",
+            "neighbors": ["c", "a", "e", "i", "j"]
+        },
+        {
+            "polarAngle": 180,
+            "inclinationAngle": 0,
+            "radialDistance": 1,
+            "id": "e",
+            "neighbors": ["d", "a", "f", "j", "k"]
+        },
+        {
+            "polarAngle": 240,
+            "inclinationAngle": 0,
+            "radialDistance": 1,
+            "id": "f",
+            "neighbors": ["g", "a", "e", "k", "l"]
+        },
+        {
+            "polarAngle": 300,
+            "inclinationAngle": 0,
+            "radialDistance": 1,
+            "id": "g",
+            "neighbors": ["b", "a", "f", "l", "m"]
+        },
+        {
+            "polarAngle": 30,
+            "inclinationAngle": 45,
+            "radialDistance": 1,
+            "id": "h",
+            "neighbors": ["a", "b", "c", "n", "l", "k", "j"]
+        },
+        {
+            "polarAngle": 90,
+            "inclinationAngle": 45,
+            "radialDistance": 1,
+            "id": "i",
+            "neighbors": ["a", "c", "d", "m","l","k", "n"]
+        },
+        {
+            "polarAngle": 150,
+            "inclinationAngle": 45,
+            "radialDistance": 1,
+            "id": "j",
+            "neighbors": ["a", "e", "d", "h", "l", "m","n"]
+        },
+        {
+            "polarAngle": 210,
+            "inclinationAngle": 45,
+            "radialDistance": 1,
+            "id": "k",
+            "neighbors": ["a", "e", "f", "i", "m", "n", "h"]
+        },
+        {
+            "polarAngle": 270,
+            "inclinationAngle": 45,
+            "radialDistance": 1,
+            "id": "l",
+            "neighbors": ["g", "f", "a", "h","i", "j","n"]
+        },
+        {
+            "polarAngle": 330,
+            "inclinationAngle": 45,
+            "radialDistance": 1,
+            "id": "m",
+            "neighbors": ["g", "b", "a", "k", "j","i", "n"]
+        },
+        {
+            "polarAngle": 0,
+            "inclinationAngle": 0,
+            "radialDistance": 0,
+            "id": "a",
+            "neighbors": ["b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m"]
+        },
+        {
+            "polarAngle": 0,
+            "inclinationAngle": 90,
+            "radialDistance": 2,
+            "id": "n",
+            "neighbors": ["h", "i", "j", "k", "l", "m"]
+        }
+    ]
+}
