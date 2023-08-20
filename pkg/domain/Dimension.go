@@ -100,7 +100,7 @@ func (d *Dimension) ValidateSpheres() error {
 }
 
 func (d *Dimension) ValidateGeometry() error {
-	//the length can be bigger than 11
+	//the length cannot be bigger than 11
 	if len(d.Dimension) > 11 {
 		return errors.New("too many spheres")
 	}
