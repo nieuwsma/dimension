@@ -8,26 +8,26 @@ import (
 
 func TestValidateSpheres(t *testing.T) {
 	tests := []struct {
-		spheres     map[string]*Sphere
+		spherePairs []SpherePair
 		expectedErr error
 		description string
 	}{
 		{
-			spheres: map[string]*Sphere{
-				"a": NewSphere(Green),
-				"b": NewSphere(Green),
-				"c": NewSphere(Green),
-				"d": NewSphere(Green),
+			spherePairs: []SpherePair{
+				{ID: "a", Sphere: *NewSphere(Green)},
+				{ID: "b", Sphere: *NewSphere(Green)},
+				{ID: "c", Sphere: *NewSphere(Green)},
+				{ID: "d", Sphere: *NewSphere(Green)},
 			},
 			expectedErr: fmt.Errorf("%s has 4 spheres, maximum is 3", Green.LongHand()),
 			description: "Exceed color count",
 		},
 		{
-			spheres: map[string]*Sphere{
-				"a": NewSphere(Green),
-				"b": NewSphere(Blue),
-				"c": NewSphere(Black),
-				"d": NewSphere(Orange),
+			spherePairs: []SpherePair{
+				{ID: "a", Sphere: *NewSphere(Green)},
+				{ID: "b", Sphere: *NewSphere(Blue)},
+				{ID: "c", Sphere: *NewSphere(Black)},
+				{ID: "d", Sphere: *NewSphere(Orange)},
 			},
 			expectedErr: nil,
 			description: "Valid sphere colors",
@@ -36,7 +36,11 @@ func TestValidateSpheres(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		d := &Dimension{Dimension: test.spheres}
+		dimMap := make(map[string]Sphere)
+		for _, pair := range test.spherePairs {
+			dimMap[string(pair.ID)] = pair.Sphere
+		}
+		d := &Dimension{Dimension: dimMap}
 		err := d.ValidateSpheres()
 		if err != nil && err.Error() != test.expectedErr.Error() {
 			t.Errorf("for %s, expected error %v, got %v", test.description, test.expectedErr, err)
@@ -46,26 +50,26 @@ func TestValidateSpheres(t *testing.T) {
 
 func TestValidateGeometry(t *testing.T) {
 	tests := []struct {
-		spheres     map[string]*Sphere
+		spherePairs []SpherePair
 		expectedErr error
 		description string
 	}{
 		{
-			spheres: map[string]*Sphere{
-				"a": NewSphere(Green),
-				"b": NewSphere(Blue),
-				"c": NewSphere(Black),
-				"d": NewSphere(Orange),
-				"e": NewSphere(Green),
-				"f": NewSphere(Blue),
-				"g": NewSphere(Black),
-				"h": NewSphere(Orange),
-				"i": NewSphere(Green),
-				"j": NewSphere(Blue),
-				"k": NewSphere(Black),
-				"l": NewSphere(Orange),
-				"m": NewSphere(Green),
-				"n": NewSphere(Blue),
+			spherePairs: []SpherePair{
+				{ID: "a", Sphere: *NewSphere(Green)},
+				{ID: "b", Sphere: *NewSphere(Blue)},
+				{ID: "c", Sphere: *NewSphere(Black)},
+				{ID: "d", Sphere: *NewSphere(Orange)},
+				{ID: "e", Sphere: *NewSphere(Green)},
+				{ID: "f", Sphere: *NewSphere(Blue)},
+				{ID: "g", Sphere: *NewSphere(Black)},
+				{ID: "h", Sphere: *NewSphere(Orange)},
+				{ID: "i", Sphere: *NewSphere(Green)},
+				{ID: "j", Sphere: *NewSphere(Blue)},
+				{ID: "k", Sphere: *NewSphere(Black)},
+				{ID: "l", Sphere: *NewSphere(Orange)},
+				{ID: "m", Sphere: *NewSphere(Green)},
+				{ID: "n", Sphere: *NewSphere(Blue)},
 			},
 			expectedErr: errors.New("too many spheres"),
 			description: "Too many spheres",
@@ -74,7 +78,11 @@ func TestValidateGeometry(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		d := &Dimension{Dimension: test.spheres}
+		dimMap := make(map[string]Sphere)
+		for _, pair := range test.spherePairs {
+			dimMap[string(pair.ID)] = pair.Sphere
+		}
+		d := &Dimension{Dimension: dimMap}
 		err := d.ValidateGeometry()
 		if err != nil && err.Error() != test.expectedErr.Error() {
 			t.Errorf("for %s, expected error %v, got %v", test.description, test.expectedErr, err)

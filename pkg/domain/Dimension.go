@@ -28,7 +28,11 @@ const (
 
 type SpherePair struct {
 	ID     SphereID
-	Sphere *Sphere
+	Sphere Sphere
+}
+
+func NewSpherePair(ID SphereID, color Color) *SpherePair {
+	return &SpherePair{Sphere: Sphere{Color: color}, ID: ID}
 }
 
 func NewSphere(color Color) *Sphere {
@@ -41,7 +45,7 @@ type Sphere struct {
 
 func NewDimension(pairs ...SpherePair) (*Dimension, error) {
 	dim := &Dimension{
-		Dimension: make(map[string]*Sphere),
+		Dimension: make(map[string]Sphere),
 	}
 
 	for _, pair := range pairs {
@@ -56,38 +60,8 @@ func NewDimension(pairs ...SpherePair) (*Dimension, error) {
 	return dim, err
 }
 
-//// NewDimension is a factory function for creating a Dimension with its map initialized.
-//func NewDimension(a, b, c, d, e, f, g, h, i, j, k, l, m, n *Sphere) (dim *Dimension, err error) {
-//
-//	dim = &Dimension{
-//		Dimension: make(map[string]*Sphere),
-//	}
-//
-//	dim.Dimension["a"] = a
-//	dim.Dimension["b"] = b
-//	dim.Dimension["c"] = c
-//	dim.Dimension["d"] = d
-//	dim.Dimension["e"] = e
-//	dim.Dimension["f"] = f
-//	dim.Dimension["g"] = g
-//	dim.Dimension["h"] = h
-//	dim.Dimension["i"] = i
-//	dim.Dimension["j"] = j
-//	dim.Dimension["k"] = k
-//	dim.Dimension["l"] = l
-//	dim.Dimension["m"] = m
-//	dim.Dimension["n"] = n
-//
-//	err = dim.ValidateGeometry()
-//	if err == nil {
-//		err = dim.ValidateSpheres()
-//	}
-//	return dim, err
-//
-//}
-
 type Dimension struct {
-	Dimension map[string]*Sphere
+	Dimension map[string]Sphere
 }
 
 func (d *Dimension) String() string {
@@ -95,11 +69,8 @@ func (d *Dimension) String() string {
 
 	// Loop through the dimension map and collect all entries in a slice
 	for id, sphere := range d.Dimension {
-		if sphere != nil {
-			entries = append(entries, fmt.Sprintf("%d: %s", id, sphere.Color.LongHand()))
-		} else {
-			entries = append(entries, fmt.Sprintf("%d: nil", id))
-		}
+		entries = append(entries, fmt.Sprintf("%s: %s", id, sphere.Color.LongHand()))
+
 	}
 
 	// Sort the entries for consistency (if needed)
@@ -110,22 +81,19 @@ func (d *Dimension) String() string {
 }
 
 func (d *Dimension) ValidateSpheres() error {
-	count := 0
 	colorCounts := make(map[Color]int)
 
 	for _, sphere := range d.Dimension {
-		if sphere != nil {
-			count++
 
-			// Increment the color count for the sphere's color
-			colorCounts[sphere.Color]++
+		// Increment the color count for the sphere's color
+		colorCounts[sphere.Color]++
 
-			// Check for any color exceeding the limit of 3
-			if colorCounts[sphere.Color] > 3 {
-				//exceeded color count
-				return fmt.Errorf("%s has %d spheres, maximum is 3", sphere.Color.LongHand(), colorCounts[sphere.Color])
-			}
+		// Check for any color exceeding the limit of 3
+		if colorCounts[sphere.Color] > 3 {
+			//exceeded color count
+			return fmt.Errorf("%s has %d spheres, maximum is 3", sphere.Color.LongHand(), colorCounts[sphere.Color])
 		}
+
 	}
 
 	return nil
