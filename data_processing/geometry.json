@@ -4,112 +4,99 @@
             "polarAngle": 0,
             "inclinationAngle": 0,
             "radialDistance": 1,
-            "id": 1,
-            "adjacency": "2 & 0 & 6 & (12 | 7)"
+            "id": "b",
+            "neighbors": ["c", "a", "g", "m", "h"]
         },
         {
             "polarAngle": 60,
             "inclinationAngle": 0,
             "radialDistance": 1,
-            "id": 2,
-            "adjacency": "1 & 0 & 3 & (7 | 8)"
+            "id": "c",
+            "neighbors": ["b", "a", "d", "h", "i"]
         },
         {
             "polarAngle": 120,
             "inclinationAngle": 0,
             "radialDistance": 1,
-            "id": 3,
-            "adjacency": "2 & 0 & 4 & (8 | 9)"
+            "id": "d",
+            "neighbors": ["c", "a", "e", "i", "j"]
         },
         {
             "polarAngle": 180,
             "inclinationAngle": 0,
             "radialDistance": 1,
-            "id": 4,
-            "adjacency": "3 & 0 & 5 & (10 | 9)"
+            "id": "e",
+            "neighbors": ["d", "a", "f", "j", "k"]
         },
         {
             "polarAngle": 240,
             "inclinationAngle": 0,
             "radialDistance": 1,
-            "id": 5,
-            "adjacency": "6 & 0 & 4 & (11 | 10)"
+            "id": "f",
+            "neighbors": ["g", "a", "e", "k", "l"]
         },
         {
             "polarAngle": 300,
             "inclinationAngle": 0,
             "radialDistance": 1,
-            "id": 6,
-            "adjacency": "1 & 0 & 5 & 12 & 11"
+            "id": "g",
+            "neighbors": ["b", "a", "f", "l", "m"]
         },
         {
             "polarAngle": 30,
             "inclinationAngle": 45,
             "radialDistance": 1,
-            "id": 7,
-            "adjacency": "0 & 1 & 2 & 11 & 9 & 13",
-            "required": "0 & 1 & 2",
-            "prohibited": "12 & 8"
+            "id": "h",
+            "neighbors": ["a", "b", "c", "n", "l", "k", "j"]
         },
         {
             "polarAngle": 90,
             "inclinationAngle": 45,
             "radialDistance": 1,
-            "id": 8,
-            "adjacency": "0 & 2 & 3 & 12 & 10 & 13",
-            "required": "0 & 2 & 3",
-            "prohibited": "9 & 7"
+            "id": "i",
+            "neighbors": ["a", "c", "d", "m","l","k", "n"]
         },
         {
             "polarAngle": 150,
             "inclinationAngle": 45,
             "radialDistance": 1,
-            "id": 9,
-            "adjacency": "0 & 4 & 3 & 11 & 7 & 13",
-            "required": "0 & 4 & 3",
-            "prohibited": "10 & 8"
+            "id": "j",
+            "neighbors": ["a", "e", "d", "h", "l", "m","n"]
         },
         {
             "polarAngle": 210,
             "inclinationAngle": 45,
             "radialDistance": 1,
-            "id": 10,
-            "adjacency": "0 & 4 & 5 & 12 & 8 & 13",
-            "required": "0 & 4 & 5",
-            "prohibited": "11 & 9"
+            "id": "k",
+            "neighbors": ["a", "e", "f", "i", "m", "n", "h"]
         },
         {
             "polarAngle": 270,
             "inclinationAngle": 45,
             "radialDistance": 1,
-            "id": 11,
-            "adjacency": "6 & 5 & 0 & 7 & 9 & 13",
-            "required": "6 & 5 & 0",
-            "prohibited": "12 & 10"
+            "id": "l",
+            "neighbors": ["g", "f", "a", "h","i", "j","n"]
         },
         {
             "polarAngle": 330,
             "inclinationAngle": 45,
             "radialDistance": 1,
-            "id": 12,
-            "adjacency": "(6 & 1 & 0) & (10 | 8 | (10 & 8 & 13))",
-            "required": "6 & 1 & 0",
-            "prohibited": "11 & 7"
+            "id": "m",
+            "neighbors": ["g", "b", "a", "k", "j","i", "n"]
         },
         {
             "polarAngle": 0,
             "inclinationAngle": 0,
             "radialDistance": 0,
-            "id": 0,
-            "adjacency": "1 | 2 | 3 | 4 | 5 | 6 | ((7 | 9 | 11) ^ (12 | 10 | 8) ^ (7 | 10) ^ (8 | 11) ^ (9 | 12))"
+            "id": "a",
+            "neighbors": ["b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m"]
         },
         {
             "polarAngle": 0,
             "inclinationAngle": 90,
             "radialDistance": 2,
-            "id": 13,
-            "adjacency": "((7 & 9 & 11) ^ (12 & 10 & 8))",
-            "required": "0 & 1 & 2 & 3 & 4 & 5 & 6 & ((7 & 9 & 11) ^ (12 & 10 & 8))"
+            "id": "n",
+            "neighbors": ["h", "i", "j", "k", "l", "m"]
         }
     ]
 }
