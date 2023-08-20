@@ -145,6 +145,8 @@ func (d *Dimension) ValidateGeometry() error {
 
 	// Check the configuration of the tropical ring
 	validConfigs := [][]string{
+		{},                                       // No spheres are present
+		{"h"}, {"j"}, {"l"}, {"i"}, {"k"}, {"m"}, // Only one sphere is present
 		{"h", "j", "l"},
 		{"i", "k", "m"},
 		{"h", "k"},
