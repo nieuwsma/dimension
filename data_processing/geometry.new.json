@@ -5,109 +5,98 @@
             "inclinationAngle": 0,
             "radialDistance": 1,
             "id": "b",
-            "adjacency": "c & a & g & (m | h)"
+            "neighbors": ["c", "a", "g", "m", "h"]
         },
         {
             "polarAngle": 60,
             "inclinationAngle": 0,
             "radialDistance": 1,
             "id": "c",
-            "adjacency": "b & a & d & (h | i)"
+            "neighbors": ["b", "a", "d", "h", "i"]
         },
         {
             "polarAngle": 120,
             "inclinationAngle": 0,
             "radialDistance": 1,
             "id": "d",
-            "adjacency": "c & a & e & (i | j)"
+            "neighbors": ["c", "a", "e", "i", "j"]
         },
         {
             "polarAngle": 180,
             "inclinationAngle": 0,
             "radialDistance": 1,
             "id": "e",
-            "adjacency": "d & a & f & (k | j)"
+            "neighbors": ["d", "a", "f", "j", "k"]
         },
         {
             "polarAngle": 240,
             "inclinationAngle": 0,
             "radialDistance": 1,
             "id": "f",
-            "adjacency": "g & a & e & (l | k)"
+            "neighbors": ["g", "a", "e", "k", "l"]
         },
         {
             "polarAngle": 300,
             "inclinationAngle": 0,
             "radialDistance": 1,
             "id": "g",
-            "adjacency": "b & a & f & m & l"
+            "neighbors": ["b", "a", "f", "l", "m"]
         },
         {
             "polarAngle": 30,
             "inclinationAngle": 45,
             "radialDistance": 1,
             "id": "h",
-            "adjacency": "a & b & c & l & j & n",
-            "required": "a & b & c",
-            "prohibited": "m & i"
+            "neighbors": ["a", "b", "c", "n", "l", "k", "j"]
         },
         {
             "polarAngle": 90,
             "inclinationAngle": 45,
             "radialDistance": 1,
             "id": "i",
-            "adjacency": "a & c & d & m & k & n",
-            "required": "a & c & d",
-            "prohibited": "j & h"
+            "neighbors": ["a", "c", "d", "m","l","k", "n"]
         },
         {
             "polarAngle": 150,
             "inclinationAngle": 45,
             "radialDistance": 1,
             "id": "j",
-            "adjacency": "a & e & d & l & h & n",
-            "required": "a & e & d",
-            "prohibited": "k & i"
+            "neighbors": ["a", "e", "d", "h", "l", "m","n"]
         },
         {
             "polarAngle": 210,
             "inclinationAngle": 45,
             "radialDistance": 1,
             "id": "k",
-            "adjacency": "a & e & f & m & i & n",
-            "required": "a & e & f",
-            "prohibited": "l & j"
+            "neighbors": ["a", "e", "f", "i", "m", "n", "h"]
         },
         {
             "polarAngle": 270,
             "inclinationAngle": 45,
             "radialDistance": 1,
             "id": "l",
-            "adjacency": "g & f & a & h & j & n",
-            "required": "g & f & a",
-            "prohibited": "m & k"
+            "neighbors": ["g", "f", "a", "h","i", "j","n"]
         },
         {
             "polarAngle": 330,
             "inclinationAngle": 45,
             "radialDistance": 1,
             "id": "m",
-            "constraints": "(g & b & a) & (!l & !h) & (!j | (!h & !i & !l & !k & !n)) & (k | i) & (!n | (k & i))"
+            "neighbors": ["g", "b", "a", "k", "j","i", "n"]
         },
         {
             "polarAngle": 0,
             "inclinationAngle": 0,
             "radialDistance": 0,
             "id": "a",
-            "adjacency": "b | c | d | e | f | g | ((h | j | l) ^ (m | k | i) ^ (h | k) ^ (i | l) ^ (j | m))"
+            "neighbors": ["b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m"]
         },
         {
             "polarAngle": 0,
             "inclinationAngle": 90,
             "radialDistance": 2,
             "id": "n",
-            "adjacency": "((h & j & l) ^ (m & k & i))",
-            "required": "a & b & c & d & e & f & g & ((h & j & l) ^ (m & k & i))"
+            "neighbors": ["h", "i", "j", "k", "l", "m"]
         }
     ]
 }
