@@ -1,5 +1,11 @@
 package main
 
+import (
+	"fmt"
+	"sort"
+	"strings"
+)
+
 type Sphere struct {
 	Color Color
 }
@@ -13,6 +19,25 @@ func NewDimension() *Dimension {
 
 type Dimension struct {
 	Dimension map[int]*Sphere
+}
+
+func (d *Dimension) String() string {
+	var entries []string
+
+	// Loop through the dimension map and collect all entries in a slice
+	for id, sphere := range d.Dimension {
+		if sphere != nil {
+			entries = append(entries, fmt.Sprintf("%d: %s", id, sphere.Color.LongHand()))
+		} else {
+			entries = append(entries, fmt.Sprintf("%d: nil", id))
+		}
+	}
+
+	// Sort the entries for consistency (if needed)
+	sort.Strings(entries)
+
+	// Join all the entries with a newline separator and return
+	return strings.Join(entries, "\n")
 }
 
 // todo return an err instead of bool

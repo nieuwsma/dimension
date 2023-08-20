@@ -4,112 +4,110 @@
             "polarAngle": 0,
             "inclinationAngle": 0,
             "radialDistance": 1,
-            "id": 1,
-            "adjacency": "2 & 0 & 6 & (12 | 7)"
+            "id": "b",
+            "adjacency": "c & a & g & (m | h)"
         },
         {
             "polarAngle": 60,
             "inclinationAngle": 0,
             "radialDistance": 1,
-            "id": 2,
-            "adjacency": "1 & 0 & 3 & (7 | 8)"
+            "id": "c",
+            "adjacency": "b & a & d & (h | i)"
         },
         {
             "polarAngle": 120,
             "inclinationAngle": 0,
             "radialDistance": 1,
-            "id": 3,
-            "adjacency": "2 & 0 & 4 & (8 | 9)"
+            "id": "d",
+            "adjacency": "c & a & e & (i | j)"
         },
         {
             "polarAngle": 180,
             "inclinationAngle": 0,
             "radialDistance": 1,
-            "id": 4,
-            "adjacency": "3 & 0 & 5 & (10 | 9)"
+            "id": "e",
+            "adjacency": "d & a & f & (k | j)"
         },
         {
             "polarAngle": 240,
             "inclinationAngle": 0,
             "radialDistance": 1,
-            "id": 5,
-            "adjacency": "6 & 0 & 4 & (11 | 10)"
+            "id": "f",
+            "adjacency": "g & a & e & (l | k)"
         },
         {
             "polarAngle": 300,
             "inclinationAngle": 0,
             "radialDistance": 1,
-            "id": 6,
-            "adjacency": "1 & 0 & 5 & 12 & 11"
+            "id": "g",
+            "adjacency": "b & a & f & m & l"
         },
         {
             "polarAngle": 30,
             "inclinationAngle": 45,
             "radialDistance": 1,
-            "id": 7,
-            "adjacency": "0 & 1 & 2 & 11 & 9 & 13",
-            "required": "0 & 1 & 2",
-            "prohibited": "12 & 8"
+            "id": "h",
+            "adjacency": "a & b & c & l & j & n",
+            "required": "a & b & c",
+            "prohibited": "m & i"
         },
         {
             "polarAngle": 90,
             "inclinationAngle": 45,
             "radialDistance": 1,
-            "id": 8,
-            "adjacency": "0 & 2 & 3 & 12 & 10 & 13",
-            "required": "0 & 2 & 3",
-            "prohibited": "9 & 7"
+            "id": "i",
+            "adjacency": "a & c & d & m & k & n",
+            "required": "a & c & d",
+            "prohibited": "j & h"
         },
         {
             "polarAngle": 150,
             "inclinationAngle": 45,
             "radialDistance": 1,
-            "id": 9,
-            "adjacency": "0 & 4 & 3 & 11 & 7 & 13",
-            "required": "0 & 4 & 3",
-            "prohibited": "10 & 8"
+            "id": "j",
+            "adjacency": "a & e & d & l & h & n",
+            "required": "a & e & d",
+            "prohibited": "k & i"
         },
         {
             "polarAngle": 210,
             "inclinationAngle": 45,
             "radialDistance": 1,
-            "id": 10,
-            "adjacency": "0 & 4 & 5 & 12 & 8 & 13",
-            "required": "0 & 4 & 5",
-            "prohibited": "11 & 9"
+            "id": "k",
+            "adjacency": "a & e & f & m & i & n",
+            "required": "a & e & f",
+            "prohibited": "l & j"
         },
         {
             "polarAngle": 270,
             "inclinationAngle": 45,
             "radialDistance": 1,
-            "id": 11,
-            "adjacency": "6 & 5 & 0 & 7 & 9 & 13",
-            "required": "6 & 5 & 0",
-            "prohibited": "12 & 10"
+            "id": "l",
+            "adjacency": "g & f & a & h & j & n",
+            "required": "g & f & a",
+            "prohibited": "m & k"
         },
         {
             "polarAngle": 330,
             "inclinationAngle": 45,
             "radialDistance": 1,
-            "id": 12,
-            "adjacency": "(6 & 1 & 0) & (10 | 8 | (10 & 8 & 13))",
-            "required": "6 & 1 & 0",
-            "prohibited": "11 & 7"
+            "id": "m",
+            "constraints": "(g & b & a) & (!l & !h) & (!j | (!h & !i & !l & !k & !n)) & (k | i) & (!n | (k & i))"
         },
         {
             "polarAngle": 0,
             "inclinationAngle": 0,
             "radialDistance": 0,
-            "id": 0,
-            "adjacency": "1 | 2 | 3 | 4 | 5 | 6 | ((7 | 9 | 11) ^ (12 | 10 | 8) ^ (7 | 10) ^ (8 | 11) ^ (9 | 12))"
+            "id": "a",
+            "adjacency": "b | c | d | e | f | g | ((h | j | l) ^ (m | k | i) ^ (h | k) ^ (i | l) ^ (j | m))"
         },
         {
             "polarAngle": 0,
             "inclinationAngle": 90,
             "radialDistance": 2,
-            "id": 13,
-            "adjacency": "((7 & 9 & 11) ^ (12 & 10 & 8))",
-            "required": "0 & 1 & 2 & 3 & 4 & 5 & 6 & ((7 & 9 & 11) ^ (12 & 10 & 8))"
+            "id": "n",
+            "adjacency": "((h & j & l) ^ (m & k & i))",
+            "required": "a & b & c & d & e & f & g & ((h & j & l) ^ (m & k & i))"
         }
     ]
 }
