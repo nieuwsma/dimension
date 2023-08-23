@@ -194,6 +194,31 @@ func TestValidateGeometry(t *testing.T) {
 			expectedErr: nil,
 			description: "Full valid configuration",
 		},
+		{
+			spherePairs: []SpherePair{
+				{ID: "n", Sphere: *NewSphere(Green)},
+				{ID: "a", Sphere: *NewSphere(Green)},
+			},
+			expectedErr: errors.New("missing a equitorial ring sphere neighbor b"),
+			description: "Top sphere without required equatorial and center spheres",
+		},
+		{
+			spherePairs: []SpherePair{
+				{ID: "n", Sphere: *NewSphere(Green)},
+				{ID: "h", Sphere: *NewSphere(Green)},
+			},
+			expectedErr: errors.New("missing center sphere"),
+			description: "Top sphere without required equatorial and center spheres",
+		},
+		{
+			spherePairs: []SpherePair{
+				{ID: "n", Sphere: *NewSphere(Green)},
+				{ID: "h", Sphere: *NewSphere(Green)},
+				{ID: "a", Sphere: *NewSphere(Green)},
+			},
+			expectedErr: errors.New("missing a required neighbor"),
+			description: "Top sphere without required equatorial and center spheres",
+		},
 		// ... other test cases
 	}
 
