@@ -17,6 +17,8 @@ type Geometries struct {
 	Geometry []Geometry `json:"Geometry"`
 }
 
+type Neighbors map[string][]string
+
 //go:embed geometry.json
 var GeometryData []byte
 

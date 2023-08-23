@@ -51,54 +51,54 @@
             "Description": "The quantity of blue should be exactly 2."
         },
         {
+            "Rule": "BOTTOM-G",
+            "Quantity": "1",
+            "Description": "No sphere may be below green."
+        },
+        {
+            "Rule": "BOTTOM-O",
+            "Quantity": "1",
+            "Description": "No sphere may be below orange."
+        },
+        {
+            "Rule": "BOTTOM-K",
+            "Quantity": "1",
+            "Description": "No sphere may be below black."
+        },
+        {
+            "Rule": "BOTTOM-W",
+            "Quantity": "1",
+            "Description": "No sphere may be below white."
+        },
+        {
+            "Rule": "BOTTOM-B",
+            "Quantity": "1",
+            "Description": "No sphere may be below blue."
+        },
+        {
             "Rule": "TOP-G",
             "Quantity": "1",
-            "Description": "No other colors may be below green."
+            "Description": "No sphere may be above green."
         },
         {
             "Rule": "TOP-O",
             "Quantity": "1",
-            "Description": "No other colors may be below orange."
+            "Description": "No sphere may be above orange."
         },
         {
             "Rule": "TOP-K",
             "Quantity": "1",
-            "Description": "No other colors may be below black."
+            "Description": "No sphere may be above black."
         },
         {
             "Rule": "TOP-W",
             "Quantity": "1",
-            "Description": "No other colors may be below white."
+            "Description": "No sphere may be above white."
         },
         {
             "Rule": "TOP-B",
             "Quantity": "1",
-            "Description": "No other colors may be below blue."
-        },
-        {
-            "Rule": "NOTTOP-G",
-            "Quantity": "1",
-            "Description": "No other colors may be above green."
-        },
-        {
-            "Rule": "NOTTOP-O",
-            "Quantity": "1",
-            "Description": "No other colors may be above orange."
-        },
-        {
-            "Rule": "NOTTOP-K",
-            "Quantity": "1",
-            "Description": "No other colors may be above black."
-        },
-        {
-            "Rule": "NOTTOP-W",
-            "Quantity": "1",
-            "Description": "No other colors may be above white."
-        },
-        {
-            "Rule": "NOTTOP-B",
-            "Quantity": "1",
-            "Description": "No other colors may be above blue."
+            "Description": "No sphere may be above blue."
         },
         {
             "Rule": "TOUCH-G-G",
