@@ -3,9 +3,11 @@ package domain
 import (
 	_ "embed"
 	"encoding/json"
+	"strings"
 )
 
 func NewColorShort(c string) (color Color) {
+	c = strings.ToUpper(c)
 	switch c {
 	case "G":
 		return Green
@@ -23,6 +25,7 @@ func NewColorShort(c string) (color Color) {
 }
 
 func NewColorLong(c string) (color Color) {
+	c = strings.ToUpper(c)
 	switch c {
 	case "GREEN":
 		return Green

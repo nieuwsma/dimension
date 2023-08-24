@@ -1,0 +1,24 @@
+{
+  "name": "Andrew",
+  "bonus": false,
+  "score": 9,
+  "tasks": [
+    "QUANTITY-2-W",
+    "BOTTOM-K",
+    "BOTTOM-W",
+    "BOTTOM-B",
+    "RATIO-4-O-B",
+    "RATIO-4-B-G"
+  ],
+  "dimension": {
+    "a": "GREEN",
+    "b": "GREEN",
+    "c": "ORANGE",
+    "d": "ORANGE",
+    "e": "ORANGE",
+    "f": "GREEN",
+    "g": "WHITE",
+    "h": "BLUE",
+    "k": "WHITE"
+  }
+}
