@@ -53,47 +53,47 @@
         {
             "Rule": "BOTTOM-G",
             "Quantity": "1",
-            "Description": "No sphere may be below green."
+            "Description": "No sphere of any color may be below green."
         },
         {
             "Rule": "BOTTOM-O",
             "Quantity": "1",
-            "Description": "No sphere may be below orange."
+            "Description": "No sphere of any color may be below orange."
         },
         {
             "Rule": "BOTTOM-K",
             "Quantity": "1",
-            "Description": "No sphere may be below black."
+            "Description": "No sphere of any color may be below black."
         },
         {
             "Rule": "BOTTOM-W",
             "Quantity": "1",
-            "Description": "No sphere may be below white."
+            "Description": "No sphere of any color may be below white."
         },
         {
             "Rule": "BOTTOM-B",
             "Quantity": "1",
-            "Description": "No sphere may be below blue."
+            "Description": "No sphere of any color may be below blue."
         },
         {
             "Rule": "TOP-G",
             "Quantity": "1",
-            "Description": "No sphere may be above green."
+            "Description": "No sphere of any color may be on top of green."
         },
         {
             "Rule": "TOP-O",
             "Quantity": "1",
-            "Description": "No sphere may be above orange."
+            "Description": "No sphere of any color may be on top of orange."
         },
         {
             "Rule": "TOP-K",
             "Quantity": "1",
-            "Description": "No sphere may be above black."
+            "Description": "No sphere of any color may be on top of black."
         },
         {
             "Rule": "TOP-W",
             "Quantity": "1",
-            "Description": "No sphere may be above white."
+            "Description": "No sphere of any color may be on top of white."
         },
         {
             "Rule": "TOP-B",
@@ -251,52 +251,52 @@
             "Description": "Every blue must not touch another white."
         },
         {
-            "Rule": "RATIO4-G-O",
+            "Rule": "RATIO-4-G-O",
             "Quantity": "1",
             "Description": "The sum of green to orange must be exactly 4."
         },
         {
-            "Rule": "RATIO4-G-B",
+            "Rule": "RATIO-4-G-B",
             "Quantity": "1",
             "Description": "The sum of green to blue must be exactly 4."
         },
         {
-            "Rule": "RATIO4-G-W",
+            "Rule": "RATIO-4-G-W",
             "Quantity": "1",
             "Description": "The sum of green to white must be exactly 4."
         },
         {
-            "Rule": "RATIO4-G-K",
+            "Rule": "RATIO-4-G-K",
             "Quantity": "1",
             "Description": "The sum of green to black must be exactly 4."
         },
         {
-            "Rule": "RATIO4-O-B",
+            "Rule": "RATIO-4-O-B",
             "Quantity": "1",
             "Description": "The sum of orange to blue must be exactly 4."
         },
         {
-            "Rule": "RATIO4-O-W",
+            "Rule": "RATIO-4-O-W",
             "Quantity": "1",
             "Description": "The sum of orange to white must be exactly 4."
         },
         {
-            "Rule": "RATIO4-O-K",
+            "Rule": "RATIO-4-O-K",
             "Quantity": "1",
             "Description": "The sum of orange to black must be exactly 4."
         },
         {
-            "Rule": "RATIO4-K-W",
+            "Rule": "RATIO-4-K-W",
             "Quantity": "1",
             "Description": "The sum of black to white must be exactly 4."
         },
         {
-            "Rule": "RATIO4-K-B",
+            "Rule": "RATIO-4-K-B",
             "Quantity": "1",
             "Description": "The sum of black to blue must be exactly 4."
         },
         {
-            "Rule": "RATIO4-B-W",
+            "Rule": "RATIO-4-B-W",
             "Quantity": "1",
             "Description": "The sum of blue to white must be exactly 4."
         },

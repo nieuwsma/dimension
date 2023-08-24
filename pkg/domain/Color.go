@@ -5,6 +5,39 @@ import (
 	"encoding/json"
 )
 
+func NewColorShort(c string) (color Color) {
+	switch c {
+	case "G":
+		return Green
+	case "B":
+		return Blue
+	case "K":
+		return Black
+	case "O":
+		return Orange
+	case "W":
+		return White
+	default:
+		return Empty
+	}
+}
+
+func NewColorLong(c string) (color Color) {
+	switch c {
+	case "GREEN":
+		return Green
+	case "BLUE":
+		return Blue
+	case "BLACK":
+		return Black
+	case "ORANGE":
+		return Orange
+	case "WHITE":
+		return White
+	default:
+		return Empty
+	}
+}
 func (g Color) LongHand() string {
 	switch g {
 	case Green:
@@ -25,6 +58,7 @@ func (g Color) LongHand() string {
 type Color int
 
 const (
+	Empty  Color = 0
 	Green  Color = 1
 	Blue   Color = 2
 	White  Color = 3

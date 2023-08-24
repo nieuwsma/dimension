@@ -26,3 +26,11 @@ func GetGeometry() (g Geometries) {
 	_ = json.Unmarshal(GeometryData, &g)
 	return
 }
+
+func (g Geometries) GetNeighbors() (n Neighbors) {
+	n = make(map[string][]string)
+	for _, v := range g.Geometry {
+		n[v.ID] = v.Neighbors
+	}
+	return n
+}
