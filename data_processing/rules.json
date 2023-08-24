@@ -1,306 +1,306 @@
 {
     "Rules": [
         {
-            "Rule": "QUANTITY-1-G",
+            "Name": "QUANTITY-1-G",
             "Quantity": "1",
             "Description": "The quantity of green should be exactly 1."
         },
         {
-            "Rule": "QUANTITY-1-O",
+            "Name": "QUANTITY-1-O",
             "Quantity": "1",
             "Description": "The quantity of orange should be exactly 1."
         },
         {
-            "Rule": "QUANTITY-1-K",
+            "Name": "QUANTITY-1-K",
             "Quantity": "1",
             "Description": "The quantity of black should be exactly 1."
         },
         {
-            "Rule": "QUANTITY-1-W",
+            "Name": "QUANTITY-1-W",
             "Quantity": "1",
             "Description": "The quantity of white should be exactly 1."
         },
         {
-            "Rule": "QUANTITY-1-B",
+            "Name": "QUANTITY-1-B",
             "Quantity": "1",
             "Description": "The quantity of blue should be exactly 1."
         },
         {
-            "Rule": "QUANTITY-2-G",
+            "Name": "QUANTITY-2-G",
             "Quantity": "1",
             "Description": "The quantity of green should be exactly 2."
         },
         {
-            "Rule": "QUANTITY-2-O",
+            "Name": "QUANTITY-2-O",
             "Quantity": "1",
             "Description": "The quantity of orange should be exactly 2."
         },
         {
-            "Rule": "QUANTITY-2-K",
+            "Name": "QUANTITY-2-K",
             "Quantity": "1",
             "Description": "The quantity of black should be exactly 2."
         },
         {
-            "Rule": "QUANTITY-2-W",
+            "Name": "QUANTITY-2-W",
             "Quantity": "1",
             "Description": "The quantity of white should be exactly 2."
         },
         {
-            "Rule": "QUANTITY-2-B",
+            "Name": "QUANTITY-2-B",
             "Quantity": "1",
             "Description": "The quantity of blue should be exactly 2."
         },
         {
-            "Rule": "BOTTOM-G",
+            "Name": "BOTTOM-G",
             "Quantity": "1",
             "Description": "No sphere of any color may be below green."
         },
         {
-            "Rule": "BOTTOM-O",
+            "Name": "BOTTOM-O",
             "Quantity": "1",
             "Description": "No sphere of any color may be below orange."
         },
         {
-            "Rule": "BOTTOM-K",
+            "Name": "BOTTOM-K",
             "Quantity": "1",
             "Description": "No sphere of any color may be below black."
         },
         {
-            "Rule": "BOTTOM-W",
+            "Name": "BOTTOM-W",
             "Quantity": "1",
             "Description": "No sphere of any color may be below white."
         },
         {
-            "Rule": "BOTTOM-B",
+            "Name": "BOTTOM-B",
             "Quantity": "1",
             "Description": "No sphere of any color may be below blue."
         },
         {
-            "Rule": "TOP-G",
+            "Name": "TOP-G",
             "Quantity": "1",
             "Description": "No sphere of any color may be on top of green."
         },
         {
-            "Rule": "TOP-O",
+            "Name": "TOP-O",
             "Quantity": "1",
             "Description": "No sphere of any color may be on top of orange."
         },
         {
-            "Rule": "TOP-K",
+            "Name": "TOP-K",
             "Quantity": "1",
             "Description": "No sphere of any color may be on top of black."
         },
         {
-            "Rule": "TOP-W",
+            "Name": "TOP-W",
             "Quantity": "1",
             "Description": "No sphere of any color may be on top of white."
         },
         {
-            "Rule": "TOP-B",
+            "Name": "TOP-B",
             "Quantity": "1",
             "Description": "No sphere may be above blue."
         },
 
         {
-            "Rule": "TOUCH-G-G",
+            "Name": "TOUCH-G-G",
             "Quantity": "1",
             "Description": "Every green must touch another green."
         },
         {
-            "Rule": "TOUCH-O-O",
+            "Name": "TOUCH-O-O",
             "Quantity": "1",
             "Description": "Every orange must touch another orange."
         },
         {
-            "Rule": "TOUCH-K-K",
+            "Name": "TOUCH-K-K",
             "Quantity": "1",
             "Description": "Every black must touch another black."
         },
         {
-            "Rule": "TOUCH-W-W",
+            "Name": "TOUCH-W-W",
             "Quantity": "1",
             "Description": "Every white must touch another white."
         },
         {
-            "Rule": "TOUCH-B-B",
+            "Name": "TOUCH-B-B",
             "Quantity": "1",
             "Description": "Every blue must touch another blue."
         },
         {
-            "Rule": "NOTOUCH-G-G",
+            "Name": "NOTOUCH-G-G",
             "Quantity": "1",
             "Description": "Every green must not touch another green."
         },
         {
-            "Rule": "NOTOUCH-O-O",
+            "Name": "NOTOUCH-O-O",
             "Quantity": "1",
             "Description": "Every orange must not touch another orange."
         },
         {
-            "Rule": "NOTOUCH-K-K",
+            "Name": "NOTOUCH-K-K",
             "Quantity": "1",
             "Description": "Every black must not touch another black."
         },
         {
-            "Rule": "NOTOUCH-W-W",
+            "Name": "NOTOUCH-W-W",
             "Quantity": "1",
             "Description": "Every white must not touch another white."
         },
         {
-            "Rule": "NOTOUCH-B-B",
+            "Name": "NOTOUCH-B-B",
             "Quantity": "1",
             "Description": "Every blue must not touch another blue."
         },
 
         {
-            "Rule": "TOUCH-G-O",
+            "Name": "TOUCH-G-O",
             "Quantity": "1",
             "Description": "Every green must touch another orange."
         },
         {
-            "Rule": "TOUCH-G-B",
+            "Name": "TOUCH-G-B",
             "Quantity": "1",
             "Description": "Every green must touch another blue."
         },
         {
-            "Rule": "TOUCH-G-W",
+            "Name": "TOUCH-G-W",
             "Quantity": "1",
             "Description": "Every green must touch another white."
         },
         {
-            "Rule": "TOUCH-G-K",
+            "Name": "TOUCH-G-K",
             "Quantity": "1",
             "Description": "Every green must touch another black."
         },
         {
-            "Rule": "TOUCH-O-B",
+            "Name": "TOUCH-O-B",
             "Quantity": "1",
             "Description": "Every orange must touch another blue."
         },
         {
-            "Rule": "TOUCH-O-W",
+            "Name": "TOUCH-O-W",
             "Quantity": "1",
             "Description": "Every orange must touch another white."
         },
         {
-            "Rule": "TOUCH-O-K",
+            "Name": "TOUCH-O-K",
             "Quantity": "1",
             "Description": "Every orange must touch another black."
         },
         {
-            "Rule": "TOUCH-K-W",
+            "Name": "TOUCH-K-W",
             "Quantity": "1",
             "Description": "Every black must touch another white."
         },
         {
-            "Rule": "TOUCH-K-B",
+            "Name": "TOUCH-K-B",
             "Quantity": "1",
             "Description": "Every black must touch another blue."
         },
         {
-            "Rule": "TOUCH-B-W",
+            "Name": "TOUCH-B-W",
             "Quantity": "1",
             "Description": "Every blue must touch another white."
         },
         {
-            "Rule": "NOTOUCH-G-O",
+            "Name": "NOTOUCH-G-O",
             "Quantity": "1",
             "Description": "Every green must not touch another orange."
         },
         {
-            "Rule": "NOTOUCH-G-B",
+            "Name": "NOTOUCH-G-B",
             "Quantity": "1",
             "Description": "Every green must not touch another blue."
         },
         {
-            "Rule": "NOTOUCH-G-W",
+            "Name": "NOTOUCH-G-W",
             "Quantity": "1",
             "Description": "Every green must not touch another white."
         },
         {
-            "Rule": "NOTOUCH-G-K",
+            "Name": "NOTOUCH-G-K",
             "Quantity": "1",
             "Description": "Every green must not touch another black."
         },
         {
-            "Rule": "NOTOUCH-O-B",
+            "Name": "NOTOUCH-O-B",
             "Quantity": "1",
             "Description": "Every orange must not touch another blue."
         },
         {
-            "Rule": "NOTOUCH-O-W",
+            "Name": "NOTOUCH-O-W",
             "Quantity": "1",
             "Description": "Every orange must not touch another white."
         },
         {
-            "Rule": "NOTOUCH-O-K",
+            "Name": "NOTOUCH-O-K",
             "Quantity": "1",
             "Description": "Every orange must not touch another black."
         },
         {
-            "Rule": "NOTOUCH-K-W",
+            "Name": "NOTOUCH-K-W",
             "Quantity": "1",
             "Description": "Every black must not touch another white."
         },
         {
-            "Rule": "NOTOUCH-K-B",
+            "Name": "NOTOUCH-K-B",
             "Quantity": "1",
             "Description": "Every black must not touch another blue."
         },
         {
-            "Rule": "NOTOUCH-B-W",
+            "Name": "NOTOUCH-B-W",
             "Quantity": "1",
             "Description": "Every blue must not touch another white."
         },
 
         {
-            "Rule": "RATIO-4-G-K",
+            "Name": "RATIO-4-G-K",
             "Quantity": "1",
             "Description": "The sum of green and black must be exactly 4."
         },
         {
-            "Rule": "RATIO-4-K-W",
+            "Name": "RATIO-4-K-W",
             "Quantity": "1",
             "Description": "The sum of black and white must be exactly 4."
         },
         {
-            "Rule": "RATIO-4-W-O",
+            "Name": "RATIO-4-W-O",
             "Quantity": "1",
             "Description": "The sum of white and orange must be exactly 4."
         },
         {
-            "Rule": "RATIO-4-O-B",
+            "Name": "RATIO-4-O-B",
             "Quantity": "1",
             "Description": "The sum of orange and blue must be exactly 4."
         },
         {
-            "Rule": "RATIO-4-B-G",
+            "Name": "RATIO-4-B-G",
             "Quantity": "1",
             "Description": "The sum of blue and green must be exactly 4."
         },
 
         {
-            "Rule": "GT-W-G",
+            "Name": "GT-W-G",
             "Quantity": "1",
             "Description": "The count of white must be greater than green."
         },
         {
-            "Rule": "GT-G-O",
+            "Name": "GT-G-O",
             "Quantity": "1",
             "Description": "The count of green must be greater than orange."
         },
         {
-            "Rule": "GT-O-K",
+            "Name": "GT-O-K",
             "Quantity": "1",
             "Description": "The count of orange must be greater than black."
         },
         {
-            "Rule": "GT-K-B",
+            "Name": "GT-K-B",
             "Quantity": "1",
             "Description": "The count of black must be greater than blue."
         },
         {
-            "Rule": "GT-B-W",
+            "Name": "GT-B-W",
             "Quantity": "1",
             "Description": "The count of blue must be greater than white."
         }
