@@ -31,6 +31,9 @@ func GetAllRules() (r RulesArrayDataFormat) {
 
 //TODO END OF MOVE TO API
 
+//TODO consider adding a game history and tracking players over time! #goldplatting
+//type GameHistory []Game
+
 type Game struct {
 	Players  map[PlayerName]Player //name of player
 	Rounds   map[RoundNumber]Round //tracks round ID to a play deck
