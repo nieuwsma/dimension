@@ -36,11 +36,11 @@ func GetAllRules() (r RulesArrayDataFormat) {
 //type GameHistory []Game
 
 type Game struct {
-	Players   map[PlayerName]Player //name of player
-	Rounds    map[RoundNumber]Round //tracks round ID to a play deck // TODO only 6 rounds are played
-	Deck      Deck
-	DrawSize  int
-	Hourglass time.Duration
+	Players        map[PlayerName]Player //name of player
+	Rounds         map[RoundNumber]Round //tracks round ID to a play deck // TODO only 6 rounds are played
+	Deck           Deck
+	DrawSize       int
+	HourglassLimit time.Duration
 }
 
 type PlayerName string
