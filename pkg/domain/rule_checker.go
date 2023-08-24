@@ -7,47 +7,107 @@ import (
 	"strings"
 )
 
-func Dispatcher(rule string, dim Dimension) (err error) {
+func ScoreTurn(rules []string, dim Dimension) (score int, bonus bool, errs error) {
+	maxScore := len(dim.Dimension)
 	colorCounts := make(map[Color]int)
 	for _, v := range dim.Dimension {
 		colorCounts[v.Color]++
 	}
 
-	parts := strings.Split(rule, "-")
-
-	switch {
-	case strings.Contains(rule, "QUANTITY"):
-		quantity, err := strconv.Atoi(parts[1])
-		if err == nil {
-			err = CheckQuantity(quantity, NewColorShort(parts[2]), colorCounts)
-		}
-	case strings.Contains(rule, "BOTTOM"):
-		err = CheckTopBottom(dim, false, NewColorShort(parts[1]), GetGeometry().GetNeighbors())
-	case strings.Contains(rule, "TOP"):
-		err = CheckTopBottom(dim, true, NewColorShort(parts[1]), GetGeometry().GetNeighbors())
-	case strings.Contains(rule, "TOUCH"):
-		if strings.Contains(rule, "NOTOUCH") {
-			err = CheckTouch(dim, false, NewColorShort(parts[1]), NewColorShort(parts[2]), GetGeometry().GetNeighbors())
-		} else {
-			err = CheckTouch(dim, true, NewColorShort(parts[1]), NewColorShort(parts[2]), GetGeometry().GetNeighbors())
-
-		}
-	case strings.Contains(rule, "RATIO"):
-		quantity, err := strconv.Atoi(parts[1])
-		var colors []Color
-		colors = append(colors, NewColorShort(parts[2]))
-		colors = append(colors, NewColorShort(parts[3]))
-
-		if err == nil {
-			err = CheckRatio(quantity, colors, colorCounts)
-		}
-	case strings.Contains(rule, "GT"):
-		err = CheckGreaterThan(NewColorShort(parts[1]), NewColorShort(parts[2]), colorCounts)
-	default:
-		err = fmt.Errorf("Could not parse rule %s", rule)
+	if err := dim.ValidateGeometry(); err != nil { // illegal dimension
+		score = 0
+		errs = errors.Join(err)
+		return
 	}
 
-	return err
+	if err := dim.ValidateSpheres(); err != nil { // illegal dimension
+		score = 0
+		errs = errors.Join(err)
+		return
+	}
+
+	score = maxScore
+
+	for _, rule := range rules {
+
+		parts := strings.Split(rule, "-")
+
+		switch {
+		case strings.Contains(rule, "QUANTITY"):
+			quantity, err := strconv.Atoi(parts[1])
+			if err != nil {
+				err = fmt.Errorf("Could not parse rule %s", rule)
+				errs = errors.Join(err)
+				score -= 2
+			} else {
+				err = CheckQuantity(quantity, NewColorShort(parts[2]), colorCounts)
+				if err != nil {
+					errs = errors.Join(err)
+					score -= 2
+				}
+			}
+		case strings.Contains(rule, "BOTTOM"):
+			err := CheckTopBottom(dim, false, NewColorShort(parts[1]), GetGeometry().GetNeighbors())
+			if err != nil {
+				errs = errors.Join(err)
+				score -= 2
+			}
+		case strings.Contains(rule, "TOP"):
+			err := CheckTopBottom(dim, true, NewColorShort(parts[1]), GetGeometry().GetNeighbors())
+			if err != nil {
+				errs = errors.Join(err)
+				score -= 2
+			}
+		case strings.Contains(rule, "TOUCH"):
+			var err error
+			if strings.Contains(rule, "NOTOUCH") {
+				err = CheckTouch(dim, false, NewColorShort(parts[1]), NewColorShort(parts[2]), GetGeometry().GetNeighbors())
+			} else {
+				err = CheckTouch(dim, true, NewColorShort(parts[1]), NewColorShort(parts[2]), GetGeometry().GetNeighbors())
+			}
+
+			if err != nil {
+				errs = errors.Join(err)
+				score -= 2
+			}
+		case strings.Contains(rule, "RATIO"):
+			quantity, err := strconv.Atoi(parts[1])
+
+			if err != nil {
+				err = fmt.Errorf("Could not parse rule %s", rule)
+				errs = errors.Join(err)
+				score -= 2
+			} else {
+				var colors []Color
+				colors = append(colors, NewColorShort(parts[2]))
+				colors = append(colors, NewColorShort(parts[3]))
+				err = CheckRatio(quantity, colors, colorCounts)
+				if err != nil {
+					errs = errors.Join(err)
+					score -= 2
+				}
+			}
+		case strings.Contains(rule, "GT"):
+			err := CheckGreaterThan(NewColorShort(parts[1]), NewColorShort(parts[2]), colorCounts)
+			if err != nil {
+				errs = errors.Join(err)
+				score -= 2
+			}
+		default:
+			err := fmt.Errorf("Could not parse rule %s", rule)
+			if err != nil {
+				errs = errors.Join(err)
+				score -= 2
+			}
+		}
+	}
+
+	//a bonus is awarded if all tasks were successfully completed and if all 5 colors were used.
+	if errs == nil && len(colorCounts) == 5 { //then
+		bonus = true
+
+	}
+	return score, bonus, errs
 }
 
 func CheckQuantity(quantity int, color Color, colorCounts map[Color]int) (err error) {

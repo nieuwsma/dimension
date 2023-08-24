@@ -20,3 +20,11 @@ func main() {
 	}
 	fmt.Println(string(u))
 }
+
+//todo
+// need to randomly draw a hand from the deck & track it
+// need to create players
+// need to track rounds (has a hand & players' dimensions)
+// need to track game (has a draw deck, discard deck, players w/ scores)
+// need to unit test the rule checker
+// need to generate test data; and validate the application works

@@ -108,10 +108,10 @@ func (d *Dimension) ValidateGeometry() error {
 	// Rule 1: a can always be present
 	// (This rule doesn't need explicit code)
 
-	// Rule 2: Check spheres from the first outer ring
+	// Task 2: Check spheres from the first outer ring
 	// (This rule also doesn't need explicit code as they always can be present)
 
-	// Rule 3: Check Tropical Ring
+	// Task 3: Check Tropical Ring
 	tropicalRing := []string{"h", "i", "j", "k", "l", "m"}
 	tropicalPresent := make(map[string]bool)
 	for _, t := range tropicalRing {
@@ -171,7 +171,7 @@ func (d *Dimension) ValidateGeometry() error {
 		return errors.New("invalid tropical ring configuration")
 	}
 
-	// Rule 4: Check Top Sphere
+	// Task 4: Check Top Sphere
 	if _, ok := d.Dimension["n"]; ok {
 		if _, ok := d.Dimension["a"]; !ok {
 			return errors.New("missing center sphere")
