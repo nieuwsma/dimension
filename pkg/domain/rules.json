@@ -51,55 +51,56 @@
             "Description": "The quantity of blue should be exactly 2."
         },
         {
+            "Name": "BOTTOM-G",
+            "Quantity": "1",
+            "Description": "No sphere of any color may be below green."
+        },
+        {
+            "Name": "BOTTOM-O",
+            "Quantity": "1",
+            "Description": "No sphere of any color may be below orange."
+        },
+        {
+            "Name": "BOTTOM-K",
+            "Quantity": "1",
+            "Description": "No sphere of any color may be below black."
+        },
+        {
+            "Name": "BOTTOM-W",
+            "Quantity": "1",
+            "Description": "No sphere of any color may be below white."
+        },
+        {
+            "Name": "BOTTOM-B",
+            "Quantity": "1",
+            "Description": "No sphere of any color may be below blue."
+        },
+        {
             "Name": "TOP-G",
             "Quantity": "1",
-            "Description": "No other colors may be below green."
+            "Description": "No sphere of any color may be on top of green."
         },
         {
             "Name": "TOP-O",
             "Quantity": "1",
-            "Description": "No other colors may be below orange."
+            "Description": "No sphere of any color may be on top of orange."
         },
         {
             "Name": "TOP-K",
             "Quantity": "1",
-            "Description": "No other colors may be below black."
+            "Description": "No sphere of any color may be on top of black."
         },
         {
             "Name": "TOP-W",
             "Quantity": "1",
-            "Description": "No other colors may be below white."
+            "Description": "No sphere of any color may be on top of white."
         },
         {
             "Name": "TOP-B",
             "Quantity": "1",
-            "Description": "No other colors may be below blue."
+            "Description": "No sphere may be above blue."
         },
-        {
-            "Name": "NOTTOP-G",
-            "Quantity": "1",
-            "Description": "No other colors may be above green."
-        },
-        {
-            "Name": "NOTTOP-O",
-            "Quantity": "1",
-            "Description": "No other colors may be above orange."
-        },
-        {
-            "Name": "NOTTOP-K",
-            "Quantity": "1",
-            "Description": "No other colors may be above black."
-        },
-        {
-            "Name": "NOTTOP-W",
-            "Quantity": "1",
-            "Description": "No other colors may be above white."
-        },
-        {
-            "Name": "NOTTOP-B",
-            "Quantity": "1",
-            "Description": "No other colors may be above blue."
-        },
+
         {
             "Name": "TOUCH-G-G",
             "Quantity": "1",
@@ -150,6 +151,7 @@
             "Quantity": "1",
             "Description": "Every blue must not touch another blue."
         },
+
         {
             "Name": "TOUCH-G-O",
             "Quantity": "1",
@@ -250,55 +252,37 @@
             "Quantity": "1",
             "Description": "Every blue must not touch another white."
         },
+
         {
-            "Name": "RATIO4-G-O",
+            "Name": "RATIO-4-G-K",
             "Quantity": "1",
-            "Description": "The sum of green to orange must be exactly 4."
+            "Description": "The sum of green and black must be exactly 4."
         },
         {
-            "Name": "RATIO4-G-B",
+            "Name": "RATIO-4-K-W",
             "Quantity": "1",
-            "Description": "The sum of green to blue must be exactly 4."
+            "Description": "The sum of black and white must be exactly 4."
         },
         {
-            "Name": "RATIO4-G-W",
+            "Name": "RATIO-4-W-O",
             "Quantity": "1",
-            "Description": "The sum of green to white must be exactly 4."
+            "Description": "The sum of white and orange must be exactly 4."
         },
         {
-            "Name": "RATIO4-G-K",
+            "Name": "RATIO-4-O-B",
             "Quantity": "1",
-            "Description": "The sum of green to black must be exactly 4."
+            "Description": "The sum of orange and blue must be exactly 4."
         },
         {
-            "Name": "RATIO4-O-B",
+            "Name": "RATIO-4-B-G",
             "Quantity": "1",
-            "Description": "The sum of orange to blue must be exactly 4."
+            "Description": "The sum of blue and green must be exactly 4."
         },
+
         {
-            "Name": "RATIO4-O-W",
+            "Name": "GT-W-G",
             "Quantity": "1",
-            "Description": "The sum of orange to white must be exactly 4."
-        },
-        {
-            "Name": "RATIO4-O-K",
-            "Quantity": "1",
-            "Description": "The sum of orange to black must be exactly 4."
-        },
-        {
-            "Name": "RATIO4-K-W",
-            "Quantity": "1",
-            "Description": "The sum of black to white must be exactly 4."
-        },
-        {
-            "Name": "RATIO4-K-B",
-            "Quantity": "1",
-            "Description": "The sum of black to blue must be exactly 4."
-        },
-        {
-            "Name": "RATIO4-B-W",
-            "Quantity": "1",
-            "Description": "The sum of blue to white must be exactly 4."
+            "Description": "The count of white must be greater than green."
         },
         {
             "Name": "GT-G-O",
@@ -306,39 +290,9 @@
             "Description": "The count of green must be greater than orange."
         },
         {
-            "Name": "GT-G-B",
-            "Quantity": "1",
-            "Description": "The count of green must be greater than blue."
-        },
-        {
-            "Name": "GT-G-W",
-            "Quantity": "1",
-            "Description": "The count of green must be greater than white."
-        },
-        {
-            "Name": "GT-G-K",
-            "Quantity": "1",
-            "Description": "The count of green must be greater than black."
-        },
-        {
-            "Name": "GT-O-B",
-            "Quantity": "1",
-            "Description": "The count of orange must be greater than blue."
-        },
-        {
-            "Name": "GT-O-W",
-            "Quantity": "1",
-            "Description": "The count of orange must be greater than white."
-        },
-        {
             "Name": "GT-O-K",
             "Quantity": "1",
             "Description": "The count of orange must be greater than black."
-        },
-        {
-            "Name": "GT-K-W",
-            "Quantity": "1",
-            "Description": "The count of black must be greater than white."
         },
         {
             "Name": "GT-K-B",
