@@ -1,0 +1,26 @@
+{
+  "name": "Andrew",
+  "bonus": true,
+  "score": 11,
+  "tasks": [
+    "BOTTOM-B",
+    "TOUCH-O-O",
+    "TOUCH-W-W",
+    "TOUCH-O-K",
+    "TOUCH-K-B",
+    "GT-O-K"
+  ],
+  "dimension": {
+    "a": "BLACK",
+    "b": "BLUE",
+    "c": "ORANGE",
+    "d": "ORANGE",
+    "e": "ORANGE",
+    "f": "BLUE",
+    "g": "BLUE",
+    "h": "WHITE",
+    "j": "WHITE",
+    "l": "WHITE",
+    "n": "GREEN"
+  }
+}

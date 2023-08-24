@@ -15,11 +15,6 @@ type RulesDataFormat struct {
 	Description string
 }
 
-type Task struct {
-	Name        string
-	Description string
-}
-
 // this is the master deck!
 //
 //go:embed rules.json
@@ -68,3 +63,4 @@ type Deck struct {
 }
 
 type Tasks []Task
+type Task string

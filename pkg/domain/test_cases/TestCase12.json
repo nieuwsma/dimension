@@ -1,0 +1,26 @@
+{
+  "name": "Andrew",
+  "bonus": true,
+  "score": 11,
+  "tasks": [
+    "QUANTITY-1-K",
+    "QUANTITY-1-B",
+    "TOUCH-W-W",
+    "NOTOUCH-K-K",
+    "TOUCH-K-W",
+    "NOTOUCH-K-B"
+  ],
+  "dimension": {
+    "a": "WHITE",
+    "b": "WHITE",
+    "c": "BLACK",
+    "d": "WHITE",
+    "e": "ORANGE",
+    "f": "ORANGE",
+    "g": "BLUE",
+    "h": "GREEN",
+    "j": "GREEN",
+    "l": "GREEN",
+    "n": "ORANGE"
+  }
+}

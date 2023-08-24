@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func ScoreTurn(rules []string, dim Dimension) (score int, bonus bool, errs error) {
+func ScoreTurn(tasks []string, dim Dimension) (score int, bonus bool, errs error) {
 	maxScore := len(dim.Dimension)
 	colorCounts := make(map[Color]int)
 	for _, v := range dim.Dimension {
@@ -28,16 +28,16 @@ func ScoreTurn(rules []string, dim Dimension) (score int, bonus bool, errs error
 
 	score = maxScore
 
-	for _, rule := range rules {
+	for _, task := range tasks {
 
-		parts := strings.Split(rule, "-")
+		parts := strings.Split(task, "-")
 
 		switch {
-		case strings.Contains(rule, "QUANTITY"):
+		case strings.Contains(task, "QUANTITY"):
 			//todo need to check for the special case that QUANTITY-1-n and QUANTITY-2-n have been played, if they do then sum is 3
 			quantity, err := strconv.Atoi(parts[1])
 			if err != nil {
-				err = fmt.Errorf("Could not parse rule %s", rule)
+				err = fmt.Errorf("Could not parse task %s", task)
 				errs = errors.Join(err)
 				score -= 2
 			} else {
@@ -47,21 +47,21 @@ func ScoreTurn(rules []string, dim Dimension) (score int, bonus bool, errs error
 					score -= 2
 				}
 			}
-		case strings.Contains(rule, "BOTTOM"):
+		case strings.Contains(task, "BOTTOM"):
 			err := CheckTopBottom(dim, false, NewColorShort(parts[1]), GetGeometry().GetNeighbors())
 			if err != nil {
 				errs = errors.Join(err)
 				score -= 2
 			}
-		case strings.Contains(rule, "TOP"):
+		case strings.Contains(task, "TOP"):
 			err := CheckTopBottom(dim, true, NewColorShort(parts[1]), GetGeometry().GetNeighbors())
 			if err != nil {
 				errs = errors.Join(err)
 				score -= 2
 			}
-		case strings.Contains(rule, "TOUCH"):
+		case strings.Contains(task, "TOUCH"):
 			var err error
-			if strings.Contains(rule, "NOTOUCH") {
+			if strings.Contains(task, "NOTOUCH") {
 				err = CheckTouch(dim, colorCounts, false, NewColorShort(parts[1]), NewColorShort(parts[2]), GetGeometry().GetNeighbors())
 			} else {
 				err = CheckTouch(dim, colorCounts, true, NewColorShort(parts[1]), NewColorShort(parts[2]), GetGeometry().GetNeighbors())
@@ -71,11 +71,11 @@ func ScoreTurn(rules []string, dim Dimension) (score int, bonus bool, errs error
 				errs = errors.Join(err)
 				score -= 2
 			}
-		case strings.Contains(rule, "RATIO"):
+		case strings.Contains(task, "RATIO"):
 			quantity, err := strconv.Atoi(parts[1])
 
 			if err != nil {
-				err = fmt.Errorf("Could not parse rule %s", rule)
+				err = fmt.Errorf("Could not parse task %s", task)
 				errs = errors.Join(err)
 				score -= 2
 			} else {
@@ -88,14 +88,14 @@ func ScoreTurn(rules []string, dim Dimension) (score int, bonus bool, errs error
 					score -= 2
 				}
 			}
-		case strings.Contains(rule, "GT"):
+		case strings.Contains(task, "GT"):
 			err := CheckGreaterThan(NewColorShort(parts[1]), NewColorShort(parts[2]), colorCounts)
 			if err != nil {
 				errs = errors.Join(err)
 				score -= 2
 			}
 		default:
-			err := fmt.Errorf("Could not parse rule %s", rule)
+			err := fmt.Errorf("Could not parse task %s", task)
 			if err != nil {
 				errs = errors.Join(err)
 				score -= 2

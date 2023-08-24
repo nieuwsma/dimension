@@ -1,0 +1,26 @@
+{
+  "name": "Jessica",
+  "bonus": false,
+  "score": 7,
+  "tasks": [
+    "NOTOUCH-G-G",
+    "TOUCH-G-W",
+    "TOUCH-G-K",
+    "NOTOUCH-K-W",
+    "RATIO-4-O-B",
+    "RATIO-4-B-G"
+  ],
+  "dimension": {
+    "a": "BLUE",
+    "b": "BLUE",
+    "c": "ORANGE",
+    "d": "ORANGE",
+    "e": "GREEN",
+    "f": "BLUE",
+    "g": "GREEN",
+    "i": "WHITE",
+    "k": "WHITE",
+    "m": "WHITE",
+    "n": "GREEN"
+  }
+}
