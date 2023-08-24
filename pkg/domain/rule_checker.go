@@ -34,6 +34,7 @@ func ScoreTurn(rules []string, dim Dimension) (score int, bonus bool, errs error
 
 		switch {
 		case strings.Contains(rule, "QUANTITY"):
+			//todo need to check for the special case that QUANTITY-1-n and QUANTITY-2-n have been played, if they do then sum is 3
 			quantity, err := strconv.Atoi(parts[1])
 			if err != nil {
 				err = fmt.Errorf("Could not parse rule %s", rule)
@@ -61,9 +62,9 @@ func ScoreTurn(rules []string, dim Dimension) (score int, bonus bool, errs error
 		case strings.Contains(rule, "TOUCH"):
 			var err error
 			if strings.Contains(rule, "NOTOUCH") {
-				err = CheckTouch(dim, false, NewColorShort(parts[1]), NewColorShort(parts[2]), GetGeometry().GetNeighbors())
+				err = CheckTouch(dim, colorCounts, false, NewColorShort(parts[1]), NewColorShort(parts[2]), GetGeometry().GetNeighbors())
 			} else {
-				err = CheckTouch(dim, true, NewColorShort(parts[1]), NewColorShort(parts[2]), GetGeometry().GetNeighbors())
+				err = CheckTouch(dim, colorCounts, true, NewColorShort(parts[1]), NewColorShort(parts[2]), GetGeometry().GetNeighbors())
 			}
 
 			if err != nil {
@@ -136,8 +137,15 @@ func CheckGreaterThan(gt Color, lt Color, colorCounts map[Color]int) (err error)
 	return nil
 }
 
-func CheckTouch(dim Dimension, mustTouch bool, a Color, b Color, neighbors Neighbors) (err error) {
+// the offical rules state that for touch or no-touch that only playing one color is allowed,
+// so only playing one W on a W-W or only playing one W and no K on  a W-K scenario is acceptable
+func CheckTouch(dim Dimension, colorCounts map[Color]int, mustTouch bool, a Color, b Color, neighbors Neighbors) (err error) {
 
+	if a.Equals(b) && colorCounts[a] <= 1 {
+		return nil
+	} else if !a.Equals(b) && (colorCounts[a] == 0 || colorCounts[b] == 0) {
+		return nil
+	}
 	for position, sphere := range dim.Dimension {
 		if !sphere.Color.Equals(a) && !sphere.Color.Equals(b) { // this sphere has neither color we care about!
 			continue

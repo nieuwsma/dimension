@@ -3,6 +3,7 @@ package domain
 import (
 	_ "embed"
 	"encoding/json"
+	"time"
 )
 
 // TODO move to API!!!!
@@ -35,10 +36,11 @@ func GetAllRules() (r RulesArrayDataFormat) {
 //type GameHistory []Game
 
 type Game struct {
-	Players  map[PlayerName]Player //name of player
-	Rounds   map[RoundNumber]Round //tracks round ID to a play deck
-	Deck     Deck
-	DrawSize int
+	Players   map[PlayerName]Player //name of player
+	Rounds    map[RoundNumber]Round //tracks round ID to a play deck // TODO only 6 rounds are played
+	Deck      Deck
+	DrawSize  int
+	Hourglass time.Duration
 }
 
 type PlayerName string
@@ -46,7 +48,7 @@ type RoundNumber int
 
 type Player struct {
 	Points      int
-	BonusTokens int
+	BonusTokens int //TODO bonus payout is: 0 = -6, 1 = -3, 2 = -1, 3 = 0, 4 = 1, 5 = 3, 6 = 6
 }
 
 type Round struct {
