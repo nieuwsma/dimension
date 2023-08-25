@@ -4,9 +4,9 @@
   "score": 7,
   "tasks": [
     "QUANTITY-2-W",
-    "BOTTOM-K",
-    "BOTTOM-W",
-    "BOTTOM-B",
+    "TOP-K",
+    "TOP-W",
+    "TOP-B",
     "RATIO-4-O-B",
     "RATIO-4-B-G"
   ],
