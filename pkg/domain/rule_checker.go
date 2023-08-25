@@ -140,7 +140,7 @@ func ScoreTurn(tasks []string, dim Dimension) (score int, bonus bool, errs error
 func CheckQuantity(quantity int, color Color, colorCounts map[Color]int) (err error) {
 
 	if colorCounts[color] != quantity {
-		err = fmt.Errorf("expected %d, got %d", quantity, colorCounts[color])
+		err = fmt.Errorf("expected %d %s, got %d", quantity, color.LongHand(), colorCounts[color])
 		return
 	}
 	return nil
