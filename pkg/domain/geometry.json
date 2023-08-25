@@ -47,42 +47,42 @@
             "inclinationAngle": 45,
             "radialDistance": 1,
             "id": "h",
-            "neighbors": ["a", "b", "c", "n", "l", "k", "j"]
+            "neighbors": ["a", "b", "c", "n", "l", "j"]
         },
         {
             "polarAngle": 90,
             "inclinationAngle": 45,
             "radialDistance": 1,
             "id": "i",
-            "neighbors": ["a", "c", "d", "m","l","k", "n"]
+            "neighbors": ["a", "c", "d", "m","k", "n"]
         },
         {
             "polarAngle": 150,
             "inclinationAngle": 45,
             "radialDistance": 1,
             "id": "j",
-            "neighbors": ["a", "e", "d", "h", "l", "m","n"]
+            "neighbors": ["a", "e", "d", "h", "l","n"]
         },
         {
             "polarAngle": 210,
             "inclinationAngle": 45,
             "radialDistance": 1,
             "id": "k",
-            "neighbors": ["a", "e", "f", "i", "m", "n", "h"]
+            "neighbors": ["a", "e", "f", "i", "m", "n"]
         },
         {
             "polarAngle": 270,
             "inclinationAngle": 45,
             "radialDistance": 1,
             "id": "l",
-            "neighbors": ["g", "f", "a", "h","i", "j","n"]
+            "neighbors": ["g", "f", "a", "h", "j","n"]
         },
         {
             "polarAngle": 330,
             "inclinationAngle": 45,
             "radialDistance": 1,
             "id": "m",
-            "neighbors": ["g", "b", "a", "k", "j","i", "n"]
+            "neighbors": ["g", "b", "a", "k","i", "n"]
         },
         {
             "polarAngle": 0,
