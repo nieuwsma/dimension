@@ -159,7 +159,7 @@ func CheckRatio(sum int, colors []Color, colorCounts map[Color]int) (err error) 
 
 func CheckGreaterThan(gt Color, lt Color, colorCounts map[Color]int) (err error) {
 	if colorCounts[lt] >= colorCounts[gt] {
-		return fmt.Errorf("count of %s exceeds count of %s", lt.String(), gt.String())
+		return fmt.Errorf("count of %s must be greater than count of %s", gt.String(), lt.String())
 	}
 	return nil
 }
