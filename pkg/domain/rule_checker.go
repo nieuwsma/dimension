@@ -28,6 +28,32 @@ func ScoreTurn(tasks []string, dim Dimension) (score int, bonus bool, errs error
 
 	score = maxScore
 
+	//special rule, if there is a 2 & 1 quantity task for the same color, add them!
+	var colorQuantity = make(map[string]int)
+	for _, task := range tasks {
+		if strings.Contains(task, "QUANTITY") {
+			parts := strings.Split(task, "-")
+			count, _ := strconv.Atoi(parts[1])
+			colorQuantity[parts[2]] += count
+		}
+
+	}
+	for color, quantity := range colorQuantity {
+		var newTasks []string
+		if quantity == 3 {
+			find1 := fmt.Sprintf("QUANTITY-1-%s", color)
+			find2 := fmt.Sprintf("QUANTITY-2-%s", color)
+			for _, task := range tasks {
+				if !strings.Contains(task, find1) && !strings.Contains(task, find2) {
+					newTasks = append(newTasks, task)
+				}
+			}
+			newTask := fmt.Sprintf("QUANTITY-3-%s", color)
+			newTasks = append(newTasks, newTask)
+			tasks = newTasks
+		}
+	}
+
 	for _, task := range tasks {
 
 		parts := strings.Split(task, "-")
@@ -114,7 +140,8 @@ func ScoreTurn(tasks []string, dim Dimension) (score int, bonus bool, errs error
 func CheckQuantity(quantity int, color Color, colorCounts map[Color]int) (err error) {
 
 	if colorCounts[color] != quantity {
-		return fmt.Errorf("expected %d, got %d", quantity, colorCounts[color])
+		err = fmt.Errorf("expected %d, got %d", quantity, colorCounts[color])
+		return
 	}
 	return nil
 }
@@ -124,7 +151,7 @@ func CheckRatio(sum int, colors []Color, colorCounts map[Color]int) (err error) 
 	for _, color := range colors {
 		runningTotal += colorCounts[color]
 	}
-	if runningTotal > sum {
+	if runningTotal != sum {
 		return fmt.Errorf("expected sum of %d, got %d", sum, runningTotal)
 	}
 	return nil

@@ -13,10 +13,10 @@ func TestValidateRuleChecker(t *testing.T) {
 	}
 	for _, testCase := range testCases {
 
-		score, bonus, _ := ScoreTurn(testCase.Tasks, testCase.ToDimension())
+		score, bonus, errs := ScoreTurn(testCase.Tasks, testCase.ToDimension())
 
-		if score != testCase.Score && bonus != testCase.Bonus {
-			printErr := fmt.Sprintf("file: %v, expected score %v expecte bonus %v, actual score %v, actual bonus %v", testCase.FileName, score, bonus, testCase.Score, testCase.Bonus)
+		if score != testCase.Score || bonus != testCase.Bonus {
+			printErr := fmt.Sprintf("file: %v, expected score %v expected bonus %v, actual score %v, actual bonus %v. failed tasks %v", testCase.FileName, testCase.Score, testCase.Bonus, score, bonus, errs)
 			t.Errorf("failed test case %s", printErr)
 
 		}
