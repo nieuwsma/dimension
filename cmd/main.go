@@ -26,5 +26,3 @@ func main() {
 // need to create players
 // need to track rounds (has a hand & players' dimensions)
 // need to track game (has a draw deck, discard deck, players w/ scores)
-// need to unit test the rule checker
-// need to generate test data; and validate the application works
