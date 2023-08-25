@@ -25,6 +25,13 @@ func GetAllRules() (r RulesArrayDataFormat) {
 	return
 }
 
+func (f *RulesArrayDataFormat) ToTasks() (tasks Tasks) {
+	for _, rule := range *f {
+		tasks = append(tasks, Task(rule.Name))
+	}
+	return
+}
+
 //TODO END OF MOVE TO API
 
 //TODO consider adding a game history and tracking players over time! #goldplatting
@@ -42,6 +49,7 @@ type PlayerName string
 type RoundNumber int
 
 type Player struct {
+	PlayerName  PlayerName
 	Points      int
 	BonusTokens int //TODO bonus payout is: 0 = -6, 1 = -3, 2 = -1, 3 = 0, 4 = 1, 5 = 3, 6 = 6
 }
@@ -64,3 +72,7 @@ type Deck struct {
 
 type Tasks []Task
 type Task string
+
+type DimensionGame interface {
+	NewGame(players []Player) (g Game)
+}

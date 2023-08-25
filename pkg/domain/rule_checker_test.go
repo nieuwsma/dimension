@@ -22,16 +22,4 @@ func TestValidateRuleChecker(t *testing.T) {
 		}
 
 	}
-
-	//for _, test := range tests {
-	//	dimMap := make(map[string]Sphere)
-	//	for _, pair := range test.spherePairs {
-	//		dimMap[string(pair.ID)] = pair.Sphere
-	//	}
-	//	d := &Dimension{Dimension: dimMap}
-	//	err := d.ValidateSpheres()
-	//	if err != nil && err.Error() != test.expectedErr.Error() {
-	//		t.Errorf("for %s, expected error %v, got %v", test.description, test.expectedErr, err)
-	//	}
-	//}
 }
