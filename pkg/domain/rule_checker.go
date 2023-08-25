@@ -199,7 +199,13 @@ func CheckTouch(dim Dimension, colorCounts map[Color]int, mustTouch bool, a Colo
 
 		}
 		if touched != mustTouch { //check if the touched trigger was tripped, compare it to mustTouch
-			err = errors.Join(fmt.Errorf("%s which is %s failed to find a neighbor who is %s", position, currentColor.LongHand(), matchColor.LongHand()))
+			var message string
+			if mustTouch == false {
+				message = "has a neighbor"
+			} else {
+				message = "failed to find a neighbor"
+			}
+			err = errors.Join(fmt.Errorf("%s which is %s %s who is %s", position, currentColor.LongHand(), message, matchColor.LongHand()))
 		}
 	}
 	return err

@@ -146,12 +146,33 @@ func (d *Dimension) ValidateGeometry() error {
 	// Check the configuration of the tropical ring
 	validConfigs := [][]string{
 		{},                                       // No spheres are present
-		{"h"}, {"j"}, {"l"}, {"i"}, {"k"}, {"m"}, // Only one sphere is present
+		{"h"}, {"i"}, {"j"}, {"k"}, {"l"}, {"m"}, // Only one sphere is present
 		{"h", "j", "l"},
 		{"i", "k", "m"},
+
 		{"h", "k"},
+		{"h", "j"},
+		{"h", "l"},
+
+		{"i", "k"},
 		{"i", "l"},
+		{"i", "m"},
+
+		{"j", "l"},
 		{"j", "m"},
+		{"j", "h"}, //duplicate
+
+		{"k", "m"},
+		{"k", "h"}, //duplicate
+		{"k", "i"}, //duplicate
+
+		{"l", "h"}, //duplicate
+		{"l", "i"}, //duplicate
+		{"l", "j"}, //duplicate
+
+		{"m", "i"}, //duplicate
+		{"m", "j"}, //duplicate
+		{"m", "k"}, //duplicate
 	}
 	matchedConfig := false
 	for _, config := range validConfigs {
