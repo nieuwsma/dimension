@@ -9,7 +9,7 @@ import (
 // ... (TestCase struct definition goes here)
 
 func digestDirectory(dir string) ([]TestCase, error) {
-	var users []TestCase
+	var testCases []TestCase
 
 	// List all files in the directory
 	files, err := os.ReadDir(dir)
@@ -36,12 +36,12 @@ func digestDirectory(dir string) ([]TestCase, error) {
 
 			user.FileName = file.Name()
 
-			// Append the user to the users slice
-			users = append(users, user)
+			// Append the user to the testCases slice
+			testCases = append(testCases, user)
 		}
 	}
 
-	return users, nil
+	return testCases, nil
 }
 
 // need to include a filename in the structure so i know where to trace it back to
@@ -58,7 +58,7 @@ type TestCase struct {
 	Name         string            `json:"name"`
 	Bonus        bool              `json:"bonus"`
 	Score        int               `json:"score"`
-	Tasks        []string          `json:"tasks"`
+	Tasks        Tasks             `json:"tasks"`
 	RawDimension map[string]string `json:"dimension"`
 }
 

@@ -14,7 +14,7 @@ type RulesDataFormat struct {
 	Description string
 }
 
-// this is the master deck!
+// this is the master deck! //todo this needs to change because when I run main the relative path import is missing!
 //
 //go:embed rules.json
 var RulesData []byte
@@ -46,17 +46,16 @@ var DefaultTasks Tasks
 //type GameHistory []Game
 
 type PlayerName string
-type RoundNumber int
 
 type Player struct {
 	PlayerName  PlayerName
-	Turns       []Turn
-	Points      int
-	BonusTokens int //TODO bonus payout is: 0 = -6, 1 = -3, 2 = -1, 3 = 0, 4 = 1, 5 = 3, 6 = 6
+	Turns       map[int]Turn
+	ScoreRecord ScoreRecord
 }
 
 type Round struct {
-	Tasks Tasks // here are the rules all players are playing by in the round; it is their constraints!
+	Tasks    Tasks // here are the rules all players are playing by in the round; it is their constraints!
+	Resolved bool
 }
 
 type Turn struct {

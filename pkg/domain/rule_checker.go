@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func ScoreTurn(tasks []string, dim Dimension) (score int, bonus bool, errs error) {
+func ScoreTurn(tasks Tasks, dim Dimension) (score int, bonus bool, errs error) {
 	maxScore := len(dim.Dimension)
 	colorCounts := make(map[Color]int)
 	for _, v := range dim.Dimension {
@@ -31,24 +31,24 @@ func ScoreTurn(tasks []string, dim Dimension) (score int, bonus bool, errs error
 	//special rule, if there is a 2 & 1 quantity task for the same color, add them!
 	var colorQuantity = make(map[string]int)
 	for _, task := range tasks {
-		if strings.Contains(task, "QUANTITY") {
-			parts := strings.Split(task, "-")
+		if strings.Contains(string(task), "QUANTITY") {
+			parts := strings.Split(string(task), "-")
 			count, _ := strconv.Atoi(parts[1])
 			colorQuantity[parts[2]] += count
 		}
 
 	}
 	for color, quantity := range colorQuantity {
-		var newTasks []string
+		var newTasks Tasks
 		if quantity == 3 {
 			find1 := fmt.Sprintf("QUANTITY-1-%s", color)
 			find2 := fmt.Sprintf("QUANTITY-2-%s", color)
 			for _, task := range tasks {
-				if !strings.Contains(task, find1) && !strings.Contains(task, find2) {
+				if !strings.Contains(string(task), find1) && !strings.Contains(string(task), find2) {
 					newTasks = append(newTasks, task)
 				}
 			}
-			newTask := fmt.Sprintf("QUANTITY-3-%s", color)
+			newTask := Task(fmt.Sprintf("QUANTITY-3-%s", color))
 			newTasks = append(newTasks, newTask)
 			tasks = newTasks
 		}
@@ -56,10 +56,10 @@ func ScoreTurn(tasks []string, dim Dimension) (score int, bonus bool, errs error
 
 	for _, task := range tasks {
 
-		parts := strings.Split(task, "-")
+		parts := strings.Split(string(task), "-")
 
 		switch {
-		case strings.Contains(task, "QUANTITY"):
+		case strings.Contains(string(task), "QUANTITY"):
 			//todo need to check for the special case that QUANTITY-1-n and QUANTITY-2-n have been played, if they do then sum is 3
 			quantity, err := strconv.Atoi(parts[1])
 			if err != nil {
@@ -73,21 +73,21 @@ func ScoreTurn(tasks []string, dim Dimension) (score int, bonus bool, errs error
 					score -= 2
 				}
 			}
-		case strings.Contains(task, "BOTTOM"):
+		case strings.Contains(string(task), "BOTTOM"):
 			err := CheckTopBottom(dim, false, NewColorShort(parts[1]), GetGeometry().GetNeighbors())
 			if err != nil {
 				errs = errors.Join(err)
 				score -= 2
 			}
-		case strings.Contains(task, "TOP"):
+		case strings.Contains(string(task), "TOP"):
 			err := CheckTopBottom(dim, true, NewColorShort(parts[1]), GetGeometry().GetNeighbors())
 			if err != nil {
 				errs = errors.Join(err)
 				score -= 2
 			}
-		case strings.Contains(task, "TOUCH"):
+		case strings.Contains(string(task), "TOUCH"):
 			var err error
-			if strings.Contains(task, "NOTOUCH") {
+			if strings.Contains(string(task), "NOTOUCH") {
 				err = CheckTouch(dim, colorCounts, false, NewColorShort(parts[1]), NewColorShort(parts[2]), GetGeometry().GetNeighbors())
 			} else {
 				err = CheckTouch(dim, colorCounts, true, NewColorShort(parts[1]), NewColorShort(parts[2]), GetGeometry().GetNeighbors())
@@ -97,7 +97,7 @@ func ScoreTurn(tasks []string, dim Dimension) (score int, bonus bool, errs error
 				errs = errors.Join(err)
 				score -= 2
 			}
-		case strings.Contains(task, "RATIO"):
+		case strings.Contains(string(task), "RATIO"):
 			quantity, err := strconv.Atoi(parts[1])
 
 			if err != nil {
@@ -114,7 +114,7 @@ func ScoreTurn(tasks []string, dim Dimension) (score int, bonus bool, errs error
 					score -= 2
 				}
 			}
-		case strings.Contains(task, "GT"):
+		case strings.Contains(string(task), "GT"):
 			err := CheckGreaterThan(NewColorShort(parts[1]), NewColorShort(parts[2]), colorCounts)
 			if err != nil {
 				errs = errors.Join(err)
