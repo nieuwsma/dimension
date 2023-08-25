@@ -1,6 +1,7 @@
 package domain
 
 import (
+	"dimension/pkg/rules"
 	"errors"
 	"math/rand"
 )
@@ -35,7 +36,7 @@ func (d *Deck) Deal(size int) (tasks Tasks, err error) {
 }
 
 func newDeck(seed int64) (d Deck) {
-	d.DrawPile = DefaultTasks
+	d.DrawPile = rules.DefaultTasks
 	d.Seed = seed
 	return
 }

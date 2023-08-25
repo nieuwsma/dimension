@@ -6,7 +6,40 @@ import (
 	"time"
 )
 
+//TODO consider adding a game history and tracking players over time! #goldplatting
+//type GameHistory []Game
+
 const RoundLength = 6
+
+type Leaderboard struct {
+	Round  int
+	Scores map[PlayerName]ScoreRecord
+}
+
+type ScoreRecord struct {
+	Points      int
+	BonusTokens int //TODO bonus payout is: 0 = -6, 1 = -3, 2 = -1, 3 = 0, 4 = 1, 5 = 3, 6 = 6
+}
+
+type PlayerName string
+
+type Player struct {
+	PlayerName  PlayerName
+	Turns       map[int]Turn
+	ScoreRecord ScoreRecord
+}
+
+type Round struct {
+	Tasks    Tasks // here are the rules all players are playing by in the round; it is their constraints!
+	Resolved bool
+}
+
+type Turn struct {
+	Dimension      Dimension
+	Score          int
+	Bonus          bool
+	TaskViolations error
+}
 
 type Game struct {
 	Players        map[PlayerName]Player //name of player
@@ -154,14 +187,4 @@ func (g *Game) PlayTurn(playerName PlayerName, dim Dimension) (turn Turn) {
 	g.Players[playerName] = playerRecord
 
 	return
-}
-
-type Leaderboard struct {
-	Round  int
-	Scores map[PlayerName]ScoreRecord
-}
-
-type ScoreRecord struct {
-	Points      int
-	BonusTokens int //TODO bonus payout is: 0 = -6, 1 = -3, 2 = -1, 3 = 0, 4 = 1, 5 = 3, 6 = 6
 }

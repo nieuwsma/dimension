@@ -1,4 +1,4 @@
-package domain
+package geometry
 
 import (
 	_ "embed"

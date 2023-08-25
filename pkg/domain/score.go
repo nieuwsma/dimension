@@ -1,6 +1,7 @@
 package domain
 
 import (
+	"dimension/pkg/geometry"
 	"errors"
 	"fmt"
 	"strconv"
@@ -74,13 +75,13 @@ func ScoreTurn(tasks Tasks, dim Dimension) (score int, bonus bool, errs error) {
 				}
 			}
 		case strings.Contains(string(task), "BOTTOM"):
-			err := CheckTopBottom(dim, false, NewColorShort(parts[1]), GetGeometry().GetNeighbors())
+			err := CheckTopBottom(dim, false, NewColorShort(parts[1]), geometry.GetGeometry().GetNeighbors())
 			if err != nil {
 				errs = errors.Join(err)
 				score -= 2
 			}
 		case strings.Contains(string(task), "TOP"):
-			err := CheckTopBottom(dim, true, NewColorShort(parts[1]), GetGeometry().GetNeighbors())
+			err := CheckTopBottom(dim, true, NewColorShort(parts[1]), geometry.GetGeometry().GetNeighbors())
 			if err != nil {
 				errs = errors.Join(err)
 				score -= 2
@@ -88,9 +89,9 @@ func ScoreTurn(tasks Tasks, dim Dimension) (score int, bonus bool, errs error) {
 		case strings.Contains(string(task), "TOUCH"):
 			var err error
 			if strings.Contains(string(task), "NOTOUCH") {
-				err = CheckTouch(dim, colorCounts, false, NewColorShort(parts[1]), NewColorShort(parts[2]), GetGeometry().GetNeighbors())
+				err = CheckTouch(dim, colorCounts, false, NewColorShort(parts[1]), NewColorShort(parts[2]), geometry.GetGeometry().GetNeighbors())
 			} else {
-				err = CheckTouch(dim, colorCounts, true, NewColorShort(parts[1]), NewColorShort(parts[2]), GetGeometry().GetNeighbors())
+				err = CheckTouch(dim, colorCounts, true, NewColorShort(parts[1]), NewColorShort(parts[2]), geometry.GetGeometry().GetNeighbors())
 			}
 
 			if err != nil {
@@ -166,7 +167,7 @@ func CheckGreaterThan(gt Color, lt Color, colorCounts map[Color]int) (err error)
 
 // the offical rules state that for touch or no-touch that only playing one color is allowed,
 // so only playing one W on a W-W or only playing one W and no K on  a W-K scenario is acceptable
-func CheckTouch(dim Dimension, colorCounts map[Color]int, mustTouch bool, a Color, b Color, neighbors Neighbors) (err error) {
+func CheckTouch(dim Dimension, colorCounts map[Color]int, mustTouch bool, a Color, b Color, neighbors geometry.Neighbors) (err error) {
 
 	if a.Equals(b) && colorCounts[a] <= 1 {
 		return nil
@@ -212,7 +213,7 @@ func CheckTouch(dim Dimension, colorCounts map[Color]int, mustTouch bool, a Colo
 }
 
 // Ensure no sphere of any color may be above & touching color sphere
-func CheckTopBottom(dim Dimension, top bool, a Color, neighbors Neighbors) (err error) {
+func CheckTopBottom(dim Dimension, top bool, a Color, neighbors geometry.Neighbors) (err error) {
 
 	plane := make(map[string]int)
 	plane["a"] = 0
