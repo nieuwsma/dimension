@@ -10,6 +10,7 @@ type Deck struct {
 	DrawPile      Tasks
 	NextTaskIndex int
 	Seed          int64
+	RuleSetName   string
 }
 
 type Tasks []Task
@@ -36,9 +37,14 @@ func (d *Deck) Deal(size int) (tasks Tasks, err error) {
 }
 
 func newDeck(seed int64) (d Deck) {
-	d.DrawPile = rules.DefaultTasks
+
+	defaultRules, ruleSetName := rules.GetRuleSet(rules.Default)
+	d.RuleSetName = ruleSetName
+	for _, r := range defaultRules.Set {
+		d.DrawPile = append(d.DrawPile, Task(r.Name))
+	}
 	d.Seed = seed
-	return
+	return d
 }
 
 func (d *Deck) Shuffle() {

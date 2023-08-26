@@ -20,7 +20,6 @@ func NewDimension(pairs ...SpherePair) (*Dimension, error) {
 	if err == nil {
 		err = dim.ValidateSpheres()
 	}
-
 	return dim, err
 }
 
