@@ -23,8 +23,8 @@ func main() {
 	game.AddPlayer("Andrew")
 	game.AddPlayer("Jessica")
 	game.NextRound()
-	err := game.EndRound(false)
-	print(err)
+	_ = game.EndRound(false)
+	//print(err)
 }
 
 //todo
