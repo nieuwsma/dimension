@@ -2,7 +2,6 @@ package domain
 
 import (
 	_ "embed"
-	"encoding/json"
 	"strings"
 )
 
@@ -41,6 +40,7 @@ func NewColorLong(c string) (color Color) {
 		return Empty
 	}
 }
+
 func (g Color) LongHand() string {
 	switch g {
 	case Green:
@@ -97,10 +97,29 @@ type ColorRecord struct {
 	Code string `json:"code"`
 }
 
-//go:embed colors.json
-var ColorsData []byte
+var colors = Colors{
+	{
+		Name: "GREEN",
+		Code: "G",
+	},
+	{
+		Name: "ORANGE",
+		Code: "O",
+	},
+	{
+		Name: "BLACK",
+		Code: "K",
+	},
+	{
+		Name: "WHITE",
+		Code: "W",
+	},
+	{
+		Name: "BLUE",
+		Code: "B",
+	},
+}
 
-func GetColors() (c Colors) {
-	_ = json.Unmarshal(ColorsData, &c)
-	return
+func GetColors() Colors {
+	return colors
 }
