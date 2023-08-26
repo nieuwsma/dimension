@@ -28,16 +28,16 @@ func digestDirectory(dir string) ([]TestCase, error) {
 			}
 
 			// Unmarshal the content into a TestCase struct
-			var user TestCase
-			err = json.Unmarshal(content, &user)
+			var testCase TestCase
+			err = json.Unmarshal(content, &testCase)
 			if err != nil {
 				return nil, err
 			}
 
-			user.FileName = file.Name()
+			testCase.FileName = file.Name()
 
-			// Append the user to the testCases slice
-			testCases = append(testCases, user)
+			// Append the testCase to the testCases slice
+			testCases = append(testCases, testCase)
 		}
 	}
 

@@ -14,6 +14,7 @@ const RoundLength = 6
 type Leaderboard struct {
 	Round  int
 	Scores map[PlayerName]ScoreRecord
+	Alive  bool //is the game still active?
 }
 
 type ScoreRecord struct {
@@ -43,10 +44,11 @@ type Turn struct {
 
 type Game struct {
 	Players        map[PlayerName]Player //name of player
-	Rounds         []Round               //tracks round ID to a play deck // TODO only 6 rounds are played
+	Rounds         map[int]Round         //tracks round ID to a play deck // TODO only 6 rounds are played
 	Deck           Deck
 	DrawSize       int
 	HourglassLimit time.Duration
+	Alive          bool
 }
 
 func NewGame(drawSize int, hourGlassLimit time.Duration, seed int64) (g *Game) {
@@ -54,10 +56,12 @@ func NewGame(drawSize int, hourGlassLimit time.Duration, seed int64) (g *Game) {
 		DrawSize:       drawSize,
 		HourglassLimit: hourGlassLimit,
 		Players:        make(map[PlayerName]Player),
+		Rounds:         make(map[int]Round),
 	}
 
 	g.Deck = newDeck(seed)
 	g.Deck.Shuffle()
+	g.Alive = true
 	return
 }
 
@@ -96,27 +100,33 @@ func (g *Game) RemovePlayer(name PlayerName) (err error) {
 }
 
 // Used to start the game as well!
-// todo max out at 6 founds
+
 func (g *Game) NextRound() (activeTasks Tasks, err error) {
 
-	if len(g.Rounds) > 0 && !g.Rounds[len(g.Rounds)-1].Resolved {
-		err = fmt.Errorf("current round must be resolved before next round can begin")
-		return
+	if g.Alive {
+		if len(g.Rounds) > 0 && !g.Rounds[len(g.Rounds)-1].Resolved {
+			err = fmt.Errorf("current round must be resolved before next round can begin")
+			return
+		}
+
+		if len(g.Rounds)+1 > RoundLength {
+			g.Alive = false
+			err = fmt.Errorf("the game has ended")
+			return
+		}
+		activeTasks, err = g.Deck.Deal(g.DrawSize)
+		if err != nil {
+			//todo something!
+		}
+		round := Round{
+			Tasks:    activeTasks,
+			Resolved: false,
+		}
+		g.Rounds[len(g.Rounds)] = round //if the length WAS 5 our NEW round goes into [5]; which is now the sixth
+	} else {
+		err = fmt.Errorf("the game has ended")
 	}
 
-	if len(g.Rounds) >= RoundLength {
-		err = fmt.Errorf("this game is over")
-		return
-	}
-	activeTasks, err = g.Deck.Deal(g.DrawSize)
-	if err != nil {
-		//todo something!
-	}
-	round := Round{
-		Tasks:    activeTasks,
-		Resolved: false,
-	}
-	g.Rounds = append(g.Rounds, round)
 	return activeTasks, err
 }
 
@@ -152,7 +162,9 @@ func (g *Game) EndRound(force bool) (err error) {
 
 		}
 		if delinquentPlayers == 0 {
-			g.Rounds[len(g.Rounds)-1].Resolved = true
+			round := g.Rounds[len(g.Rounds)-1]
+			round.Resolved = true
+			g.Rounds[len(g.Rounds)-1] = round
 		}
 	}
 	return
@@ -164,27 +176,49 @@ func (g *Game) GetLeaderboard() (leaderboard Leaderboard) {
 	for _, player := range g.Players {
 		leaderboard.Scores[player.PlayerName] = player.ScoreRecord
 	}
+	leaderboard.Alive = g.Alive
 	return
 }
 
 // todo somehow I need to account for the fact that naughty players might not play a turn each round, which they need to do!
 // need to also account for not being able to start next round without resolving the last round?
-func (g *Game) PlayTurn(playerName PlayerName, dim Dimension) (turn Turn) {
+func (g *Game) PlayTurn(playerName PlayerName, dim Dimension) (turn Turn, err error) {
+	if g.Alive {
+		score, bonus, errors := ScoreTurn(g.Rounds[len(g.Rounds)-1].Tasks, dim)
+		turn = Turn{
+			Dimension:      dim,
+			Score:          score,
+			Bonus:          bonus,
+			TaskViolations: errors,
+		}
+		playerRecord := g.Players[playerName]
+		playerRecord.Turns[len(g.Rounds)] = turn
+		playerRecord.ScoreRecord.Points += score
+		if bonus {
+			playerRecord.ScoreRecord.BonusTokens++
+		}
+		g.Players[playerName] = playerRecord
+	} else {
+		err = fmt.Errorf("the game has ended")
+	}
+	return
+}
 
-	score, bonus, errors := ScoreTurn(g.Rounds[len(g.Rounds)-1].Tasks, dim)
-	turn = Turn{
-		Dimension:      dim,
-		Score:          score,
-		Bonus:          bonus,
-		TaskViolations: errors,
+func (g *Game) EndGame(force bool) (err error) {
+
+	if len(g.Rounds) == RoundLength && g.Rounds[RoundLength-1].Resolved {
+		g.Alive = false
+	} else {
+		g.Alive = true
 	}
-	playerRecord := g.Players[playerName]
-	playerRecord.Turns[len(g.Rounds)] = turn
-	playerRecord.ScoreRecord.Points += score
-	if bonus {
-		playerRecord.ScoreRecord.BonusTokens++
+
+	if force {
+		g.Alive = false
+		for roundID, round := range g.Rounds {
+			round.Resolved = true
+			g.Rounds[roundID] = round
+		}
 	}
-	g.Players[playerName] = playerRecord
 
 	return
 }

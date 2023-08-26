@@ -22,7 +22,15 @@ func main() {
 	game := domain.NewGame(6, 60*time.Second, 1234234)
 	game.AddPlayer("Andrew")
 	game.AddPlayer("Jessica")
-	game.NextRound()
+	tasks, _ := game.NextRound()
+
+	c, r, _ := game.GetCurrentRound()
+	round := game.Rounds[c-1]
+	round.Tasks = nil
+	game.Rounds[c-1] = round
+	if len(r.Tasks) > len(tasks) {
+		print("mismatch")
+	}
 	_ = game.EndRound(false)
 	//print(err)
 }
