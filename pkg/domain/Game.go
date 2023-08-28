@@ -44,7 +44,6 @@ type Turn struct {
 	Score          int
 	Bonus          bool
 	TaskViolations error
-	FileName       string
 }
 
 type Game struct {

@@ -26,7 +26,7 @@ func TestValidateGame(t *testing.T) {
 				newGame.Players[playerName] = player
 
 				if score != turn.Score || bonus != turn.Bonus {
-					printErr := fmt.Sprintf("FAIL: game: %v, round: %v, player: %v, expected score %v expected bonus %v, actual score %v, actual bonus %v. failed tasks %v %v %v", gameID, roundID, playerName, turn.Score, turn.Bonus, score, bonus, err, turn.FileName, turn.Dimension)
+					printErr := fmt.Sprintf("FAIL: game: %v, round: %v, player: %v, expected score %v expected bonus %v, actual score %v, actual bonus %v. failed tasks %v, Dimension:  %v", gameID, roundID, playerName, turn.Score, turn.Bonus, score, bonus, err, turn.Dimension)
 					t.Errorf("failed test case %s", printErr)
 
 				} else {
