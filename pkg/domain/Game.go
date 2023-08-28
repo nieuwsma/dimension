@@ -22,6 +22,10 @@ type ScoreRecord struct {
 	BonusTokens int //TODO bonus payout is: 0 = -6, 1 = -3, 2 = -1, 3 = 0, 4 = 1, 5 = 3, 6 = 6
 }
 
+func (s ScoreRecord) Equals(other ScoreRecord) bool {
+	return s.Points == other.Points && s.BonusTokens == other.BonusTokens
+}
+
 type PlayerName string
 
 type Player struct {
@@ -172,7 +176,7 @@ func (g *Game) EndRound(force bool) (err error) {
 
 func (g *Game) GetLeaderboard() (leaderboard Leaderboard) {
 	leaderboard.Scores = make(map[PlayerName]ScoreRecord)
-	leaderboard.Round = len(g.Rounds) + 1 //rounds actually start at 1, not zero!
+	leaderboard.Round = len(g.Rounds) //rounds actually start at 1, not zero!
 	for _, player := range g.Players {
 		leaderboard.Scores[player.PlayerName] = player.ScoreRecord
 	}
@@ -221,4 +225,46 @@ func (g *Game) EndGame(force bool) (err error) {
 	}
 
 	return
+}
+
+func (g *Game) DeepCopy() *Game {
+	// Copy basic fields
+	newGame := &Game{
+		DrawSize:       g.DrawSize,
+		HourglassLimit: g.HourglassLimit,
+		Alive:          g.Alive,
+		Deck: Deck{
+			NextTaskIndex: g.Deck.NextTaskIndex,
+			Seed:          g.Deck.Seed,
+			RuleSetName:   g.Deck.RuleSetName,
+		},
+	}
+
+	// Copy Players map
+	newGame.Players = make(map[PlayerName]Player)
+	for k, v := range g.Players {
+		newTurns := make(map[int]Turn)
+		for turnKey, turnVal := range v.Turns {
+			newTurns[turnKey] = turnVal
+		}
+
+		newGame.Players[k] = Player{
+			PlayerName:  v.PlayerName,
+			Turns:       newTurns,
+			ScoreRecord: v.ScoreRecord,
+		}
+	}
+
+	// Copy Rounds map
+	newGame.Rounds = make(map[int]Round)
+	for k, v := range g.Rounds {
+		newGame.Rounds[k] = v
+	}
+
+	// Copy Deck.DrawPile (Tasks slice)
+	newTasks := make(Tasks, len(g.Deck.DrawPile))
+	copy(newTasks, g.Deck.DrawPile)
+	newGame.Deck.DrawPile = newTasks
+
+	return newGame
 }

@@ -7,7 +7,7 @@ import (
 
 func TestValidateRuleChecker(t *testing.T) {
 
-	testCases, err := GetTestCases()
+	testCases, err := getTestCases()
 	if err != nil {
 		t.Errorf("Errors %v", err)
 	}
