@@ -1,11 +1,11 @@
 {
   "name": "Jessica",
   "bonus": false,
-  "score": 4,
+  "score": 6,
   "tasks": [
     "QUANTITY-1-W",
     "QUANTITY-2-O",
-    "TOUCH-B-B",
+    "NOTOUCH-B-B",
     "NOTOUCH-G-W",
     "NOTOUCH-G-K",
     "NOTOUCH-O-W"

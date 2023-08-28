@@ -12,6 +12,7 @@ func TestValidateRuleChecker(t *testing.T) {
 		t.Errorf("Errors %v", err)
 	}
 	for _, testCase := range testCases {
+
 		//tasks := Tasks(testCase.Tasks)
 		score, bonus, errs := ScoreTurn(testCase.Tasks, testCase.ToDimension())
 

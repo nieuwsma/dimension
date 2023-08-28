@@ -147,8 +147,9 @@ func getGamesTestCases() (games map[int]Game) {
 			Score:          testCase.Score,
 			Bonus:          testCase.Bonus,
 			TaskViolations: nil,
+			FileName:       info.File,
 		}
-		p.Turns[roundNum-1] = t
+		p.Turns[roundNum] = t
 		p.ScoreRecord.Points += t.Score
 		if t.Bonus {
 			p.ScoreRecord.BonusTokens++
@@ -156,7 +157,7 @@ func getGamesTestCases() (games map[int]Game) {
 		}
 		game.Players[playerName] = p
 
-		game.Rounds[roundNum-1] = r
+		game.Rounds[roundNum] = r
 		game.Alive = false
 
 		games[gameNum] = game

@@ -26,14 +26,13 @@ func TestValidateGame(t *testing.T) {
 				newGame.Players[playerName] = player
 
 				if score != turn.Score || bonus != turn.Bonus {
-					printErr := fmt.Sprintf("FAIL: game: %v, round: %v, player: %v, expected score %v expected bonus %v, actual score %v, actual bonus %v. failed tasks %v", gameID, roundID, playerName, turn.Score, turn.Bonus, score, bonus, err)
+					printErr := fmt.Sprintf("FAIL: game: %v, round: %v, player: %v, expected score %v expected bonus %v, actual score %v, actual bonus %v. failed tasks %v %v %v", gameID, roundID, playerName, turn.Score, turn.Bonus, score, bonus, err, turn.FileName, turn.Dimension)
 					t.Errorf("failed test case %s", printErr)
 
+				} else {
+					fmt.Println(fmt.Sprintf("PASS: game: %v, round: %v, player: %v, expected score %v expected bonus %v, actual score %v, actual bonus %v. failed tasks %v", gameID, roundID, playerName, turn.Score, turn.Bonus, score, bonus, err))
+
 				}
-				//else {
-				//	fmt.Println(fmt.Sprintf("PASS: game: %v, round: %v, player: %v, expected score %v expected bonus %v, actual score %v, actual bonus %v. failed tasks %v", gameID, roundID, playerName, turn.Score, turn.Bonus, score, bonus, err))
-				//
-				//}
 
 				turn.Score = score
 				turn.Bonus = bonus
@@ -55,8 +54,10 @@ func TestValidateGame(t *testing.T) {
 
 		for playerName, player := range newGame.Players {
 			if !player.ScoreRecord.Equals(game.Players[playerName].ScoreRecord) {
-				printErr := fmt.Sprintf("GameID: %v, player: %v, expected final score %v expected final bonus %v, actual final score %v, actual final bonus %v. ", gameID, playerName, player.ScoreRecord.Points, player.ScoreRecord.BonusTokens, game.Players[playerName].ScoreRecord.Points, game.Players[playerName].ScoreRecord.BonusTokens)
+				printErr := fmt.Sprintf("FAIL: GameID: %v, player: %v, expected final score %v expected final bonus %v, actual final score %v, actual final bonus %v. ", gameID, playerName, player.ScoreRecord.Points, player.ScoreRecord.BonusTokens, game.Players[playerName].ScoreRecord.Points, game.Players[playerName].ScoreRecord.BonusTokens)
 				t.Errorf("failed test case %s", printErr)
+			} else {
+				fmt.Println(fmt.Sprintf("PASS: GameID: %v, player: %v, expected final score %v expected final bonus %v, actual final score %v, actual final bonus %v. ", gameID, playerName, player.ScoreRecord.Points, player.ScoreRecord.BonusTokens, game.Players[playerName].ScoreRecord.Points, game.Players[playerName].ScoreRecord.BonusTokens))
 			}
 		}
 	}
