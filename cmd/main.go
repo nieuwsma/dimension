@@ -23,6 +23,7 @@ func main() {
 	game.AddPlayer("Andrew")
 	game.AddPlayer("Jessica")
 	tasks, _ := game.NextRound()
+	game.Deck.Shuffle()
 
 	c, r, _ := game.GetCurrentRound()
 	round := game.Rounds[c-1]
@@ -36,7 +37,7 @@ func main() {
 }
 
 //todo
-// need to randomly draw a hand from the deck & track it
-// need to create players
-// need to track rounds (has a hand & players' dimensions)
-// need to track game (has a draw deck, discard deck, players w/ scores)
+//need to create an expose an API;
+//probably need to create a VERY VERY VERY dumb AI; like only obeys the quantity; places it whereever (that way I can generate some more test data)
+//need to think about creating a CLI to interact with it? can it remember game session identifier? etc?
+//I think player and game needs tokens to protect them from unlawful submissions
