@@ -5,9 +5,7 @@ info:
   description: The Dimension Game API allows users to create and manage games, initiate rounds, and monitor game progress including player statuses and scores.
   license:
     name: Copyright
-externalDocs:
-  description: Find out more about Swagger
-  url: http://swagger.io
+
 servers:
   - url: https://localhost:8080/
 tags:
@@ -22,7 +20,7 @@ tags:
   - name: Training
     description: Everything about training
 paths:
-  /game:
+  /games:
     post:
       tags:
         - Game Management
@@ -35,9 +33,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Game'
+                $ref: '#/components/schemas/games'
 
-  /game/{gameId}/rounds:
+  /games/{gameId}/rounds:
     post:
       tags:
         - Rounds
@@ -78,7 +76,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/RoundSummary'
 
-  /game/{gameId}/players/{playerId}:
+  /games/{gameId}/players/{playerId}:
     delete:
       tags:
         - Game Management
@@ -109,7 +107,7 @@ paths:
         '404':
           description: Player or game not found
 
-  /game/{gameId}/rounds/{roundId}:
+  /games/{gameId}/rounds/{roundId}:
     get:
       tags:
         - Rounds
@@ -165,7 +163,7 @@ paths:
         '404':
           description: Game or round not found
 
-  /game/{gameId}/rounds/{roundId}/turns/{playerId}:
+  /games/{gameId}/rounds/{roundId}/turns/{playerId}:
     post:
       tags:
         - Players
@@ -196,7 +194,7 @@ paths:
         '201':
           description: Turn successfully taken
 
-  /game/{gameId}:
+  /games/{gameId}:
     get:
       tags:
         - Game Management
@@ -215,7 +213,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GameDetails'
+                $ref: '#/components/schemas/gamesDetails'
         '400':
           description: Bad request
         '404':
@@ -246,7 +244,7 @@ paths:
         '404':
           description: Game not found
 
-  /game/{gameId}/players:
+  /games/{gameId}/players:
     post:
       tags:
         - Players
