@@ -12,6 +12,7 @@ func CreateGame(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{
 		"message": "Game created",
 	})
+
 }
 
 func DeleteGame(c *gin.Context) {
