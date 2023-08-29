@@ -30,10 +30,15 @@ paths:
       responses:
         '201':
           description: Game successfully created
+          headers:
+            x-admin-token:
+              description: The authentication token.
+              schema:
+                type: string
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/games'
+                $ref: '#/components/schemas/Game'
 
   /games/{gameId}/rounds:
     post:
@@ -103,9 +108,17 @@ paths:
         '204':
           description: Player successfully removed
         '400':
-          description: Bad request
+          description: Bad Request
+          content:
+            application/error:
+              schema:
+                $ref: '#/components/schemas/Problem7807'
         '404':
-          description: Player or game not found
+          description: Resource not found
+          content:
+            application/error:
+              schema:
+                $ref: '#/components/schemas/Problem7807'
 
   /games/{gameId}/rounds/{roundId}:
     get:
@@ -131,9 +144,17 @@ paths:
               schema:
                 $ref: '#/components/schemas/RoundStatus'
         '400':
-          description: Bad request
+          description: Bad Request
+          content:
+            application/error:
+              schema:
+                $ref: '#/components/schemas/Problem7807'
         '404':
-          description: Round not found
+          description: Resource not found
+          content:
+            application/error:
+              schema:
+                $ref: '#/components/schemas/Problem7807'
     patch:
       tags:
         - Rounds
@@ -159,9 +180,17 @@ paths:
         '200':
           description: Round forcefully completed
         '400':
-          description: Bad request
+          description: Bad Request
+          content:
+            application/error:
+              schema:
+                $ref: '#/components/schemas/Problem7807'
         '404':
-          description: Game or round not found
+          description: Resource not found
+          content:
+            application/error:
+              schema:
+                $ref: '#/components/schemas/Problem7807'
 
   /games/{gameId}/rounds/{roundId}/turns/{playerId}:
     post:
@@ -213,11 +242,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/gamesDetails'
+                $ref: '#/components/schemas/GameDetails'
         '400':
-          description: Bad request
+          description: Bad Request
+          content:
+            application/error:
+              schema:
+                $ref: '#/components/schemas/Problem7807'
         '404':
-          description: Game not found
+          description: Resource not found
+          content:
+            application/error:
+              schema:
+                $ref: '#/components/schemas/Problem7807'
     delete:
       tags:
         - Game Management
@@ -240,9 +277,17 @@ paths:
         '204':
           description: Game successfully deleted
         '400':
-          description: Bad request
+          description: Bad Request
+          content:
+            application/error:
+              schema:
+                $ref: '#/components/schemas/Problem7807'
         '404':
-          description: Game not found
+          description: Resource not found
+          content:
+            application/error:
+              schema:
+                $ref: '#/components/schemas/Problem7807'
 
   /games/{gameId}/players:
     post:
@@ -258,6 +303,11 @@ paths:
       responses:
         '201':
           description: Player added successfully
+          headers:
+            x-admin-token:
+              description: The authentication token.
+              schema:
+                type: string
           content:
             application/json:
               schema:
@@ -491,9 +541,6 @@ components:
         playerId:
           type: string
           description: Unique ID for the player
-        authToken:
-          type: string
-          description: Authorization token for the player
 
     RoundCreated:
       type: object
@@ -555,7 +602,6 @@ components:
             $ref: '#/components/schemas/Color'
       required:
         - Rules
-        -
     GeometryItem:
       type: object
       properties:
@@ -604,3 +650,27 @@ components:
       required:
         - Name
         - Code
+    Problem7807:
+      description: >-
+        RFC 7807 compliant error payload. All fields are optional except the
+        'type' field.
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          example: 'about:blank'
+        detail:
+          type: string
+          example: Detail about this specific problem occurrence. See RFC7807
+        instance:
+          type: string
+          example: ''
+        statusCode:
+          type: number
+          format: integer
+          example: 400
+        title:
+          type: string
+          example: 'Description of HTTP Status code, e.g. 400'

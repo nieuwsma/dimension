@@ -6,12 +6,6 @@ import (
 	"time"
 )
 
-//TODO consider adding a game history and tracking players over time! #goldplatting
-//type GameHistory []Game
-//
-//var GamesMap = make(map[string]Game)
-//var TrainingMap = make(map[string]TrainingSession)
-
 const RoundLength = 6
 
 type Leaderboard struct {
