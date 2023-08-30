@@ -101,11 +101,6 @@ type GeometryItem struct {
 	Neighbors        []string `json:"neighbors"`
 }
 
-// GeometryResponse represents a response for geometry
-type GeometryResponse struct {
-	Geometry []GeometryItem `json:"Geometry"`
-}
-
 // Color represents a color
 type Color struct {
 	Name string `json:"Name"`
