@@ -41,7 +41,7 @@ func AddPlayerToGame(c *gin.Context) {
 
 // Rounds Routes
 
-func StartNewRound(c *gin.Context) {
+func ForceStartNewRound(c *gin.Context) {
 	// Logic to start a new round
 	c.JSON(http.StatusCreated, gin.H{
 		"message": "Round started",
@@ -109,7 +109,7 @@ func RetrieveTrainingStatus(c *gin.Context) {
 		"message": "Training status",
 	})
 
-	//trainingSession := middleware.TrainingMap["asdf"]
+	//trainingSession := storage.TrainingMap["asdf"]
 }
 
 func RegenerateTrainingSession(c *gin.Context) {

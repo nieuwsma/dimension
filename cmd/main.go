@@ -4,6 +4,7 @@ import (
 	"context"
 	"dimension/internal/api"
 	"dimension/internal/logger"
+	"dimension/internal/session"
 	"github.com/namsral/flag"
 	"net/http"
 	"os"
@@ -45,6 +46,10 @@ func main() {
 	///////////////////////////////
 	//CONFIGURATION
 	//////////////////////////////
+
+	//todo validate this logic
+	tokenProvider := session.NewInMemorySessionStore()
+	api.TokenProvider = tokenProvider
 
 	///////////////////////////////
 	//SIGNAL HANDLING

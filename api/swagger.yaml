@@ -32,7 +32,7 @@ paths:
           description: Game successfully created
           headers:
             x-admin-token:
-              description: The authentication token.
+              description: The authentication session.
               schema:
                 type: string
           content:
@@ -270,7 +270,7 @@ paths:
         - in: header
           name: X-Admin-Token
           required: true
-          description: Admin token to authorize deletion
+          description: Admin session to authorize deletion
           schema:
             type: string
       responses:
@@ -305,7 +305,7 @@ paths:
           description: Player added successfully
           headers:
             x-admin-token:
-              description: The authentication token.
+              description: The authentication session.
               schema:
                 type: string
           content:
