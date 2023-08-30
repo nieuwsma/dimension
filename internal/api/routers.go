@@ -33,6 +33,7 @@ func NewRouter() *gin.Engine {
 	router.POST("/training", StartTrainingSession)
 	router.PATCH("/training/:trainID", PlayTrainingSession)
 	router.GET("/training/:trainID", RetrieveTrainingStatus)
+	router.POST("/training/:trainID/regnerate", RegenerateTrainingSession)
 
 	return router
 }

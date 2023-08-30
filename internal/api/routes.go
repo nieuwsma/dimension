@@ -108,6 +108,15 @@ func RetrieveTrainingStatus(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Training status",
 	})
+
+	//trainingSession := middleware.TrainingMap["asdf"]
+}
+
+func RegenerateTrainingSession(c *gin.Context) {
+	// Logic to retrieve training status
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Training status",
+	})
 }
 
 // main function and the NewRouter() will be added here
