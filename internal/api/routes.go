@@ -85,6 +85,12 @@ func GetGameRules(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Game rules",
 	})
+
+	//r := RulesResponse{
+	//	Tasks:      nil,
+	//	Geometries: nil,
+	//	Colors:     logic.GetColors(),
+	//}
 }
 
 // Training Routes
