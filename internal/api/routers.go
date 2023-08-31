@@ -46,5 +46,5 @@ func NewRouter() *gin.Engine {
 }
 
 func Index(c *gin.Context) {
-	fmt.Fprint(c.Writer, "Hello World!")
+	fmt.Fprint(c.Writer, "Welcome to Dimension")
 }

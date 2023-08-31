@@ -444,6 +444,30 @@ paths:
                     format: date-time
 
 
+  /training/{trainID}/regenerate:
+    post:
+      tags:
+        - Training
+      summary: regenerate the training session
+      operationId: regenerateTrainingSession
+      parameters:
+        - name: trainID
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        202:
+          description: accepted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tasks:
+                    type: array
+                    items:
+                      type: string
 
 components:
   schemas:
