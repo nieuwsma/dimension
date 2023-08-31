@@ -4,7 +4,9 @@ import (
 	"context"
 	"dimension/internal/api"
 	"dimension/internal/logger"
+	"dimension/internal/middleware"
 	"dimension/internal/session"
+	"dimension/internal/storage"
 	"github.com/namsral/flag"
 	"net/http"
 	"os"
@@ -51,6 +53,10 @@ func main() {
 	tokenProvider := session.NewInMemorySessionStore()
 	api.TokenProvider = tokenProvider
 
+	var gameProvider storage.GameProvider
+	gameProvider = storage.NewMemGame()
+
+	middleware.GameProvider = gameProvider
 	///////////////////////////////
 	//SIGNAL HANDLING
 	//////////////////////////////

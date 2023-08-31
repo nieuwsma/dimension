@@ -40,7 +40,7 @@ func NewRouter() *gin.Engine {
 
 	// Training Routes
 	router.PATCH("/training/:trainID", AuthMiddleware("trainID"), PlayTrainingSession)
-	router.POST("/training/:trainID/regnerate", AuthMiddleware("trainID"), RegenerateTrainingSession)
+	router.POST("/training/:trainID/regenerate", AuthMiddleware("trainID"), RegenerateTrainingSession)
 
 	return router
 }

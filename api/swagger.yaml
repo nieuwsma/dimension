@@ -40,7 +40,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Game'
 
-  /games/{gameId}/rounds:
+  /games/{gameID}/rounds:
     post:
       tags:
         - Rounds
@@ -81,7 +81,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/RoundSummary'
 
-  /games/{gameId}/players/{playerId}:
+  /games/{gameID}/players/{playerID}:
     delete:
       tags:
         - Game Management
@@ -120,7 +120,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Problem7807'
 
-  /games/{gameId}/rounds/{roundId}:
+  /games/{gameID}/rounds/{roundID}:
     get:
       tags:
         - Rounds
@@ -192,7 +192,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Problem7807'
 
-  /games/{gameId}/rounds/{roundId}/turns/{playerId}:
+  /games/{gameID}/rounds/{roundID}/turns/{playerID}:
     post:
       tags:
         - Players
@@ -223,7 +223,7 @@ paths:
         '201':
           description: Turn successfully taken
 
-  /games/{gameId}:
+  /games/{gameID}:
     get:
       tags:
         - Game Management
@@ -289,7 +289,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Problem7807'
 
-  /games/{gameId}/players:
+  /games/{gameID}/players:
     post:
       tags:
         - Players
@@ -405,6 +405,10 @@ paths:
       responses:
         202:
           description: accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingSession'
 
     get:
       tags:
@@ -698,3 +702,23 @@ components:
         title:
           type: string
           example: 'Description of HTTP Status code, e.g. 400'
+    TrainingSession:
+      type: object
+      properties:
+        score:
+          type: number
+        bonusPoints:
+          type: boolean
+        submittedDimension:
+          $ref: '#/components/schemas/Dimension'
+        tasks:
+          type: array
+          items:
+            type: string
+        taskViolations:
+          type: array
+          items:
+            type: string
+        expirationTime:
+          type: string
+          format: date-time

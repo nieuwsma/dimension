@@ -1,5 +1,11 @@
 package api
 
+import (
+	"dimension/pkg/logic"
+	"errors"
+	"time"
+)
+
 // Game represents a game object
 type Game struct {
 	GameID string `json:"gameId"`
@@ -105,4 +111,52 @@ type GeometryItem struct {
 type Color struct {
 	Name string `json:"Name"`
 	Code string `json:"Code"`
+}
+
+type PostTrainingSessionRequest struct {
+	types []string `json:"taskTypes"`
+}
+
+type PostTrainingSessionResponse struct {
+	TrainID string      `json:"trainID"`
+	Tasks   logic.Tasks `json:"tasks"`
+}
+
+type PostRegenerateTrainingSessionResponse struct {
+	Tasks logic.Tasks `json:"tasks"`
+}
+
+type GetTrainingSessionResponse struct {
+	Score              int             `json:"score"`
+	BonusPoints        bool            `json:"bonusPoints"`
+	SubmittedDimension logic.Dimension `json:"submittedDimension"`
+	Tasks              logic.Tasks     `json:"tasks"`
+	TaskViolations     []string        `json:"taskViolations"`
+	ExpirationTime     CustomTime      `json:"expirationTime"`
+}
+
+type CustomTime struct {
+	time.Time
+}
+
+const ctLayout = "2006-01-02T15:04:05.999Z"
+
+func (ct *CustomTime) UnmarshalJSON(b []byte) (err error) {
+	s := string(b)
+	s = s[1 : len(s)-1] // Strip quotes
+	ct.Time, err = time.Parse(ctLayout, s)
+	return
+}
+
+func (ct *CustomTime) MarshalJSON() ([]byte, error) {
+	return []byte(`"` + ct.Time.Format(ctLayout) + `"`), nil
+}
+
+func Unwrap(err error) (errs []string) {
+	for err != nil {
+		errs = append(errs, err.Error())
+		err = errors.Unwrap(err)
+	}
+	return
+
 }
