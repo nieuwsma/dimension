@@ -149,7 +149,7 @@ func PlayTrainingSession(c *gin.Context) {
 		return
 	}
 
-	var parameters logic.Dimension
+	var parameters Dimension
 
 	if err := c.ShouldBindJSON(&parameters); err != nil {
 		pb = BuildErrorPassback(http.StatusBadRequest, err)
@@ -157,8 +157,9 @@ func PlayTrainingSession(c *gin.Context) {
 		WriteHeaders(c, pb)
 		return
 	}
+	dimension, _ := parameters.ToLogicDimension()
 
-	trainingSession, err := middleware.PlayTrainingSession(trainID, parameters)
+	trainingSession, err := middleware.PlayTrainingSession(trainID, *dimension)
 
 	if err != nil {
 		err := errors.New("invalid request trainID not found")
@@ -171,7 +172,7 @@ func PlayTrainingSession(c *gin.Context) {
 	response := &GetTrainingSessionResponse{
 		Score:              trainingSession.Turn.Score,
 		BonusPoints:        trainingSession.Turn.Bonus,
-		SubmittedDimension: trainingSession.Turn.Dimension,
+		SubmittedDimension: NewDimensionResponse(trainingSession.Turn.Dimension),
 		Tasks:              trainingSession.Tasks,
 		TaskViolations:     Unwrap(trainingSession.Turn.TaskViolations),
 		ExpirationTime:     CustomTime{trainingSession.ExpirationTime},
@@ -206,7 +207,7 @@ func RetrieveTrainingStatus(c *gin.Context) {
 	ts := &GetTrainingSessionResponse{
 		Score:              trainingSession.Turn.Score,
 		BonusPoints:        trainingSession.Turn.Bonus,
-		SubmittedDimension: trainingSession.Turn.Dimension,
+		SubmittedDimension: NewDimensionResponse(trainingSession.Turn.Dimension),
 		Tasks:              trainingSession.Tasks,
 		TaskViolations:     Unwrap(trainingSession.Turn.TaskViolations),
 		ExpirationTime:     CustomTime{trainingSession.ExpirationTime},

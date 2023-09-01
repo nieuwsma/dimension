@@ -84,6 +84,10 @@ type Dimension struct {
 	N string `json:"n"`
 }
 
+type DimensionResponse struct {
+	Dimension map[string]string
+}
+
 // Task represents a task
 type Task struct {
 	Name        string `json:"Name"`
@@ -127,12 +131,12 @@ type PostRegenerateTrainingSessionResponse struct {
 }
 
 type GetTrainingSessionResponse struct {
-	Score              int             `json:"score"`
-	BonusPoints        bool            `json:"bonusPoints"`
-	SubmittedDimension logic.Dimension `json:"submittedDimension"`
-	Tasks              logic.Tasks     `json:"tasks"`
-	TaskViolations     []string        `json:"taskViolations"`
-	ExpirationTime     CustomTime      `json:"expirationTime"`
+	Score              int               `json:"score"`
+	BonusPoints        bool              `json:"bonusPoints"`
+	SubmittedDimension DimensionResponse `json:"submittedDimension"`
+	Tasks              logic.Tasks       `json:"tasks"`
+	TaskViolations     []string          `json:"taskViolations"`
+	ExpirationTime     CustomTime        `json:"expirationTime"`
 }
 
 type CustomTime struct {
@@ -159,4 +163,52 @@ func Unwrap(err error) (errs []string) {
 	}
 	return
 
+}
+
+func NewDimensionResponse(dimension logic.Dimension) (ndr DimensionResponse) {
+	ndr.Dimension = make(map[string]string)
+
+	for k, v := range dimension.Dimension {
+		ndr.Dimension[k] = v.Color.String()
+	}
+	return
+}
+
+func (reqDim *Dimension) ToLogicDimension() (dimension *logic.Dimension, err error) {
+	var pairs []logic.SpherePair
+
+	// Helper function to generate SpherePair from SphereID and Color string
+	addSpherePair := func(id logic.SphereID, colorStr string) {
+		// If colorStr is empty, skip creating SpherePair
+		if colorStr == "" {
+			return
+		}
+
+		color := logic.NewColorShort(colorStr)
+		pairs = append(pairs, *logic.NewSpherePair(id, color))
+	}
+
+	// Convert each field from REQUESTDimension
+	addSpherePair("a", reqDim.A)
+	addSpherePair("b", reqDim.B)
+	addSpherePair("c", reqDim.C)
+	addSpherePair("d", reqDim.D)
+	addSpherePair("e", reqDim.E)
+	addSpherePair("f", reqDim.F)
+	addSpherePair("g", reqDim.G)
+	addSpherePair("h", reqDim.H)
+	addSpherePair("i", reqDim.I)
+	addSpherePair("j", reqDim.J)
+	addSpherePair("k", reqDim.K)
+	addSpherePair("l", reqDim.L)
+	addSpherePair("m", reqDim.M)
+	addSpherePair("n", reqDim.N)
+
+	// Create the dimension from SpherePairs
+	dimension, err = logic.NewDimension(pairs...)
+	if err != nil {
+		return nil, errors.New("failed to create dimension: " + err.Error())
+	}
+
+	return dimension, nil
 }

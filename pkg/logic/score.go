@@ -136,6 +136,10 @@ func ScoreTurn(tasks Tasks, dim Dimension) (score int, bonus bool, errs error) {
 		bonus = true
 
 	}
+
+	if score < 0 {
+		score = 0
+	}
 	return score, bonus, errs
 }
 

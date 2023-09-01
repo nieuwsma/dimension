@@ -3,11 +3,11 @@ package logic
 import "time"
 
 type TrainingSession struct {
-	Turn  Turn
-	Tasks Tasks
-	Deck  Deck
-
-	DrawSize       int
+	Turn     Turn
+	Tasks    Tasks
+	Deck     Deck
+	DrawSize int
+	//todo need to implement the ability to delete old expired training sessions
 	ExpirationTime time.Time
 }
 
