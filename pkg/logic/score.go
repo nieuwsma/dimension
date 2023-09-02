@@ -97,7 +97,7 @@ func ScoreTurn(tasks Tasks, dim Dimension) (score int, bonus bool, taskViolation
 				taskViolations = append(taskViolations, fmt.Sprintf(err.Error()))
 				score -= 2
 			}
-		case strings.Contains(string(task), "RATIO"):
+		case strings.Contains(string(task), "SUM"):
 			quantity, err := strconv.Atoi(parts[1])
 
 			if err != nil {
