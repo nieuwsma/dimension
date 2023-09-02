@@ -55,6 +55,12 @@ func (b *MemGame) DeleteGame(gameID string) (err error) {
 	return
 }
 
+func (b *MemGame) GetTrainingSessions() (map[string]logic.TrainingSession, error) {
+	b.mutex.Lock()
+	defer b.mutex.Unlock()
+	return b.TrainingMap, nil
+}
+
 func (b *MemGame) GetTrainingSession(trainID string) (ts logic.TrainingSession, err error) {
 	b.mutex.Lock()
 	defer b.mutex.Unlock()

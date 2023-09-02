@@ -31,14 +31,14 @@ func StartTrainingSession(ommitedTypes logic.Tasks) (trainID string, tasks logic
 	return
 }
 
-func PlayTrainingSession(trainID string, dimension logic.Dimension) (trainingSession logic.TrainingSession, err error) {
+func PlayTrainingSession(trainID string, playerName string, dimension logic.Dimension) (trainingSession logic.TrainingSession, err error) {
 	// Logic to play the training session
 	trainingSession, err = GameProvider.GetTrainingSession(trainID)
 	if err != nil {
 		return
 	}
 
-	trainingSession.PlayTurn(dimension)
+	trainingSession.PlayTurn(logic.PlayerName(playerName), dimension)
 
 	err = GameProvider.StoreTrainingSession(trainID, trainingSession)
 
@@ -59,7 +59,7 @@ func RegenerateTrainingSession(trainID string) (tasks logic.Tasks, err error) {
 		return
 	}
 
-	trainingSession.NextRound()
+	trainingSession.Regenerate()
 
 	err = GameProvider.StoreTrainingSession(trainID, trainingSession)
 	if err != nil {
@@ -67,5 +67,10 @@ func RegenerateTrainingSession(trainID string) (tasks logic.Tasks, err error) {
 	}
 
 	tasks = trainingSession.Tasks
+	return
+}
+
+func RetrieveTrainingSessions() (trainingSessions map[string]logic.TrainingSession, err error) {
+	trainingSessions, _ = GameProvider.GetTrainingSessions()
 	return
 }

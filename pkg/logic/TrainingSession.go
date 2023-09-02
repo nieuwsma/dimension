@@ -3,7 +3,7 @@ package logic
 import "time"
 
 type TrainingSession struct {
-	Turn     Turn
+	Turns    map[PlayerName]Turn
 	Tasks    Tasks
 	Deck     Deck
 	DrawSize int
@@ -14,7 +14,9 @@ type TrainingSession struct {
 func NewTrainingSession(drawSize int, seed int64) (t *TrainingSession) {
 	t = &TrainingSession{
 		DrawSize: drawSize,
+		Turns:    make(map[PlayerName]Turn),
 	}
+
 	t.Deck = newDeck(seed)
 	t.Deck.Shuffle()
 	t.Tasks, _ = t.Deck.Deal(t.DrawSize)
@@ -22,9 +24,10 @@ func NewTrainingSession(drawSize int, seed int64) (t *TrainingSession) {
 	return
 }
 
-func (g *TrainingSession) PlayTurn(dim Dimension) {
+func (g *TrainingSession) PlayTurn(playerName PlayerName, dim Dimension) {
 	score, bonus, errors := ScoreTurn(g.Tasks, dim)
-	g.Turn = Turn{
+	g.Turns[playerName] = Turn{
+		PlayerName:     playerName,
 		Dimension:      dim,
 		Score:          score,
 		Bonus:          bonus,
@@ -35,8 +38,8 @@ func (g *TrainingSession) PlayTurn(dim Dimension) {
 	return
 }
 
-func (g *TrainingSession) NextRound() {
+func (g *TrainingSession) Regenerate() {
 	g.Tasks, _ = g.Deck.Deal(g.DrawSize)
-	g.Turn = Turn{}
+	g.Turns = make(map[PlayerName]Turn)
 	return
 }

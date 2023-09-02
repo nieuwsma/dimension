@@ -37,6 +37,7 @@ type Round struct {
 }
 
 type Turn struct {
+	PlayerName     PlayerName
 	Dimension      Dimension
 	Score          int
 	Bonus          bool

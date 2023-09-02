@@ -70,13 +70,28 @@ type PostRegenerateTrainingSessionResponse struct {
 	Tasks logic.Tasks `json:"tasks"`
 }
 
-type GetTrainingSessionResponse struct {
-	Score              int               `json:"score"`
-	BonusPoints        bool              `json:"bonusPoints"`
-	SubmittedDimension DimensionResponse `json:"submittedDimension"`
-	Tasks              logic.Tasks       `json:"tasks"`
-	TaskViolations     []string          `json:"taskViolations"`
-	ExpirationTime     CustomTime        `json:"expirationTime"`
+type GetTrainingSessionsResponse struct {
+	TrainingSessionTurn []TrainingSessionTurn `json:"turn"`
+	Tasks               logic.Tasks           `json:"tasks"`
+	ExpirationTime      CustomTime            `json:"expirationTime"`
+}
+
+type PutTrainingSessionTurnResponse struct {
+	TrainingSessionTurn TrainingSessionTurn `json:"turn"`
+	Tasks               logic.Tasks         `json:"tasks"`
+	ExpirationTime      CustomTime          `json:"expirationTime"`
+}
+
+type TrainingSessionTurn struct {
+	PlayerName     string            `json:"playerName""`
+	Score          int               `json:"score"`
+	BonusPoints    bool              `json:"bonusPoints"`
+	Dimension      map[string]string `json:"dimension"`
+	TaskViolations []string          `json:"taskViolations"`
+}
+
+type GetTrainingSessionID struct {
+	TrainingSessionID []string `json:"trainingSessions"`
 }
 
 type CustomTime struct {
