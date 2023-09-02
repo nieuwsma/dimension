@@ -1,4 +1,4 @@
-package api
+package presentation
 
 type APIPayload struct {
 	StatusCode int

@@ -7,7 +7,7 @@ info:
     name: Copyright
 
 servers:
-  - url: http://localhost:8080/
+  - url: https://localhost:8080/
 tags:
   - name: Rules
     description: Rules of the game
@@ -32,7 +32,7 @@ paths:
         
         NOTOUCH-C1-C2: Indicates that every sphere of color Y must not touch another sphere of color Z.
         
-        SUM-N-C1-C2: Indicates that the sum of the spheres of colors C1 and C2 must be exactly N.
+        RATIO-N-C1-C2: Indicates that the sum of the spheres of colors C1 and C2 must be exactly N.
         
         GT-C1-C2: Indicates that the count of spheres of color C1 should be greater than the count of spheres of color C2.
       responses:
@@ -67,7 +67,7 @@ paths:
                       - TOP-C
                       - TOUCH-C1-C2
                       - NOTOUCH-C1-C2
-                      - SUM-N-C1-C2
+                      - RATIO-N-C1-C2
                       - GT-C1-C2
       responses:
         201:
@@ -382,6 +382,9 @@ components:
         Code:
           type: string
           description: A unique code representing the color.
+        Quantity:
+          type: number
+          description: Count of availble colors for each player.
       required:
         - Name
         - Code

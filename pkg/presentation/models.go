@@ -1,4 +1,4 @@
-package api
+package presentation
 
 import (
 	"errors"
@@ -6,80 +6,11 @@ import (
 	"time"
 )
 
-// Dimension represents dimension properties
-type Dimension struct {
-	A string `json:"a"`
-	B string `json:"b"`
-	C string `json:"c"`
-	D string `json:"d"`
-	E string `json:"e"`
-	F string `json:"f"`
-	G string `json:"g"`
-	H string `json:"h"`
-	I string `json:"i"`
-	J string `json:"j"`
-	K string `json:"k"`
-	L string `json:"l"`
-	M string `json:"m"`
-	N string `json:"n"`
-}
-
-type DimensionResponse struct {
-	Dimension map[string]string
-}
-
 // Task represents a task
 type Task struct {
 	Name        string `json:"Name"`
 	Quantity    int    `json:"Quantity"`
 	Description string `json:"Description"`
-}
-
-// RulesResponse represents a response for game rules
-type RulesResponse struct {
-	Tasks      []Task         `json:"Tasks"`
-	Geometries []GeometryItem `json:"Geometries"`
-	Colors     []Color        `json:"Colors"`
-}
-
-// GeometryItem represents a geometry item
-type GeometryItem struct {
-	PolarAngle       int      `json:"polarAngle"`
-	InclinationAngle int      `json:"inclinationAngle"`
-	RadialDistance   int      `json:"radialDistance"`
-	ID               string   `json:"id"`
-	Neighbors        []string `json:"neighbors"`
-}
-
-// Color represents a color
-type Color struct {
-	Name string `json:"Name"`
-	Code string `json:"Code"`
-}
-
-type PostTrainingSessionRequest struct {
-	types []string `json:"taskTypes"`
-}
-
-type PostTrainingSessionResponse struct {
-	TrainID string      `json:"trainID"`
-	Tasks   logic.Tasks `json:"tasks"`
-}
-
-type PostRegenerateTrainingSessionResponse struct {
-	Tasks logic.Tasks `json:"tasks"`
-}
-
-type GetTrainingSessionsResponse struct {
-	TrainingSessionTurn []TrainingSessionTurn `json:"turn"`
-	Tasks               logic.Tasks           `json:"tasks"`
-	ExpirationTime      CustomTime            `json:"expirationTime"`
-}
-
-type PutTrainingSessionTurnResponse struct {
-	TrainingSessionTurn TrainingSessionTurn `json:"turn"`
-	Tasks               logic.Tasks         `json:"tasks"`
-	ExpirationTime      CustomTime          `json:"expirationTime"`
 }
 
 type TrainingSessionTurn struct {
@@ -120,16 +51,16 @@ func Unwrap(err error) (errs []string) {
 
 }
 
-func NewDimensionResponse(dimension logic.Dimension) (ndr DimensionResponse) {
-	ndr.Dimension = make(map[string]string)
+func NewDimensionResponse(dimension logic.Dimension) (response map[string]string) {
+	response = make(map[string]string)
 
 	for k, v := range dimension.Dimension {
-		ndr.Dimension[k] = v.Color.String()
+		response[k] = v.Color.String()
 	}
 	return
 }
 
-func (reqDim *Dimension) ToLogicDimension() (dimension *logic.Dimension, err error) {
+func (reqDim *PostTrainingSessionTurnRequest) ToLogicDimension() (dimension *logic.Dimension, err error) {
 	var pairs []logic.SpherePair
 
 	// Helper function to generate SpherePair from SphereID and Color string

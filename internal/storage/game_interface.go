@@ -4,8 +4,6 @@ import (
 	"github.com/nieuwsma/dimension/pkg/logic"
 )
 
-//TODO consider adding a game history and tracking players over time! #goldplatting
-
 type GameProvider interface {
 	GetGames() (games map[string]logic.Game, err error)
 	GetGame(gameID string) (game logic.Game, err error)

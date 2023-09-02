@@ -93,30 +93,36 @@ func (s Color) Equals(other Color) bool {
 type Colors []ColorRecord
 
 type ColorRecord struct {
-	Name string `json:"name"`
-	Code string `json:"code"`
+	Name     string `json:"name"`
+	Code     string `json:"code"`
+	Quantity int    `json:"quantity"`
 }
 
 var colors = Colors{
 	{
-		Name: "GREEN",
-		Code: "G",
+		Name:     "GREEN",
+		Code:     "G",
+		Quantity: 3,
 	},
 	{
-		Name: "ORANGE",
-		Code: "O",
+		Name:     "ORANGE",
+		Code:     "O",
+		Quantity: 3,
 	},
 	{
-		Name: "BLACK",
-		Code: "K",
+		Name:     "BLACK",
+		Code:     "K",
+		Quantity: 3,
 	},
 	{
-		Name: "WHITE",
-		Code: "W",
+		Name:     "WHITE",
+		Code:     "W",
+		Quantity: 3,
 	},
 	{
-		Name: "BLUE",
-		Code: "B",
+		Name:     "BLUE",
+		Code:     "B",
+		Quantity: 3,
 	},
 }
 

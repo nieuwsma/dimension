@@ -1,24 +1,14 @@
 package api
 
 import (
-	"encoding/json"
 	"errors"
 	"github.com/gin-gonic/gin"
-	"github.com/nieuwsma/dimension/internal/logger"
+	"github.com/nieuwsma/dimension/pkg/presentation"
 	"net/http"
 )
 
-// WriteJSON - writes JSON to the open http connection
-func WriteJSON(c *gin.Context, i interface{}) {
-	obj, err := json.Marshal(i)
-	if err != nil {
-		logger.Log.Error(err)
-	}
-	c.Writer.Write(obj)
-}
-
-// WriteHeaders - writes JSON to the open http connection along with headers
-func WriteHeaders(c *gin.Context, pb APIPayload) {
+// WriteJsonWithHeaders - writes JSON to the open http connection along with headers
+func WriteJsonWithHeaders(c *gin.Context, pb presentation.APIPayload) {
 	if pb.IsError {
 		c.Header("Content-Type", "application/problem+json")
 		c.AbortWithStatusJSON(pb.StatusCode, pb.Error)
@@ -30,32 +20,27 @@ func WriteHeaders(c *gin.Context, pb APIPayload) {
 	}
 }
 
-func WriteHeadersWithLocation(c *gin.Context, pb APIPayload, location string) {
-	c.Header("Location", location)
-	WriteHeaders(c, pb)
-}
-
-func BuildErrorPayload(err error) (pb APIPayload) {
-	var se *StorageFailed
-	var ie *InternalServerError
-	var nf *NotFound
-	var ua *Forbidden
+func BuildErrorPayload(err error) (pb presentation.APIPayload) {
+	var se *presentation.StorageFailed
+	var ie *presentation.InternalServerError
+	var nf *presentation.NotFound
+	var ua *presentation.Forbidden
 
 	if errors.As(err, &se) {
-		pb = BuildErrorPassback(http.StatusInternalServerError, err)
+		pb = presentation.BuildErrorPassback(http.StatusInternalServerError, err)
 		return
 	} else if errors.As(err, &nf) {
-		pb = BuildErrorPassback(http.StatusNotFound, err)
+		pb = presentation.BuildErrorPassback(http.StatusNotFound, err)
 		return
 	} else if errors.As(err, &ua) {
-		pb = BuildErrorPassback(http.StatusForbidden, err)
+		pb = presentation.BuildErrorPassback(http.StatusForbidden, err)
 		return
 	} else if errors.As(err, &ie) {
-		pb = BuildErrorPassback(http.StatusInternalServerError, err)
+		pb = presentation.BuildErrorPassback(http.StatusInternalServerError, err)
 		return
 	}
 
-	pb = BuildErrorPassback(http.StatusBadRequest, err)
+	pb = presentation.BuildErrorPassback(http.StatusBadRequest, err)
 	return
 
 }

@@ -21,4 +21,6 @@ COPY .version $GOPATH/src/github.com/nieuwsma/dimension/.version
 CMD set -ex \
     && go version \
     && go test -cover -v -o dimension github.com/nieuwsma/dimension/internal/api \
-    && go test -cover -v -o dimension github.com/nieuwsma/dimension/pkg/logic
+    && go test -cover -v -o dimension github.com/nieuwsma/dimension/pkg/logic \
+    && go test -cover -v -o dimension github.com/nieuwsma/dimension/pkg/presentation
+

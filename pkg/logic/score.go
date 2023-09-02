@@ -156,7 +156,7 @@ func CheckRatio(sum int, colors []Color, colorCounts map[Color]int) (err error) 
 		runningTotal += colorCounts[color]
 	}
 	if runningTotal != sum {
-		return fmt.Errorf("expected sum of %d, got %d", sum, runningTotal)
+		return fmt.Errorf("expected sum of %v = %d, got %d", colors, sum, runningTotal)
 	}
 	return nil
 }
@@ -209,7 +209,7 @@ func CheckTouch(dim Dimension, colorCounts map[Color]int, mustTouch bool, a Colo
 			} else {
 				message = "failed to find a neighbor"
 			}
-			err = errors.Join(fmt.Errorf("%s which is %s %s who is %s", position, currentColor.LongHand(), message, matchColor.LongHand()))
+			err = errors.Join(fmt.Errorf("'%s' which is %s %s who is %s", position, currentColor.LongHand(), message, matchColor.LongHand()))
 		}
 	}
 	return err
@@ -248,9 +248,9 @@ func CheckTopBottom(dim Dimension, top bool, a Color, neighbors geometry.Neighbo
 				neighborPlane := plane[neighbor]
 				if _, exists := dim.Dimension[neighbor]; exists {
 					if top && neighborPlane > currentPlane {
-						return fmt.Errorf("position %s (color %s), has neighbor %s  that is on top of it", position, sphere.Color.LongHand(), neighbor)
+						return fmt.Errorf("position '%s' (color %s), has neighbor '%s'  that is on top of it", position, sphere.Color.LongHand(), neighbor)
 					} else if !top && neighborPlane < currentPlane {
-						return fmt.Errorf("position %s (color %s), has neighbor %s that is below it", position, sphere.Color.LongHand(), neighbor)
+						return fmt.Errorf("position '%s' (color %s), has neighbor '%s' that is below it", position, sphere.Color.LongHand(), neighbor)
 					}
 				}
 			}
