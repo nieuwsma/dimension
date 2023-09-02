@@ -159,7 +159,7 @@ func PlayTrainingSessionTurn(c *gin.Context) {
 			Score:          trainingSession.Turns[logic.PlayerName(playerName)].Score,
 			BonusPoints:    trainingSession.Turns[logic.PlayerName(playerName)].Bonus,
 			Dimension:      NewDimensionResponse(trainingSession.Turns[logic.PlayerName(playerName)].Dimension).Dimension,
-			TaskViolations: Unwrap(trainingSession.Turns[logic.PlayerName(playerName)].TaskViolations),
+			TaskViolations: trainingSession.Turns[logic.PlayerName(playerName)].TaskViolations,
 		},
 		ExpirationTime: CustomTime{trainingSession.ExpirationTime},
 	}
@@ -231,7 +231,7 @@ func RetrieveTrainingSessions(c *gin.Context) {
 			Score:          v.Score,
 			BonusPoints:    v.Bonus,
 			Dimension:      NewDimensionResponse(v.Dimension).Dimension,
-			TaskViolations: Unwrap(v.TaskViolations),
+			TaskViolations: v.TaskViolations,
 		})
 	}
 

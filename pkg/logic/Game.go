@@ -41,7 +41,7 @@ type Turn struct {
 	Dimension      Dimension
 	Score          int
 	Bonus          bool
-	TaskViolations error
+	TaskViolations []string
 }
 
 type Game struct {
@@ -184,12 +184,15 @@ func (g *Game) GetLeaderboard() (leaderboard Leaderboard) {
 
 func (g *Game) PlayTurn(playerName PlayerName, dim Dimension) (turn Turn, err error) {
 	if g.Alive {
-		score, bonus, errors := ScoreTurn(g.Rounds[len(g.Rounds)-1].Tasks, dim)
+		score, bonus, taskViolations, errors := ScoreTurn(g.Rounds[len(g.Rounds)-1].Tasks, dim)
+		if errors != nil {
+			return turn, errors
+		}
 		turn = Turn{
 			Dimension:      dim,
 			Score:          score,
 			Bonus:          bonus,
-			TaskViolations: errors,
+			TaskViolations: taskViolations,
 		}
 		playerRecord := g.Players[playerName]
 		playerRecord.Turns[len(g.Rounds)] = turn

@@ -25,13 +25,16 @@ func NewTrainingSession(drawSize int, seed int64) (t *TrainingSession) {
 }
 
 func (g *TrainingSession) PlayTurn(playerName PlayerName, dim Dimension) {
-	score, bonus, errors := ScoreTurn(g.Tasks, dim)
+	score, bonus, taskViolations, errors := ScoreTurn(g.Tasks, dim)
+	if errors != nil {
+		//todo something
+	}
 	g.Turns[playerName] = Turn{
 		PlayerName:     playerName,
 		Dimension:      dim,
 		Score:          score,
 		Bonus:          bonus,
-		TaskViolations: errors,
+		TaskViolations: taskViolations,
 	}
 	g.ExpirationTime = time.Now().Add(1 * time.Hour)
 
