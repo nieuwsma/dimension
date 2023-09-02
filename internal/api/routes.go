@@ -14,15 +14,38 @@ import (
 
 func GetGameRules(c *gin.Context) {
 	// Logic to get game rules
-	c.JSON(http.StatusOK, gin.H{
-		"message": "Game rules",
-	})
 
-	//r := RulesResponse{
-	//	Tasks:      nil,
-	//	Geometries: nil,
-	//	Colors:     logic.GetColors(),
-	//}
+	rules, colors, geometries := middleware.GetGameRules()
+
+	var gameRules RulesResponse
+
+	for _, v := range rules.Set {
+		gameRules.Tasks = append(gameRules.Tasks, Task{
+			Name:        v.Name,
+			Quantity:    v.Quantity,
+			Description: v.Description,
+		})
+	}
+
+	for _, v := range colors {
+		gameRules.Colors = append(gameRules.Colors, Color{
+			Name: v.Name,
+			Code: v.Code,
+		})
+	}
+
+	for _, v := range geometries {
+		gameRules.Geometries = append(gameRules.Geometries, GeometryItem{
+			PolarAngle:       v.PolarAngle,
+			InclinationAngle: v.InclinationAngle,
+			RadialDistance:   v.RadialDistance,
+			ID:               v.ID,
+			Neighbors:        v.Neighbors,
+		})
+	}
+
+	pb := BuildSuccessPassback(http.StatusOK, gameRules)
+	WriteHeaders(c, pb)
 }
 
 // Training Routes

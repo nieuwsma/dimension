@@ -2,17 +2,22 @@ package middleware
 
 import (
 	"dimension/internal/storage"
+	"dimension/pkg/geometry"
 	"dimension/pkg/logic"
+	"dimension/pkg/rules"
 )
 
 var GameProvider storage.GameProvider
 
 // Rules Route
 
-func GetGameRules() (err error) {
+func GetGameRules() (rules.RuleSet, logic.Colors, geometry.Geometries) {
 	// Logic to get game rules
+	rules, _ := rules.GetRuleSet(rules.Default)
+	colors := logic.GetColors()
+	geometries := geometry.GetGeometry()
 
-	return
+	return rules, colors, geometries
 }
 
 // Training Routes
@@ -21,8 +26,10 @@ func StartTrainingSession(ommitedTypes logic.Tasks) (trainID string, tasks logic
 	// Logic to start a training session
 
 	//todo need to monkey around with the tasks
-	//todo need to generate a new training ID
-	trainID = "test"
+	trainID, err = randomStringWithPrefix()
+	if err != nil {
+		return
+	}
 	trainingSession := logic.NewTrainingSession(6, 12345)
 	err = GameProvider.StoreTrainingSession(trainID, *trainingSession)
 

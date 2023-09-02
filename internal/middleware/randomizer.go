@@ -19,6 +19,7 @@ const length = 4
 var generatedIDs = make(map[string]bool)
 
 func randomStringWithPrefix() (string, error) {
+	var err error
 	for {
 		result := make([]byte, length)
 		charsetLen := big.NewInt(int64(len(charset)))
@@ -35,7 +36,10 @@ func randomStringWithPrefix() (string, error) {
 		// Check if ID exists in the map
 		if _, exists := generatedIDs[id]; !exists {
 			generatedIDs[id] = true
-			return id, nil
+			return id, err
+		} else {
+			id, err = randomStringWithPrefix()
+			return id, err
 		}
 	}
 }

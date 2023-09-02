@@ -31,7 +31,7 @@ type DimensionResponse struct {
 // Task represents a task
 type Task struct {
 	Name        string `json:"Name"`
-	Quantity    string `json:"Quantity"`
+	Quantity    int    `json:"Quantity"`
 	Description string `json:"Description"`
 }
 
@@ -44,9 +44,9 @@ type RulesResponse struct {
 
 // GeometryItem represents a geometry item
 type GeometryItem struct {
-	PolarAngle       float64  `json:"polarAngle"`
-	InclinationAngle float64  `json:"inclinationAngle"`
-	RadialDistance   float64  `json:"radialDistance"`
+	PolarAngle       int      `json:"polarAngle"`
+	InclinationAngle int      `json:"inclinationAngle"`
+	RadialDistance   int      `json:"radialDistance"`
 	ID               string   `json:"id"`
 	Neighbors        []string `json:"neighbors"`
 }
