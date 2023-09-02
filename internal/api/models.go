@@ -6,66 +6,6 @@ import (
 	"time"
 )
 
-// Game represents a game object
-type Game struct {
-	GameID string `json:"gameId"`
-}
-
-// Player represents a player object
-type Player struct {
-	Name string `json:"name"`
-}
-
-// RoundStatus represents the status of a round
-type RoundStatus struct {
-	Tasks    []string       `json:"tasks"`
-	Players  []PlayerStatus `json:"players"`
-	IsActive bool           `json:"isActive"`
-}
-
-// PlayerStatus represents the status of a player
-type PlayerStatus struct {
-	PlayerName string `json:"playerName"`
-	PlayerID   string `json:"playerId"`
-	TurnTaken  bool   `json:"turnTaken"`
-}
-
-// GameDetails represents details of a game
-type GameDetails struct {
-	Leaderboard []LeaderboardEntry `json:"leaderboard"`
-	Rounds      []RoundSummary     `json:"rounds"`
-}
-
-// LeaderboardEntry represents an entry in the leaderboard
-type LeaderboardEntry struct {
-	PlayerName string `json:"playerName"`
-	PlayerID   string `json:"playerId"`
-	Score      int    `json:"score"`
-}
-
-// RoundSummary represents a summary of a round
-type RoundSummary struct {
-	RoundID        int `json:"roundId"`
-	TasksCompleted int `json:"tasksCompleted"`
-}
-
-// ForceCompletion represents an action to force completion
-type ForceCompletion struct {
-	ForceComplete bool   `json:"forceComplete"`
-	Reason        string `json:"reason"`
-}
-
-// PlayerCreated represents a newly created player
-type PlayerCreated struct {
-	PlayerID  string `json:"playerId"`
-	AuthToken string `json:"authToken"`
-}
-
-// RoundCreated represents a newly created round
-type RoundCreated struct {
-	RoundID int `json:"roundId"`
-}
-
 // Dimension represents dimension properties
 type Dimension struct {
 	A string `json:"a"`

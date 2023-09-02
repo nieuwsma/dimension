@@ -5,7 +5,6 @@ import (
 	"dimension/internal/api"
 	"dimension/internal/logger"
 	"dimension/internal/middleware"
-	"dimension/internal/session"
 	"dimension/internal/storage"
 	"github.com/namsral/flag"
 	"net/http"
@@ -48,10 +47,6 @@ func main() {
 	///////////////////////////////
 	//CONFIGURATION
 	//////////////////////////////
-
-	//todo validate this logic
-	tokenProvider := session.NewInMemorySessionStore()
-	api.TokenProvider = tokenProvider
 
 	var gameProvider storage.GameProvider
 	gameProvider = storage.NewMemGame()
