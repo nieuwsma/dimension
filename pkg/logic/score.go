@@ -130,7 +130,7 @@ func ScoreTurn(tasks Tasks, dim Dimension) (score int, bonus bool, taskViolation
 	}
 
 	//a bonus is awarded if all tasks were successfully completed and if all 5 colors were used.
-	if errs == nil && len(colorCounts) == 5 { //then
+	if len(taskViolations) == 0 && len(colorCounts) == 5 { //then
 		bonus = true
 
 	}
