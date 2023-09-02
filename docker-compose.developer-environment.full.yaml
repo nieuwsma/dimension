@@ -1,0 +1,17 @@
+version: '3.7'
+
+networks:
+  dim:
+
+services:
+
+  dimension:
+    build:
+      dockerfile: Dockerfile
+    environment:
+      - LOG_LEVEL=TRACE
+
+    ports:
+      - "8080:8080"
+    networks:
+      - dim

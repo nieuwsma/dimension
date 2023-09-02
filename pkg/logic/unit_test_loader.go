@@ -51,18 +51,24 @@ func digestDirectory(dir string) ([]TestCase, error) {
 
 // need to include a filename in the structure so i know where to trace it back to
 func getTestCases() (testCases []TestCase, err error) {
-	//todo need to make this more robust!
-	dir := "./pkg/logic/test_cases/" // Replace with your directory path
-	print(os.Getwd())
+	dir := getTestCaseDir()
 	testCases, err = digestDirectory(dir)
 	return
 }
 
+func getTestCaseDir() string {
+	cwd, _ := os.Getwd()
+	print(cwd)
+	dir := os.Getenv("TEST_DIR")
+	print(dir)
+	return dir
+}
+
 func getGamesTestCases() (games map[int]Game) {
 	// Set directory path
-	dirPath := "./pkg/logic/test_cases/" // Replace with your directory path
+	dir := getTestCaseDir()
 	// Read files from directory
-	files, err := os.ReadDir(dirPath)
+	files, err := os.ReadDir(dir)
 	if err != nil {
 		fmt.Println("Error reading directory:", err)
 		os.Exit(1)
@@ -122,7 +128,7 @@ func getGamesTestCases() (games map[int]Game) {
 			continue
 		}
 
-		data, err := os.ReadFile(path.Join(dirPath, info.File))
+		data, err := os.ReadFile(path.Join(dir, info.File))
 		if err != nil {
 			fmt.Println("Error reading file:", err)
 			continue

@@ -13,7 +13,6 @@ RUN set -ex \
 FROM build-base AS base
 
 
-
 RUN go env -w GO111MODULE=auto
 
 # Copy all the necessary files to the image.

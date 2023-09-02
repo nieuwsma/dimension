@@ -1,9 +1,6 @@
 
-todo - create a docker file for the server
-todo - create a unit test executor
 todo - create unit tests for api layer
 todo - split out models in API to separate presentation layer
 todo - figure out why scoring errors only return as a single error
 todo - consider replacing the scoring error type with a string array?
-todo - add a makefile
 todo - how do i validate the swagger and api match up?

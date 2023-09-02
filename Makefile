@@ -11,7 +11,7 @@ binary: server
 
 #create server binary
 server:
-	go build -v -o bin/server github.com/nieuwsma/system-power-capping-service/cmd/spc
+	go build -v -o bin/server github.com/nieuwsma/dimension/cmd/server
 
 #create docker image for server
 image:
@@ -30,4 +30,4 @@ clean:
 
 #generate lines of code in project
 cloc:
-	cloc --exclude-dir=vendor,test,.docker,.DS_Store,.git,.idea,bin,configs,hms-simulation-environment --exclude-ext=.json,JSON --exclude-lang=JSON .
+	cloc --exclude-dir=vendor,data_processing,test,.docker,.DS_Store,.git,.idea,bin,configs --exclude-ext=.json,JSON --exclude-lang=JSON .
