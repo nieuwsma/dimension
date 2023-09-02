@@ -7,7 +7,7 @@ info:
     name: Copyright
 
 servers:
-  - url: https://localhost:8080/
+  - url: http://localhost:8080/
 tags:
   - name: Game Management
     description: Everything about playing the game

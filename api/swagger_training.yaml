@@ -7,7 +7,7 @@ info:
     name: Copyright
 
 servers:
-  - url: https://localhost:8080/
+  - url: http://localhost:8080/
 tags:
   - name: Rules
     description: Rules of the game

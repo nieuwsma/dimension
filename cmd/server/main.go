@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"github.com/namsral/flag"
 	"github.com/nieuwsma/dimension/internal/api"
 	"github.com/nieuwsma/dimension/internal/logger"
@@ -32,7 +33,15 @@ func main() {
 
 	logger.Log.Info("Service/Instance name: " + serviceName)
 
-	srv := &http.Server{Addr: defaultPORT}
+	var srv http.Server
+	port := os.Getenv("PORT")
+	if port != "" {
+		srv = http.Server{Addr: port}
+	} else {
+		srv = http.Server{Addr: defaultPORT}
+	}
+
+	logger.Log.Info(fmt.Sprintf("Server Addr: %v", srv.Addr))
 
 	///////////////////////////////
 	//ENVIRONMENT PARSING
