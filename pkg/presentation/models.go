@@ -21,10 +21,6 @@ type TrainingSessionTurn struct {
 	TaskViolations []string          `json:"taskViolations"`
 }
 
-type GetTrainingSessionID struct {
-	TrainingSessionID []string `json:"trainingSessions"`
-}
-
 type CustomTime struct {
 	time.Time
 }

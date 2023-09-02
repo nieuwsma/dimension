@@ -47,7 +47,7 @@ func RetrieveTrainingIDs(c *gin.Context) {
 		return
 	}
 
-	var response presentation.GetTrainingSessionID
+	var response presentation.GetTrainingSessionIDResponse
 	for k, _ := range trainingSessions {
 		response.TrainingSessionID = append(response.TrainingSessionID, k)
 	}

@@ -30,6 +30,10 @@ type GetRulesResponse struct {
 	Colors     logic.Colors        `json:"Colors"`
 }
 
+type GetTrainingSessionIDResponse struct {
+	TrainingSessionID []string `json:"trainingSessions"`
+}
+
 type PostTrainingSessionRequest struct {
 	Types []string `json:"taskTypes"`
 }
