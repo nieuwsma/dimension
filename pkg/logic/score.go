@@ -61,7 +61,6 @@ func ScoreTurn(tasks Tasks, dim Dimension) (score int, bonus bool, errs error) {
 
 		switch {
 		case strings.Contains(string(task), "QUANTITY"):
-			//todo need to check for the special case that QUANTITY-1-n and QUANTITY-2-n have been played, if they do then sum is 3
 			quantity, err := strconv.Atoi(parts[1])
 			if err != nil {
 				//todo need a different error struct for actual errors, not task violations

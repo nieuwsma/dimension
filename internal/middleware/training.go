@@ -1,24 +1,8 @@
 package middleware
 
 import (
-	"github.com/nieuwsma/dimension/internal/storage"
-	"github.com/nieuwsma/dimension/pkg/geometry"
 	"github.com/nieuwsma/dimension/pkg/logic"
-	"github.com/nieuwsma/dimension/pkg/rules"
 )
-
-var GameProvider storage.GameProvider
-
-// Rules Route
-
-func GetGameRules() (rules.RuleSet, logic.Colors, geometry.Geometries) {
-	// Logic to get game rules
-	rules, _ := rules.GetRuleSet(rules.Default)
-	colors := logic.GetColors()
-	geometries := geometry.GetGeometry()
-
-	return rules, colors, geometries
-}
 
 // Training Routes
 
@@ -78,6 +62,7 @@ func RegenerateTrainingSession(trainID string) (tasks logic.Tasks, err error) {
 }
 
 func RetrieveTrainingSessions() (trainingSessions map[string]logic.TrainingSession, err error) {
+	err = GameProvider.DeleteExpiredTrainingSessions()
 	trainingSessions, _ = GameProvider.GetTrainingSessions()
 	return
 }

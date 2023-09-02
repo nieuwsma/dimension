@@ -16,7 +16,7 @@ type Leaderboard struct {
 
 type ScoreRecord struct {
 	Points      int
-	BonusTokens int //TODO bonus payout is: 0 = -6, 1 = -3, 2 = -1, 3 = 0, 4 = 1, 5 = 3, 6 = 6
+	BonusTokens int // bonus payout is: 0 = -6, 1 = -3, 2 = -1, 3 = 0, 4 = 1, 5 = 3, 6 = 6
 }
 
 func (s ScoreRecord) Equals(other ScoreRecord) bool {
@@ -46,7 +46,7 @@ type Turn struct {
 
 type Game struct {
 	Players        map[PlayerName]Player //name of player
-	Rounds         map[int]Round         //tracks round ID to a play deck // TODO only 6 rounds are played
+	Rounds         map[int]Round         //tracks round ID to a play deck //  only 6 rounds are played
 	Deck           Deck
 	DrawSize       int
 	HourglassLimit time.Duration
@@ -182,8 +182,6 @@ func (g *Game) GetLeaderboard() (leaderboard Leaderboard) {
 	return
 }
 
-// todo somehow I need to account for the fact that naughty players might not play a turn each round, which they need to do!
-// need to also account for not being able to start next round without resolving the last round?
 func (g *Game) PlayTurn(playerName PlayerName, dim Dimension) (turn Turn, err error) {
 	if g.Alive {
 		score, bonus, errors := ScoreTurn(g.Rounds[len(g.Rounds)-1].Tasks, dim)

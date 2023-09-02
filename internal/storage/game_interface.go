@@ -16,4 +16,6 @@ type GameProvider interface {
 	GetTrainingSession(trainID string) (ts logic.TrainingSession, err error)
 	StoreTrainingSession(trainID string, session logic.TrainingSession) (err error)
 	DeleteTrainingSession(trainID string) (err error)
+
+	DeleteExpiredTrainingSessions() (err error)
 }
