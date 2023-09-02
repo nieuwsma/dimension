@@ -1,9 +1,10 @@
 package storage
 
 import (
-	"dimension/pkg/logic"
 	"fmt"
+	"github.com/nieuwsma/dimension/pkg/logic"
 	"sync"
+	"time"
 )
 
 type MemGame struct {
@@ -55,6 +56,12 @@ func (b *MemGame) DeleteGame(gameID string) (err error) {
 	return
 }
 
+func (b *MemGame) GetTrainingSessions() (map[string]logic.TrainingSession, error) {
+	b.mutex.Lock()
+	defer b.mutex.Unlock()
+	return b.TrainingMap, nil
+}
+
 func (b *MemGame) GetTrainingSession(trainID string) (ts logic.TrainingSession, err error) {
 	b.mutex.Lock()
 	defer b.mutex.Unlock()
@@ -80,6 +87,17 @@ func (b *MemGame) DeleteTrainingSession(trainID string) (err error) {
 		delete(b.TrainingMap, trainID)
 	} else {
 		err = fmt.Errorf("trainID %s not found", trainID)
+	}
+	return
+}
+
+func (b *MemGame) DeleteExpiredTrainingSessions() (err error) {
+	b.mutex.Lock()
+	defer b.mutex.Unlock()
+	for k, v := range b.TrainingMap {
+		if v.ExpirationTime.Before(time.Now()) {
+			delete(b.TrainingMap, k)
+		}
 	}
 	return
 }

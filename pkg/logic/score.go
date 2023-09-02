@@ -1,14 +1,14 @@
 package logic
 
 import (
-	"dimension/pkg/geometry"
 	"errors"
 	"fmt"
+	"github.com/nieuwsma/dimension/pkg/geometry"
 	"strconv"
 	"strings"
 )
 
-func ScoreTurn(tasks Tasks, dim Dimension) (score int, bonus bool, errs error) {
+func ScoreTurn(tasks Tasks, dim Dimension) (score int, bonus bool, taskViolations []string, errs error) {
 	maxScore := len(dim.Dimension)
 	colorCounts := make(map[Color]int)
 	for _, v := range dim.Dimension {
@@ -61,30 +61,28 @@ func ScoreTurn(tasks Tasks, dim Dimension) (score int, bonus bool, errs error) {
 
 		switch {
 		case strings.Contains(string(task), "QUANTITY"):
-			//todo need to check for the special case that QUANTITY-1-n and QUANTITY-2-n have been played, if they do then sum is 3
 			quantity, err := strconv.Atoi(parts[1])
 			if err != nil {
 				//todo need a different error struct for actual errors, not task violations
-				err = fmt.Errorf("Could not parse task %s", task)
-				errs = errors.Join(err)
+				taskViolations = append(taskViolations, fmt.Sprintf("Could not parse task %s", task))
 				score -= 2
 			} else {
 				err = CheckQuantity(quantity, NewColorShort(parts[2]), colorCounts)
 				if err != nil {
-					errs = errors.Join(err)
+					taskViolations = append(taskViolations, fmt.Sprintf(err.Error()))
 					score -= 2
 				}
 			}
 		case strings.Contains(string(task), "BOTTOM"):
 			err := CheckTopBottom(dim, false, NewColorShort(parts[1]), geometry.GetGeometry().GetNeighbors())
 			if err != nil {
-				errs = errors.Join(err)
+				taskViolations = append(taskViolations, fmt.Sprintf(err.Error()))
 				score -= 2
 			}
 		case strings.Contains(string(task), "TOP"):
 			err := CheckTopBottom(dim, true, NewColorShort(parts[1]), geometry.GetGeometry().GetNeighbors())
 			if err != nil {
-				errs = errors.Join(err)
+				taskViolations = append(taskViolations, fmt.Sprintf(err.Error()))
 				score -= 2
 			}
 		case strings.Contains(string(task), "TOUCH"):
@@ -96,10 +94,10 @@ func ScoreTurn(tasks Tasks, dim Dimension) (score int, bonus bool, errs error) {
 			}
 
 			if err != nil {
-				errs = errors.Join(err)
+				taskViolations = append(taskViolations, fmt.Sprintf(err.Error()))
 				score -= 2
 			}
-		case strings.Contains(string(task), "RATIO"):
+		case strings.Contains(string(task), "SUM"):
 			quantity, err := strconv.Atoi(parts[1])
 
 			if err != nil {
@@ -112,27 +110,27 @@ func ScoreTurn(tasks Tasks, dim Dimension) (score int, bonus bool, errs error) {
 				colors = append(colors, NewColorShort(parts[3]))
 				err = CheckRatio(quantity, colors, colorCounts)
 				if err != nil {
-					errs = errors.Join(err)
+					taskViolations = append(taskViolations, fmt.Sprintf(err.Error()))
 					score -= 2
 				}
 			}
 		case strings.Contains(string(task), "GT"):
 			err := CheckGreaterThan(NewColorShort(parts[1]), NewColorShort(parts[2]), colorCounts)
 			if err != nil {
-				errs = errors.Join(err)
+				taskViolations = append(taskViolations, fmt.Sprintf(err.Error()))
 				score -= 2
 			}
 		default:
 			err := fmt.Errorf("Could not parse task %s", task)
 			if err != nil {
-				errs = errors.Join(err)
+				taskViolations = append(taskViolations, fmt.Sprintf(err.Error()))
 				score -= 2
 			}
 		}
 	}
 
 	//a bonus is awarded if all tasks were successfully completed and if all 5 colors were used.
-	if errs == nil && len(colorCounts) == 5 { //then
+	if len(taskViolations) == 0 && len(colorCounts) == 5 { //then
 		bonus = true
 
 	}
@@ -140,7 +138,7 @@ func ScoreTurn(tasks Tasks, dim Dimension) (score int, bonus bool, errs error) {
 	if score < 0 {
 		score = 0
 	}
-	return score, bonus, errs
+	return score, bonus, taskViolations, errs
 }
 
 func CheckQuantity(quantity int, color Color, colorCounts map[Color]int) (err error) {

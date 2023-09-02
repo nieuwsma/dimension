@@ -1,102 +1,75 @@
 package api
 
 import (
-	"dimension/internal/logger"
-	"dimension/internal/middleware"
-	"dimension/pkg/logic"
 	"errors"
 	"github.com/gin-gonic/gin"
+	"github.com/nieuwsma/dimension/internal/logger"
+	"github.com/nieuwsma/dimension/internal/middleware"
+	"github.com/nieuwsma/dimension/pkg/logic"
 	"github.com/sirupsen/logrus"
 	"net/http"
 )
-
-func CreateGame(c *gin.Context) {
-	// Logic to create a game
-	c.JSON(http.StatusCreated, gin.H{
-		"message": "Game created",
-	})
-
-}
-
-func DeleteGame(c *gin.Context) {
-	// Logic to delete a game
-	c.JSON(http.StatusNoContent, nil)
-}
-
-func GetGameDetails(c *gin.Context) {
-	// Logic to get game details
-	c.JSON(http.StatusOK, gin.H{
-		"message": "Game details",
-	})
-}
-
-func RemovePlayerFromGame(c *gin.Context) {
-	// Logic to remove player from game
-	c.JSON(http.StatusNoContent, nil)
-}
-
-func AddPlayerToGame(c *gin.Context) {
-	// Logic to add player to game
-	c.JSON(http.StatusCreated, gin.H{
-		"message": "Player added",
-	})
-}
-
-// Rounds Routes
-
-func ForceStartNewRound(c *gin.Context) {
-	// Logic to start a new round
-	c.JSON(http.StatusCreated, gin.H{
-		"message": "Round started",
-	})
-}
-
-func GetRounds(c *gin.Context) {
-	// Logic to get rounds
-	c.JSON(http.StatusOK, gin.H{
-		"message": "Rounds data",
-	})
-}
-
-func GetSpecificRoundStatus(c *gin.Context) {
-	// Logic to get specific round status
-	c.JSON(http.StatusOK, gin.H{
-		"message": "Round status",
-	})
-}
-
-func ForceRoundCompletion(c *gin.Context) {
-	// Logic to force round completion
-	c.JSON(http.StatusOK, gin.H{
-		"message": "Round completed",
-	})
-}
-
-// Players Routes
-
-func PlayerTakeTurn(c *gin.Context) {
-	// Logic for player to take a turn
-	c.JSON(http.StatusCreated, gin.H{
-		"message": "Turn taken",
-	})
-}
 
 // Rules Route
 
 func GetGameRules(c *gin.Context) {
 	// Logic to get game rules
-	c.JSON(http.StatusOK, gin.H{
-		"message": "Game rules",
-	})
 
-	//r := RulesResponse{
-	//	Tasks:      nil,
-	//	Geometries: nil,
-	//	Colors:     logic.GetColors(),
-	//}
+	rules, colors, geometries := middleware.GetGameRules()
+
+	var gameRules RulesResponse
+
+	for _, v := range rules.Set {
+		gameRules.Tasks = append(gameRules.Tasks, Task{
+			Name:        v.Name,
+			Quantity:    v.Quantity,
+			Description: v.Description,
+		})
+	}
+
+	for _, v := range colors {
+		gameRules.Colors = append(gameRules.Colors, Color{
+			Name: v.Name,
+			Code: v.Code,
+		})
+	}
+
+	for _, v := range geometries {
+		gameRules.Geometries = append(gameRules.Geometries, GeometryItem{
+			PolarAngle:       v.PolarAngle,
+			InclinationAngle: v.InclinationAngle,
+			RadialDistance:   v.RadialDistance,
+			ID:               v.ID,
+			Neighbors:        v.Neighbors,
+		})
+	}
+
+	pb := BuildSuccessPassback(http.StatusOK, gameRules)
+	WriteHeaders(c, pb)
 }
 
 // Training Routes
+
+func RetrieveTrainingIDs(c *gin.Context) {
+	var pb APIPayload
+
+	trainingSessions, err := middleware.RetrieveTrainingSessions()
+	if err != nil {
+		pb = BuildErrorPassback(http.StatusInternalServerError, err)
+		logger.Log.WithFields(logrus.Fields{"ERROR": err, "HttpStatusCode": pb.StatusCode}).Error("internal server error")
+		WriteHeaders(c, pb)
+		return
+	}
+
+	var response GetTrainingSessionID
+	for k, _ := range trainingSessions {
+		response.TrainingSessionID = append(response.TrainingSessionID, k)
+	}
+
+	pb = BuildSuccessPassback(http.StatusOK, response)
+	WriteHeaders(c, pb)
+	return
+}
 
 func StartTrainingSession(c *gin.Context) {
 	// Logic to start a training session
@@ -135,7 +108,7 @@ func StartTrainingSession(c *gin.Context) {
 	return
 }
 
-func PlayTrainingSession(c *gin.Context) {
+func PlayTrainingSessionTurn(c *gin.Context) {
 
 	var pb APIPayload
 
@@ -143,6 +116,15 @@ func PlayTrainingSession(c *gin.Context) {
 	trainID := c.Param("trainID")
 	if trainID == "" {
 		err := errors.New("invalid request, missing trainID parameter")
+		pb := BuildErrorPassback(http.StatusBadRequest, err)
+		logger.Log.WithFields(logrus.Fields{"ERROR": err, "HttpStatusCode": pb.StatusCode}).Error("bad request")
+		WriteHeaders(c, pb)
+		return
+	}
+
+	playerName := c.Param("playerName")
+	if trainID == "" {
+		err := errors.New("invalid request, missing playerName parameter")
 		pb := BuildErrorPassback(http.StatusBadRequest, err)
 		logger.Log.WithFields(logrus.Fields{"ERROR": err, "HttpStatusCode": pb.StatusCode}).Error("bad request")
 		WriteHeaders(c, pb)
@@ -159,7 +141,7 @@ func PlayTrainingSession(c *gin.Context) {
 	}
 	dimension, _ := parameters.ToLogicDimension()
 
-	trainingSession, err := middleware.PlayTrainingSession(trainID, *dimension)
+	trainingSession, err := middleware.PlayTrainingSession(trainID, playerName, *dimension)
 
 	if err != nil {
 		err := errors.New("invalid request trainID not found")
@@ -169,13 +151,17 @@ func PlayTrainingSession(c *gin.Context) {
 		return
 	}
 
-	response := &GetTrainingSessionResponse{
-		Score:              trainingSession.Turn.Score,
-		BonusPoints:        trainingSession.Turn.Bonus,
-		SubmittedDimension: NewDimensionResponse(trainingSession.Turn.Dimension),
-		Tasks:              trainingSession.Tasks,
-		TaskViolations:     Unwrap(trainingSession.Turn.TaskViolations),
-		ExpirationTime:     CustomTime{trainingSession.ExpirationTime},
+	response := &PutTrainingSessionTurnResponse{
+
+		Tasks: trainingSession.Tasks,
+		TrainingSessionTurn: TrainingSessionTurn{
+			PlayerName:     playerName,
+			Score:          trainingSession.Turns[logic.PlayerName(playerName)].Score,
+			BonusPoints:    trainingSession.Turns[logic.PlayerName(playerName)].Bonus,
+			Dimension:      NewDimensionResponse(trainingSession.Turns[logic.PlayerName(playerName)].Dimension).Dimension,
+			TaskViolations: trainingSession.Turns[logic.PlayerName(playerName)].TaskViolations,
+		},
+		ExpirationTime: CustomTime{trainingSession.ExpirationTime},
 	}
 
 	pb = BuildSuccessPassback(http.StatusOK, response)
@@ -183,8 +169,39 @@ func PlayTrainingSession(c *gin.Context) {
 	return
 }
 
-func RetrieveTrainingStatus(c *gin.Context) {
-
+func RetrieveTrainingSessions(c *gin.Context) {
+	//{
+	//	"tasks": [
+	//"string"
+	//],
+	//"turns": [
+	//{
+	//"playerName": "string",
+	//"score": 0,
+	//"bonusPoints": true,
+	//"submittedDimension": {
+	//"a": "G",
+	//"b": "G",
+	//"c": "G",
+	//"d": "G",
+	//"e": "G",
+	//"f": "G",
+	//"g": "G",
+	//"h": "G",
+	//"i": "G",
+	//"j": "G",
+	//"k": "G",
+	//"l": "G",
+	//"m": "G",
+	//"n": "G"
+	//},
+	//"taskViolations": [
+	//"string"
+	//]
+	//}
+	//],
+	//"expirationTime": "2023-09-02T00:04:55.964Z"
+	//}
 	trainID := c.Param("trainID")
 	if trainID == "" {
 		err := errors.New("invalid request, missing trainID parameter")
@@ -204,16 +221,21 @@ func RetrieveTrainingStatus(c *gin.Context) {
 		return
 	}
 
-	ts := &GetTrainingSessionResponse{
-		Score:              trainingSession.Turn.Score,
-		BonusPoints:        trainingSession.Turn.Bonus,
-		SubmittedDimension: NewDimensionResponse(trainingSession.Turn.Dimension),
-		Tasks:              trainingSession.Tasks,
-		TaskViolations:     Unwrap(trainingSession.Turn.TaskViolations),
-		ExpirationTime:     CustomTime{trainingSession.ExpirationTime},
+	response := &GetTrainingSessionsResponse{
+		Tasks:          trainingSession.Tasks,
+		ExpirationTime: CustomTime{trainingSession.ExpirationTime},
+	}
+	for _, v := range trainingSession.Turns {
+		response.TrainingSessionTurn = append(response.TrainingSessionTurn, TrainingSessionTurn{
+			PlayerName:     string(v.PlayerName),
+			Score:          v.Score,
+			BonusPoints:    v.Bonus,
+			Dimension:      NewDimensionResponse(v.Dimension).Dimension,
+			TaskViolations: v.TaskViolations,
+		})
 	}
 
-	pb := BuildSuccessPassback(http.StatusOK, ts)
+	pb := BuildSuccessPassback(http.StatusOK, response)
 	WriteHeaders(c, pb)
 	return
 }

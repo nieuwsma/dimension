@@ -18,7 +18,7 @@ func TestValidateGame(t *testing.T) {
 		for roundID, round := range newGame.Rounds {
 			for playerName, player := range newGame.Players {
 				turn := player.Turns[roundID]
-				score, bonus, err := ScoreTurn(round.Tasks, turn.Dimension)
+				score, bonus, taskViolations, err := ScoreTurn(round.Tasks, turn.Dimension)
 
 				player.ScoreRecord.Points = 0
 				player.ScoreRecord.BonusTokens = 0
@@ -26,17 +26,17 @@ func TestValidateGame(t *testing.T) {
 				newGame.Players[playerName] = player
 
 				if score != turn.Score || bonus != turn.Bonus {
-					printErr := fmt.Sprintf("FAIL: game: %v, round: %v, player: %v, expected score %v expected bonus %v, actual score %v, actual bonus %v. failed tasks %v, Dimension:  %v", gameID, roundID, playerName, turn.Score, turn.Bonus, score, bonus, err, turn.Dimension)
+					printErr := fmt.Sprintf("FAIL: game: %v, round: %v, player: %v, expected score %v expected bonus %v, actual score %v, actual bonus %v. failed tasks %v, Dimension:  %v, err %v", gameID, roundID, playerName, turn.Score, turn.Bonus, score, bonus, taskViolations, turn.Dimension, err)
 					t.Errorf("failed test case %s", printErr)
 
 				} else {
-					fmt.Println(fmt.Sprintf("PASS: game: %v, round: %v, player: %v, expected score %v expected bonus %v, actual score %v, actual bonus %v. failed tasks %v", gameID, roundID, playerName, turn.Score, turn.Bonus, score, bonus, err))
+					fmt.Println(fmt.Sprintf("PASS: game: %v, round: %v, player: %v, expected score %v expected bonus %v, actual score %v, actual bonus %v. failed tasks %v, err %v", gameID, roundID, playerName, turn.Score, turn.Bonus, score, bonus, taskViolations, err))
 
 				}
 
 				turn.Score = score
 				turn.Bonus = bonus
-				turn.TaskViolations = err
+				turn.TaskViolations = taskViolations
 
 			}
 		}

@@ -7,8 +7,8 @@
     "TOP-K",
     "TOP-W",
     "TOP-B",
-    "RATIO-4-O-B",
-    "RATIO-4-B-G"
+    "SUM-4-O-B",
+    "SUM-4-B-G"
   ],
   "dimension": {
     "a": "GREEN",

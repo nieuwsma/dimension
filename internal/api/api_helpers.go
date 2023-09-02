@@ -1,10 +1,10 @@
 package api
 
 import (
-	"dimension/internal/logger"
 	"encoding/json"
 	"errors"
 	"github.com/gin-gonic/gin"
+	"github.com/nieuwsma/dimension/internal/logger"
 	"net/http"
 )
 

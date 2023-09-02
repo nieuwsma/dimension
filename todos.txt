@@ -1,0 +1,5 @@
+
+todo - create unit tests for api layer
+todo - split out models in API to separate presentation layer
+todo - how do i validate the swagger and api match up?
+todo - clarify the errors strings a bit better, consider wrapping position names, and clarify the sum things

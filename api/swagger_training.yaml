@@ -1,0 +1,472 @@
+openapi: 3.1.0
+info:
+  title: Dimension Game API
+  version: 1.0.0
+  description: The Dimension Game API allows users to create and manage games, initiate rounds, and monitor game progress including player statuses and scores.
+  license:
+    name: Copyright
+
+servers:
+  - url: http://localhost:8080/
+tags:
+  - name: Rules
+    description: Rules of the game
+  - name: Training
+    description: Everything about training
+paths:
+  /rules:
+    get:
+      tags:
+        - Rules
+      summary: the Game rules
+      description: |
+        
+        
+        QUANTITY-C-N: Indicates that the quantity of color C should be exactly N.
+        
+        BOTTOM-C: Indicates that no sphere of any color can be below the sphere of color C.
+        
+        TOP-C: Indicates that no sphere of any color can be on top of the sphere of color C.
+        
+        TOUCH-C1-C2: Indicates that every sphere of color C1 must touch another sphere of color C2.
+        
+        NOTOUCH-C1-C2: Indicates that every sphere of color Y must not touch another sphere of color Z.
+        
+        SUM-N-C1-C2: Indicates that the sum of the spheres of colors C1 and C2 must be exactly N.
+        
+        GT-C1-C2: Indicates that the count of spheres of color C1 should be greater than the count of spheres of color C2.
+      responses:
+        '200':
+          description: Rules returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RulesResponse'
+
+  /training:
+    post:
+      tags:
+        - Training
+      summary: Start a new training session
+      operationId: createTrainingSession
+      requestBody:
+        description: Payload for creating a new training session, optional list of task types
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                taskTypes:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - QUANTITY-C-N
+                      - BOTTOM-C
+                      - TOP-C
+                      - TOUCH-C1-C2
+                      - NOTOUCH-C1-C2
+                      - SUM-N-C1-C2
+                      - GT-C1-C2
+      responses:
+        201:
+          description: Training session successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  trainID:
+                    type: string
+                  tasks:
+                    type: array
+                    items:
+                      type: string
+
+    get:
+      tags:
+        - Training
+      summary: Get training sessions
+      operationId: getTrainingSessionsID
+      responses:
+        200:
+          description: Training session successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  trainingSessions:
+                    type: array
+                    items:
+                      type: string
+
+
+  /training/{trainID}:
+    get:
+      tags:
+        - Training
+      summary: Retrieve training session status
+      operationId: getTrainingStatus
+      parameters:
+        - name: trainID
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Training session status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingSessionTurns'
+  /training/{trainID}/turn/{playerName}:
+    put:
+      tags:
+        - Training
+      summary: Play the training session
+      operationId: playTrainingSession
+      parameters:
+        - name: trainID
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: playerName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Submit a Dimension for the training session
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dimension'
+      responses:
+        202:
+          description: accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingSessionTurn'
+
+
+  /training/{trainID}/regenerate:
+    post:
+      tags:
+        - Training
+      summary: regenerate the training session
+      operationId: regenerateTrainingSession
+      parameters:
+        - name: trainID
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        202:
+          description: accepted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tasks:
+                    type: array
+                    items:
+                      type: string
+
+components:
+  schemas:
+    Game:
+      type: object
+      properties:
+        gameId:
+          type: string
+          description: Unique ID for the game
+
+    Player:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the player
+
+    RoundStatus:
+      type: object
+      properties:
+        tasks:
+          type: array
+          items:
+            type: string
+        players:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlayerStatus'
+        isActive:
+          type: boolean
+          description: Indicates if the round is currently active or not
+
+
+    PlayerStatus:
+      type: object
+      properties:
+        playerName:
+          type: string
+          description: Name of the player
+        playerId:
+          type: string
+          description: Unique ID for the player
+        turnTaken:
+          type: boolean
+          description: Indicates if the player has taken their turn for the round
+
+    GameDetails:
+      type: object
+      properties:
+        leaderboard:
+          type: array
+          items:
+            $ref: '#/components/schemas/LeaderboardEntry'
+        rounds:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoundSummary'
+
+    LeaderboardEntry:
+      type: object
+      properties:
+        playerName:
+          type: string
+          description: Name of the player
+        playerId:
+          type: string
+          description: Unique ID for the player
+        score:
+          type: integer
+          description: Player's score
+
+    RoundSummary:
+      type: object
+      properties:
+        roundId:
+          type: integer
+          description: Unique ID for the round
+        tasksCompleted:
+          type: integer
+          description: Number of tasks completed in the round
+
+    ForceCompletion:
+      type: object
+      properties:
+        forceComplete:
+          type: boolean
+          description: Indicator to forcefully complete the round.
+        reason:
+          type: string
+          description: Reason for forcefully completing the round.
+
+    PlayerCreated:
+      type: object
+      properties:
+        playerId:
+          type: string
+          description: Unique ID for the player
+
+    RoundCreated:
+      type: object
+      properties:
+        roundId:
+          type: integer
+          description: Unique ID for the newly created round
+      required:
+        - roundId
+
+    Dimension:
+      type: object
+      properties:
+        a: { type: string, enum: [G, K, O, W, B] }
+        b: { type: string, enum: [G, K, O, W, B] }
+        c: { type: string, enum: [G, K, O, W, B] }
+        d: { type: string, enum: [G, K, O, W, B] }
+        e: { type: string, enum: [G, K, O, W, B] }
+        f: { type: string, enum: [G, K, O, W, B] }
+        g: { type: string, enum: [G, K, O, W, B] }
+        h: { type: string, enum: [G, K, O, W, B] }
+        i: { type: string, enum: [G, K, O, W, B] }
+        j: { type: string, enum: [G, K, O, W, B] }
+        k: { type: string, enum: [G, K, O, W, B] }
+        l: { type: string, enum: [G, K, O, W, B] }
+        m: { type: string, enum: [G, K, O, W, B] }
+        n: { type: string, enum: [G, K, O, W, B] }
+
+    Task:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: The unique identifier for the rule.
+        Quantity:
+          type: string
+          description: The quantity related to the rule.
+        Description:
+          type: string
+          description: A detailed description of what the rule implies.
+      required:
+        - Name
+        - Quantity
+        - Description
+    RulesResponse:
+      type: object
+      properties:
+        Tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+        Geometries:
+          type: array
+          items:
+            $ref: '#/components/schemas/GeometryItem'
+        Colors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Color'
+      required:
+        - Rules
+    GeometryItem:
+      type: object
+      properties:
+        polarAngle:
+          type: number
+          description: The polar angle of the item.
+        inclinationAngle:
+          type: number
+          description: The inclination angle of the item.
+        radialDistance:
+          type: number
+          description: The radial distance of the item.
+        id:
+          type: string
+          description: A unique identifier for the item.
+        neighbors:
+          type: array
+          items:
+            type: string
+          description: A list of neighbor ids.
+      required:
+        - polarAngle
+        - inclinationAngle
+        - radialDistance
+        - id
+        - neighbors
+
+    GeometryResponse:
+      type: object
+      properties:
+        Geometry:
+          type: array
+          items:
+            $ref: '#/components/schemas/GeometryItem'
+      required:
+        - Geometry
+    Color:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: Name of the color.
+        Code:
+          type: string
+          description: A unique code representing the color.
+      required:
+        - Name
+        - Code
+    Problem7807:
+      description: >-
+        RFC 7807 compliant error payload. All fields are optional except the
+        'type' field.
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          example: 'about:blank'
+        detail:
+          type: string
+          example: Detail about this specific problem occurrence. See RFC7807
+        instance:
+          type: string
+          example: ''
+        statusCode:
+          type: number
+          format: integer
+          example: 400
+        title:
+          type: string
+          example: 'Description of HTTP Status code, e.g. 400'
+    TrainingSession:
+      type: object
+      properties:
+        score:
+          type: number
+        bonusPoints:
+          type: boolean
+        submittedDimension:
+          $ref: '#/components/schemas/Dimension'
+        tasks:
+          type: array
+          items:
+            type: string
+        taskViolations:
+          type: array
+          items:
+            type: string
+        expirationTime:
+          type: string
+          format: date-time
+    TrainingSessionTurns:
+      type: object
+      properties:
+        tasks:
+          type: array
+          items:
+            type: string
+        turns:
+          type: array
+          items:
+            $ref: '#/components/schemas/Turn'
+        expirationTime:
+          type: string
+          format: date-time
+    Turn:
+      type: object
+      properties:
+        playerName:
+          type: string
+        score:
+          type: number
+        bonusPoints:
+          type: boolean
+        submittedDimension:
+          $ref: '#/components/schemas/Dimension'
+        taskViolations:
+          type: array
+          items:
+            type: string
+    TrainingSessionTurn:
+      type: object
+      properties:
+        tasks:
+          type: array
+          items:
+            type: string
+        turn:
+          $ref: '#/components/schemas/Turn'
+        expirationTime:
+          type: string
+          format: date-time
