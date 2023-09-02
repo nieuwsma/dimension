@@ -1,9 +1,9 @@
 package logic
 
 import (
-	"dimension/pkg/geometry"
 	"errors"
 	"fmt"
+	"github.com/nieuwsma/dimension/pkg/geometry"
 	"strconv"
 	"strings"
 )

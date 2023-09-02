@@ -1,8 +1,8 @@
 package api
 
 import (
-	"dimension/pkg/logic"
 	"errors"
+	"github.com/nieuwsma/dimension/pkg/logic"
 	"time"
 )
 

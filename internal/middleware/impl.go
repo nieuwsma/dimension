@@ -1,10 +1,10 @@
 package middleware
 
 import (
-	"dimension/internal/storage"
-	"dimension/pkg/geometry"
-	"dimension/pkg/logic"
-	"dimension/pkg/rules"
+	"github.com/nieuwsma/dimension/internal/storage"
+	"github.com/nieuwsma/dimension/pkg/geometry"
+	"github.com/nieuwsma/dimension/pkg/logic"
+	"github.com/nieuwsma/dimension/pkg/rules"
 )
 
 var GameProvider storage.GameProvider

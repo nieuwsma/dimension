@@ -1,11 +1,11 @@
 package api
 
 import (
-	"dimension/internal/logger"
-	"dimension/internal/middleware"
-	"dimension/pkg/logic"
 	"errors"
 	"github.com/gin-gonic/gin"
+	"github.com/nieuwsma/dimension/internal/logger"
+	"github.com/nieuwsma/dimension/internal/middleware"
+	"github.com/nieuwsma/dimension/pkg/logic"
 	"github.com/sirupsen/logrus"
 	"net/http"
 )

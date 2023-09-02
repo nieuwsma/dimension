@@ -1,8 +1,8 @@
 package logic
 
 import (
-	"dimension/pkg/rules"
 	"errors"
+	"github.com/nieuwsma/dimension/pkg/rules"
 	"math/rand"
 )
 

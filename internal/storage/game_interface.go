@@ -1,7 +1,7 @@
 package storage
 
 import (
-	"dimension/pkg/logic"
+	"github.com/nieuwsma/dimension/pkg/logic"
 )
 
 //TODO consider adding a game history and tracking players over time! #goldplatting

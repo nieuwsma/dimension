@@ -1,8 +1,8 @@
 package storage
 
 import (
-	"dimension/pkg/logic"
 	"fmt"
+	"github.com/nieuwsma/dimension/pkg/logic"
 	"sync"
 )
 

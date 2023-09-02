@@ -1,4 +1,4 @@
-module dimension
+module github.com/nieuwsma/dimension
 
 go 1.20
 
