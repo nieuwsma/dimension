@@ -19,48 +19,56 @@ import (
 // if there is a touch-GreaterThan-K; then a good pattern is to do GKGKGK around the equator.
 func main() {
 
-	colors := list.New()
+	//colors := list.New()
+	//
+	//addRelation(logic.NewColorShort("G"), logic.NewColorShort("B"), colors)
+	//addRelation(logic.NewColorShort("O"), logic.NewColorShort("W"), colors)
+	//printList(colors) // GREEN -> BLUE -> EMPTY -> ORANGE -> WHITE -> EMPTY
+	//
+	//counts := colorCounts(colors)
+	//for color, count := range counts {
+	//	fmt.Printf("%s: %d\n", color.LongHand(), count)
+	//}
+	//
+	//colors2 := list.New()
+	//addRelation(logic.NewColorShort("G"), logic.NewColorShort("B"), colors2)
+	//addRelation(logic.NewColorShort("B"), logic.NewColorShort("O"), colors2)
+	//addRelation(logic.NewColorShort("O"), logic.NewColorShort("W"), colors2)
+	//printList(colors2) // GREEN -> BLUE -> ORANGE -> WHITE -> EMPTY
+	//
+	//counts2 := colorCounts(colors2)
+	//for color, count := range counts2 {
+	//	fmt.Printf("%s: %d\n", color.LongHand(), count)
+	//}
 
-	addRelation(logic.NewColorShort("G"), logic.NewColorShort("B"), colors)
-	addRelation(logic.NewColorShort("O"), logic.NewColorShort("W"), colors)
-	printList(colors) // GREEN -> BLUE -> EMPTY -> ORANGE -> WHITE -> EMPTY
+	for i := 0; i < 10; i++ {
+		fmt.Println(fmt.Sprintf("TEST CASE %v", i))
 
-	counts := colorCounts(colors)
-	for color, count := range counts {
-		fmt.Printf("%s: %d\n", color.LongHand(), count)
+		trainingSession := logic.NewTrainingSession(6, 12345)
+
+		dimension, _ := logic.NewDimension()
+		trainingSession.PlayTurn("autopilot", *dimension)
+
+		tasksCollection, _ := CategorizeTasks(trainingSession.Tasks)
+
+		colorMap := tasksCollection.GetColorDependencyTasks()
+		rq := tasksCollection.GetRequiredQuantities()
+		gt := tasksCollection.GetRequiredGreaterThanLessThan()
+		su := tasksCollection.GetRequiredSums()
+		at := tasksCollection.GetAllowedTouches()
+		rt := tasksCollection.GetRequiredTouches()
+		fmt.Println(fmt.Sprintf("tasks: %v", trainingSession.Tasks))
+		fmt.Println(fmt.Sprintf("task collection \n%v", tasksCollection.String()))
+		fmt.Println(fmt.Sprintf("colorMap : %v", colorMap))
+		fmt.Println(fmt.Sprintf("required touch: %v \nallowed touch: %v \nrequired quantities: %v \nA > B: %v \nSums : %v", rt, at, rq, gt, su))
+		fmt.Println()
 	}
+}
 
-	colors2 := list.New()
-	addRelation(logic.NewColorShort("G"), logic.NewColorShort("B"), colors2)
-	addRelation(logic.NewColorShort("B"), logic.NewColorShort("O"), colors2)
-	addRelation(logic.NewColorShort("O"), logic.NewColorShort("W"), colors2)
-	printList(colors2) // GREEN -> BLUE -> ORANGE -> WHITE -> EMPTY
-
-	counts2 := colorCounts(colors2)
-	for color, count := range counts2 {
-		fmt.Printf("%s: %d\n", color.LongHand(), count)
-	}
-
-	trainingSession := logic.NewTrainingSession(6, 12345)
-
-	dimension, _ := logic.NewDimension()
-	trainingSession.PlayTurn("autopilot", *dimension)
-
-	categorizedTasks, _ := CategorizeTasks(trainingSession.Tasks)
-
-	colorMap := categorizedTasks.GetColorDependencyTasks()
-	rq := categorizedTasks.GetRequiredQuantities()
-	gt := categorizedTasks.GetRequiredGreaterThanLessThan()
-	su := categorizedTasks.GetRequiredSums()
-	at := categorizedTasks.GetAllowedTouches()
-	rt := categorizedTasks.GetRequiredTouches()
-	fmt.Println(colorMap)
-	fmt.Println(rq, at, rt, su, gt)
-
-	fmt.Println(categorizedTasks)
-
-	fmt.Println(trainingSession.Turns["autopilot"])
-
+func (t *TasksCollection) String() string {
+	var s string
+	s = fmt.Sprintf("NoTouch: %v\nTouch: %v\nTop: %v\nBottom: %v\nGreaterThan: %v\nSum: %v\nQuantity: %v", t.NoTouch, t.Touch, t.Top, t.Bottom, t.GreaterThan, t.Sum, t.Quantity)
+	return s
 }
 
 //A couple of ways to think about this... by color; a map of colors to tasks that they are involved in
@@ -129,17 +137,47 @@ func (t *TasksCollection) GetRequiredGreaterThanLessThan() (colors map[logic.Col
 	return
 }
 
-//todo idea on allowed vs required.
-// its a map[logic.color][]logic.Color
-
-func removeColors(slice []logic.Color, s logic.Color) []logic.Color {
-	var result []logic.Color
-	for _, item := range slice {
-		if item != s {
-			result = append(result, item)
-		}
+// no color relationship are required unless in TOUCH. always search for affirmative connections
+func (t *TasksCollection) GetRequiredTouches() (requiredColorTouches map[logic.Color][]logic.Color) {
+	requiredColorTouches = make(map[logic.Color][]logic.Color)
+	for _, v := range t.Touch {
+		requiredColorTouches[v.Colors[0]] = append(requiredColorTouches[v.Colors[0]], v.Colors[1])
+		requiredColorTouches[v.Colors[1]] = append(requiredColorTouches[v.Colors[1]], v.Colors[0])
 	}
-	return result
+
+	for k, v := range requiredColorTouches {
+		requiredColorTouches[k] = deduplicateColors(v)
+	}
+	return
+}
+
+//todo this doesnt preserve the relationships well enough
+//func (t *TasksCollection) GetRequiredSums() (colors map[logic.Color]int) {
+//	colorsList := list.New()
+//
+//	for _, v := range t.Sum {
+//
+//		err := addRelation(v.Colors[0], v.Colors[1], colorsList)
+//		if err != nil {
+//			fmt.Println("Error:", err)
+//		}
+//	}
+//	colors = accountForColor(colorsList)
+//
+//	return
+//}
+
+func (t *TasksCollection) GetRequiredSums() (sums map[logic.Color][]logic.Color) {
+	sums = make(map[logic.Color][]logic.Color)
+
+	for _, v := range t.Sum {
+		sums[v.Colors[0]] = append(sums[v.Colors[0]], v.Colors[1])
+		sums[v.Colors[1]] = append(sums[v.Colors[1]], v.Colors[0])
+	}
+	for k, v := range sums {
+		sums[k] = deduplicateColors(v)
+	}
+	return
 }
 
 // all possible color interactions are allowed, unless explicitly in NOTOUCH. always search for affirmative connections
@@ -156,6 +194,16 @@ func (t *TasksCollection) GetAllowedTouches() (allowedColorTouches map[logic.Col
 	return
 }
 
+func removeColors(slice []logic.Color, s logic.Color) []logic.Color {
+	var result []logic.Color
+	for _, item := range slice {
+		if item != s {
+			result = append(result, item)
+		}
+	}
+	return result
+}
+
 func GetAllTouches() (allColorTouches map[logic.Color][]logic.Color) {
 	allColorTouches = make(map[logic.Color][]logic.Color)
 
@@ -164,35 +212,6 @@ func GetAllTouches() (allColorTouches map[logic.Color][]logic.Color) {
 			allColorTouches[i] = append(allColorTouches[i], j)
 		}
 	}
-	return
-}
-
-// no color relationship are required unless in TOUCH. always search for affirmative connections
-func (t *TasksCollection) GetRequiredTouches() (requiredColorTouches map[logic.Color][]logic.Color) {
-	requiredColorTouches = make(map[logic.Color][]logic.Color)
-	for _, v := range t.Touch {
-		requiredColorTouches[v.Colors[0]] = append(requiredColorTouches[v.Colors[0]], v.Colors[1])
-		requiredColorTouches[v.Colors[1]] = append(requiredColorTouches[v.Colors[1]], v.Colors[0])
-	}
-
-	for k, v := range requiredColorTouches {
-		requiredColorTouches[k] = deduplicateColors(v)
-	}
-	return
-}
-
-func (t *TasksCollection) GetRequiredSums() (colors map[logic.Color]int) {
-	colorsList := list.New()
-
-	for _, v := range t.Sum {
-
-		err := addRelation(v.Colors[0], v.Colors[1], colorsList)
-		if err != nil {
-			fmt.Println("Error:", err)
-		}
-	}
-	colors = accountForColor(colorsList)
-
 	return
 }
 
