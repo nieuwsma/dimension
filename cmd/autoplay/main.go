@@ -38,8 +38,7 @@ func main() {
 	//	fmt.Printf("%s: %d\n", color.LongHand(), count)
 	//}
 
-	for i := 0; i < 1; i++ {
-		fmt.Println(fmt.Sprintf("TEST CASE %v", i))
+	for i := 0; i < 1000; i++ {
 
 		trainingSession := logic.NewTrainingSession(6, 12345)
 
@@ -47,7 +46,9 @@ func main() {
 		trainingSession.PlayTurn("autopilot", *dimension)
 
 		tasksCollection, _ := tasks.NewTasksCollection(trainingSession.Tasks)
-
-		fmt.Println(tasksCollection)
+		if len(tasksCollection.Tasks) == 5 {
+			fmt.Println(fmt.Sprintf("TEST CASE %v", i))
+			fmt.Println(tasksCollection)
+		}
 	}
 }

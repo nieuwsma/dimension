@@ -116,6 +116,8 @@ func NewTasksCollection(tasks logic.Tasks) (t *TasksCollection, err error) {
 		}
 	}
 
+	t.Tasks = tasks
+
 	for _, task := range tasks {
 
 		parts := strings.Split(string(task), "-")
@@ -456,6 +458,23 @@ func (t *TasksCollection) fillRequiredSums() (sums map[logic.Color]Sums) {
 			}
 		}
 		sums[v.A] = SUM
+
+		SUM2, exists := sums[v.B]
+		if exists {
+			SUM2.Counts = Counts{
+				Max: 3,
+				Min: 1,
+			}
+			SUM2.Chain = append(SUM2.Chain, v.A)
+		} else {
+
+			SUM2 = Sums{
+				Color:  v.B,
+				Counts: Counts{Min: 1, Max: 3},
+				Chain:  []logic.Color{v.A},
+			}
+		}
+		sums[v.B] = SUM2
 	}
 	for k, v := range sums {
 		v.Chain = deduplicateColors(v.Chain)
