@@ -11,6 +11,10 @@ type Mk0 struct {
 	availableColors map[logic.Color]int
 }
 
+func (b *Mk0) Name() string {
+	return "Mk0-Autoplayer"
+}
+
 func (b *Mk0) Solve(submittedTasks logic.Tasks) (solution logic.Dimension) {
 	TaskCollection, _ := tasks.NewTasksCollection(submittedTasks)
 	b.TaskCollection = *TaskCollection
@@ -36,14 +40,4 @@ func (b *Mk0) Solve(submittedTasks logic.Tasks) (solution logic.Dimension) {
 	solution = *a
 
 	return
-}
-
-func generateSpherePairs(colors []logic.Color) (pairs []logic.SpherePair) {
-	const alphabet = "abcdefghjkn"
-	for idx, color := range colors {
-		char := alphabet[idx%len(alphabet)]
-		pair := logic.NewSpherePair(logic.SphereID(string(char)), color)
-		pairs = append(pairs, *pair)
-	}
-	return pairs
 }

@@ -1,7 +1,7 @@
 package tasks
 
 // Function to check if two words are related
-func areRelated(task1, task2 string, relations map[string][]string) bool {
+func areRelated(task1, task2 TaskTuple, relations map[TaskTuple][]TaskTuple) bool {
 	if tasks, exists := relations[task1]; exists {
 		for _, task := range tasks {
 			if task == task2 {
@@ -12,8 +12,8 @@ func areRelated(task1, task2 string, relations map[string][]string) bool {
 	return false
 }
 
-func (t *TasksCollection) knownRelations() (relations map[string][]string) {
-	relations = make(map[string][]string)
+func (t *TasksCollection) knownRelations() (relations map[TaskTuple][]TaskTuple) {
+	relations = make(map[TaskTuple][]TaskTuple)
 	colorTaskMap := t.fillColorTasksDependency()
 
 	for _, task := range colorTaskMap {
@@ -32,20 +32,20 @@ func (t *TasksCollection) knownRelations() (relations map[string][]string) {
 	return
 }
 
-func (t *TasksCollection) mapRelationsRecursively() [][]string {
+func (t *TasksCollection) mapRelationsRecursively() [][]TaskTuple {
 
 	relations := t.knownRelations()
-	var tasks []string
+	var tasks []TaskTuple
 	for _, task := range t.Tasks {
-		tasks = append(tasks, string(task))
+		tasks = append(tasks, NewTaskTuple(string(task)))
 	}
-	visited := make(map[string]bool)
-	groups := [][]string{}
+	visited := make(map[TaskTuple]bool)
+	groups := [][]TaskTuple{}
 
 	// Helper function to get related tasks recursively
-	var getRelatedTasks func(string, map[string]bool) []string
-	getRelatedTasks = func(task string, localVisited map[string]bool) []string {
-		related := []string{}
+	var getRelatedTasks func(TaskTuple, map[TaskTuple]bool) []TaskTuple
+	getRelatedTasks = func(task TaskTuple, localVisited map[TaskTuple]bool) []TaskTuple {
+		related := []TaskTuple{}
 
 		for _, innerTask := range tasks {
 			if task == innerTask || localVisited[innerTask] {
@@ -69,8 +69,8 @@ func (t *TasksCollection) mapRelationsRecursively() [][]string {
 		if visited[task] {
 			continue
 		}
-		relatedTasks := []string{task}
-		localVisited := make(map[string]bool) // to track visited tasks in this loop iteration
+		relatedTasks := []TaskTuple{task}
+		localVisited := make(map[TaskTuple]bool) // to track visited tasks in this loop iteration
 		localVisited[task] = true
 		for _, deeperRelatedTask := range getRelatedTasks(task, localVisited) {
 			if !contains(relatedTasks, deeperRelatedTask) {
@@ -87,7 +87,7 @@ func (t *TasksCollection) mapRelationsRecursively() [][]string {
 }
 
 // Helper function to check if a string slice contains a string
-func contains(slice []string, item string) bool {
+func contains(slice []TaskTuple, item TaskTuple) bool {
 	for _, s := range slice {
 		if s == item {
 			return true

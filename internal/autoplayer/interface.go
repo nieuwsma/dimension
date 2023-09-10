@@ -4,6 +4,7 @@ import "github.com/nieuwsma/dimension/pkg/logic"
 
 type AutoPlayer interface {
 	Solve(tasks logic.Tasks) (solution logic.Dimension)
+	Name() string
 }
 
 func GetDefaultColors() (colors map[logic.Color]int) {
