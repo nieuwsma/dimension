@@ -54,7 +54,7 @@ func (g Color) LongHand() string {
 	case White:
 		return "WHITE"
 	default:
-		return ""
+		return "EMPTY"
 	}
 }
 
@@ -82,7 +82,7 @@ func (s Color) String() string {
 	case White:
 		return "W"
 	default:
-		return ""
+		return "!"
 	}
 }
 

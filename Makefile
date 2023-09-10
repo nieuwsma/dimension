@@ -7,11 +7,16 @@ VERSION ?= $(shell cat .version)
 
 all: image unittest  server
 
-binary: server
+binary: server autoplayertest
 
 #create server binary
 server:
 	go build -v -o bin/server github.com/nieuwsma/dimension/cmd/server
+
+#create autoplayertest binary
+autoplayertest:
+	go build -v -o bin/autoplay github.com/nieuwsma/dimension/cmd/autoplay
+
 
 #create docker image for server
 image:

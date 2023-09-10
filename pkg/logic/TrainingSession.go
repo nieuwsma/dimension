@@ -24,7 +24,7 @@ func NewTrainingSession(drawSize int, seed int64) (t *TrainingSession) {
 	return
 }
 
-func (g *TrainingSession) PlayTurn(playerName PlayerName, dim Dimension) {
+func (g *TrainingSession) PlayTurn(playerName PlayerName, dim Dimension) Turn {
 	score, bonus, taskViolations, errors := ScoreTurn(g.Tasks, dim)
 	if errors != nil {
 		//todo something
@@ -38,7 +38,7 @@ func (g *TrainingSession) PlayTurn(playerName PlayerName, dim Dimension) {
 	}
 	g.ExpirationTime = time.Now().Add(1 * time.Hour)
 
-	return
+	return g.Turns[playerName]
 }
 
 func (g *TrainingSession) Regenerate() {

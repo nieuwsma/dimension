@@ -63,7 +63,6 @@ func ScoreTurn(tasks Tasks, dim Dimension) (score int, bonus bool, taskViolation
 		case strings.Contains(string(task), "QUANTITY"):
 			quantity, err := strconv.Atoi(parts[1])
 			if err != nil {
-				//todo need a different error struct for actual errors, not task violations
 				taskViolations = append(taskViolations, fmt.Sprintf("Could not parse task %s", task))
 				score -= 2
 			} else {
