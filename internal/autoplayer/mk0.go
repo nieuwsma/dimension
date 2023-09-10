@@ -5,13 +5,13 @@ import (
 	"github.com/nieuwsma/dimension/pkg/logic"
 )
 
-// Mk1 is very simple, it sees if there are any color without tasks, then plays them; it will also assign minimum quantities
-type Mk1 struct {
+// Mk0 is very simple, it sees if there are any color without tasks, then plays them
+type Mk0 struct {
 	TaskCollection  tasks.TasksCollection
 	availableColors map[logic.Color]int
 }
 
-func (b *Mk1) Solve(submittedTasks logic.Tasks) (solution logic.Dimension) {
+func (b *Mk0) Solve(submittedTasks logic.Tasks) (solution logic.Dimension) {
 	TaskCollection, _ := tasks.NewTasksCollection(submittedTasks)
 	b.TaskCollection = *TaskCollection
 	b.availableColors = GetDefaultColors()
@@ -31,15 +31,19 @@ func (b *Mk1) Solve(submittedTasks logic.Tasks) (solution logic.Dimension) {
 		}
 	}
 
-	for color, count := range TaskCollection.RequiredQuantity {
-		for i := 0; i < count; i++ {
-			selectableColors = append(selectableColors, color)
-		}
-	}
-
 	spherePairs := generateSpherePairs(selectableColors)
 	a, _ := logic.NewDimension(spherePairs...)
 	solution = *a
 
 	return
+}
+
+func generateSpherePairs(colors []logic.Color) (pairs []logic.SpherePair) {
+	const alphabet = "abcdefghjkn"
+	for idx, color := range colors {
+		char := alphabet[idx%len(alphabet)]
+		pair := logic.NewSpherePair(logic.SphereID(string(char)), color)
+		pairs = append(pairs, *pair)
+	}
+	return pairs
 }

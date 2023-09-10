@@ -430,7 +430,7 @@ func (t *TasksCollection) fillRequiredGreaterThanLessThan() (colors map[logic.Co
 	for _, v := range t.GreaterThan {
 		err := addRelation(v.GreaterColor, v.LesserColor, colorsList)
 		if err != nil {
-			fmt.Println("Error:", err)
+			//fmt.Println("Error:", err)
 		}
 	}
 	colors = colorCounts(colorsList)
