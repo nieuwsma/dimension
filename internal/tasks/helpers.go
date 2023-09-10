@@ -159,6 +159,7 @@ func deduplicateColors(colors []logic.Color) []logic.Color {
 	return result
 }
 
+// todo work on this
 func ProcessCategorizedTasks(t TasksCollection) (interactions map[string][]string) {
 	//TOUCHES
 	if len(t.Touch) >= 1 && len(t.NoTouch) >= 1 {
