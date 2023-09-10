@@ -67,6 +67,7 @@ type TasksCollection struct {
 	AllowedTouches              map[logic.Color][]logic.Color
 	RequiredTouches             map[logic.Color][]logic.Color
 	TaskRelations               map[string][]string
+	Relations                   [][]string
 }
 
 func NewTasksCollection(tasks logic.Tasks) (t *TasksCollection, err error) {
@@ -180,6 +181,7 @@ func NewTasksCollection(tasks logic.Tasks) (t *TasksCollection, err error) {
 	t.RequiredTouches = t.fillRequiredTouches()
 	t.RequiredBottom = t.fillBottom()
 	t.RequiredTop = t.fillTop()
+	t.Relations = t.mapRelationsRecursively()
 	return
 }
 
@@ -351,6 +353,18 @@ func (t *TasksCollection) String() string {
 	sb.WriteString("\nTaskRelations:\n")
 	for k, v := range t.TaskRelations {
 		sb.WriteString(fmt.Sprintf("\t%s: %v\n", k, v))
+	}
+
+	// Relations
+	sb.WriteString("\nRelations:\n")
+	for _, v := range t.Relations {
+		sb.WriteString(fmt.Sprintf("\t["))
+
+		for _, v1 := range v {
+			sb.WriteString(fmt.Sprintf("%v, ", v1))
+		}
+		sb.WriteString(fmt.Sprintf("]\n"))
+
 	}
 
 	return sb.String()
