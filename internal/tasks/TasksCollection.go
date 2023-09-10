@@ -66,7 +66,7 @@ type TasksCollection struct {
 	RequiredBottom              []logic.Color
 	AllowedTouches              map[logic.Color][]logic.Color
 	RequiredTouches             map[logic.Color][]logic.Color
-	TaskRelations               map[string][]string
+	ColorTaskDependency         map[logic.Color][]string
 	Relations                   [][]string
 }
 
@@ -85,9 +85,9 @@ func NewTasksCollection(tasks logic.Tasks) (t *TasksCollection, err error) {
 		RequiredSums:                make(map[logic.Color]Sums),
 		//RequiredTop:                 make([]logic.Color),
 		//RequiredBottom:              []logic.Color
-		AllowedTouches:  make(map[logic.Color][]logic.Color),
-		RequiredTouches: make(map[logic.Color][]logic.Color),
-		TaskRelations:   make(map[string][]string),
+		AllowedTouches:      make(map[logic.Color][]logic.Color),
+		RequiredTouches:     make(map[logic.Color][]logic.Color),
+		ColorTaskDependency: make(map[logic.Color][]string),
 	}
 
 	//special rule, if there is a 2 & 1 quantity task for the same color, add them!
@@ -173,7 +173,6 @@ func NewTasksCollection(tasks logic.Tasks) (t *TasksCollection, err error) {
 		}
 	}
 
-	t.TaskRelations = t.knownRelations()
 	t.RequiredQuantity = t.fillRequiredQuantities()
 	t.RequiredSums = t.fillRequiredSums()
 	t.RequiredGreaterThanLessThan = t.fillRequiredGreaterThanLessThan()
@@ -182,6 +181,7 @@ func NewTasksCollection(tasks logic.Tasks) (t *TasksCollection, err error) {
 	t.RequiredBottom = t.fillBottom()
 	t.RequiredTop = t.fillTop()
 	t.Relations = t.mapRelationsRecursively()
+	t.ColorTaskDependency = t.fillColorTasksDependency()
 	return
 }
 
@@ -349,15 +349,10 @@ func (t *TasksCollection) String() string {
 		sb.WriteString(fmt.Sprintf("\t%s: %v\n", k, v))
 	}
 
-	// TaskRelations
-	sb.WriteString("\nTaskRelations:\n")
-	for k, v := range t.TaskRelations {
-		sb.WriteString(fmt.Sprintf("\t%s: %v\n", k, v))
-	}
-
 	// Relations
 	sb.WriteString("\nRelations:\n")
 	for _, v := range t.Relations {
+
 		sb.WriteString(fmt.Sprintf("\t["))
 
 		for _, v1 := range v {
@@ -365,6 +360,12 @@ func (t *TasksCollection) String() string {
 		}
 		sb.WriteString(fmt.Sprintf("]\n"))
 
+	}
+
+	// ColorTaskDependency
+	sb.WriteString("\nColorTaskDependency:\n")
+	for k, v := range t.ColorTaskDependency {
+		sb.WriteString(fmt.Sprintf("\t%s: %v\n", k, v))
 	}
 
 	return sb.String()
