@@ -38,7 +38,7 @@ func main() {
 	//	fmt.Printf("%s: %d\n", color.LongHand(), count)
 	//}
 
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 1; i++ {
 		fmt.Println(fmt.Sprintf("TEST CASE %v", i))
 
 		trainingSession := logic.NewTrainingSession(6, 12345)
@@ -48,22 +48,6 @@ func main() {
 
 		tasksCollection, _ := tasks.NewTasksCollection(trainingSession.Tasks)
 
-		colorMap := tasksCollection.GetColorTasksDependency()
-		rq := tasksCollection.GetRequiredQuantities()
-		gt := tasksCollection.GetRequiredGreaterThanLessThan()
-		su := tasksCollection.GetRequiredSums()
-		at := tasksCollection.GetAllowedTouches()
-		rt := tasksCollection.GetRequiredTouches()
-		to := tasksCollection.GetTop()
-		bo := tasksCollection.GetBottom()
-
-		kr := tasksCollection.KnownRelations()
-		fmt.Println(tasksCollection.MapRelations())
-		fmt.Println(kr)
-		fmt.Println(fmt.Sprintf("tasks: %v", trainingSession.Tasks))
-		fmt.Println(fmt.Sprintf("task collection \n%v", tasksCollection.String()))
-		fmt.Println(fmt.Sprintf("colorMap : %v", colorMap))
-		fmt.Println(fmt.Sprintf("required touch: %v \nallowed touch: %v \nrequired quantities: %v \nA > B: %v \nSums : %v \nTop : %v \nBottom : %v", rt, at, rq, gt, su, to, bo))
-		fmt.Println()
+		fmt.Println(tasksCollection)
 	}
 }

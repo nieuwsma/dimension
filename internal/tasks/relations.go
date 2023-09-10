@@ -1,21 +1,5 @@
 package tasks
 
-import (
-	"fmt"
-)
-
-//
-//// Sample master thesaurus
-//var thesaurus = map[string][]string{
-//	"hot":      {"warm", "swelter"},
-//	"warm":     {"hot", "swelter"},
-//	"swelter":  {"hot", "warm"},
-//	"cold":     {"freezing"},
-//	"freezing": {"cold"},
-//	"stinky":   {"putrid"},
-//	"putrid":   {"stinky"},
-//}
-
 // Function to check if two words are related
 func areRelated(task1, task2 string, relations map[string][]string) bool {
 	if tasks, exists := relations[task1]; exists {
@@ -28,14 +12,13 @@ func areRelated(task1, task2 string, relations map[string][]string) bool {
 	return false
 }
 
-func (t *TasksCollection) MapRelations() [][]string {
+func (t *TasksCollection) mapRelations() [][]string {
 
-	relations := t.KnownRelations()
+	relations := t.knownRelations()
 	var tasks []string
-	for _, task := range t.tasks {
+	for _, task := range t.Tasks {
 		tasks = append(tasks, string(task))
 	}
-	//tasks := []string{"hot", "warm", "swelter", "cold", "freezing", "stinky", "putrid", "tree"}
 	visited := make(map[string]bool)
 	groups := [][]string{}
 
@@ -57,8 +40,25 @@ func (t *TasksCollection) MapRelations() [][]string {
 		visited[task] = true
 	}
 
-	for _, group := range groups {
-		fmt.Println(group)
-	}
 	return groups
+}
+
+func (t *TasksCollection) knownRelations() (relations map[string][]string) {
+	relations = make(map[string][]string)
+	colorTaskMap := t.fillColorTasksDependency()
+
+	for _, task := range colorTaskMap {
+		for _, subtask := range task {
+			relation := relations[subtask]
+			relation = append(relation, task...)
+			relations[subtask] = relation
+		}
+	}
+
+	for task, tasks := range relations {
+		relations[task] = removeTask(deduplicateTasks(tasks), task)
+
+	}
+
+	return
 }

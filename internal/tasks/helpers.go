@@ -7,22 +7,6 @@ import (
 	"github.com/nieuwsma/dimension/pkg/logic"
 )
 
-//todo this doesnt preserve the relationships well enough
-//func (t *TasksCollection) GetRequiredSums() (colors map[logic.Color]int) {
-//	colorsList := list.New()
-//
-//	for _, v := range t.Sum {
-//
-//		err := addRelation(v.Colors[0], v.Colors[1], colorsList)
-//		if err != nil {
-//			fmt.Println("Error:", err)
-//		}
-//	}
-//	colors = accountForColor(colorsList)
-//
-//	return
-//}
-
 func removeColors(slice []logic.Color, s logic.Color) []logic.Color {
 	var result []logic.Color
 	for _, item := range slice {
@@ -213,7 +197,8 @@ func ProcessCategorizedTasks(t TasksCollection) (interactions map[string][]strin
 	return
 }
 
-//there are 7 types of tasks, what are the ones that interact with eachother?
+/*
+//there are 7 types of Tasks, what are the ones that interact with eachother?
 
 //touch, notouch
 //Touch & NoTouch interact if the are the same, or if any color is the same
@@ -241,3 +226,4 @@ func ProcessCategorizedTasks(t TasksCollection) (interactions map[string][]strin
 // there are rules that are MAY do, meaning if you place the color criteria, it must conform to the rules, e.g. top, bottom, touch, no touch.
 // top and bottom apply even if there is just one sphere of a color, -> they apply to the whole color
 // touch and notouch only apply if there are more than 2 speheres placed: ACOLOR & BCOLOR
+*/
