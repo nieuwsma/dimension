@@ -196,34 +196,3 @@ func ProcessCategorizedTasks(t TasksCollection) (interactions map[string][]strin
 	}
 	return
 }
-
-/*
-//there are 7 types of Tasks, what are the ones that interact with eachother?
-
-//touch, notouch
-//Touch & NoTouch interact if the are the same, or if any color is the same
-//Touch & Touch interacts if any color is the same
-//NoTouch & NoTouch interacts if any color is the same
-
-//bottom,top
-// Bottom & Top interact if the same color is listed
-// Bottom & Bottom interact if there arent any more places
-// Top & Top interact if there arent any more places
-
-//quantity, sum, gt
-// Quantity & Sum interact if any color in sum is Quantity color
-// Quantity & Quantity only interact if they are the same color
-// Sum & Sum interact if any color is in both pairs
-// Quantity & GreaterThan interact if any color is in Quantity
-// GreaterThan & Sum interact if any color is in either
-// GreaterThan & GreaterThan interact if any color is in both pairs
-
-//AH, I realize that these are a priori interactions, I know that touches can impact each other,
-//the other type of interactions are based on color itself; as that is the common thread, I really care as much,
-//if not more about all the places where G has a rule for it
-
-// there are a few types of rules, SHALL DO, like quantity, sum, and greater than, you MUST do these; the only way you meet these if you MUST place at least one color
-// there are rules that are MAY do, meaning if you place the color criteria, it must conform to the rules, e.g. top, bottom, touch, no touch.
-// top and bottom apply even if there is just one sphere of a color, -> they apply to the whole color
-// touch and notouch only apply if there are more than 2 speheres placed: ACOLOR & BCOLOR
-*/

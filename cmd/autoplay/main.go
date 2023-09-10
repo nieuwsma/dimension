@@ -6,14 +6,6 @@ import (
 	"github.com/nieuwsma/dimension/pkg/logic"
 )
 
-// a few thoughts on approaches
-// i could start by submitting an empty dimension, and seeing what i fail
-// i could start by trying to figure out what rules are in conflict
-// i could start by always working with quantity rules first: exact, sum, gt
-
-// some good heuristics,
-// if a color is repeated a lot across many colors, it might be easier to just omit it
-// if there is a touch-GreaterThan-K; then a good pattern is to do GKGKGK around the equator.
 func main() {
 
 	//colors := list.New()
