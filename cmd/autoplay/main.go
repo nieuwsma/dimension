@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"github.com/nieuwsma/dimension/internal/autoplayer"
 	"github.com/nieuwsma/dimension/pkg/logic"
+	"os"
+	"strconv"
 )
 
 func main() {
@@ -11,6 +13,13 @@ func main() {
 	trainingSession := logic.NewTrainingSession(6, 12345)
 	var TurnStatistics = make(map[string][]TurnStatistic)
 	rounds := 100000
+
+	setRounds := os.Getenv("ROUNDS")
+	if setRounds != "" {
+		if intRounds, err := strconv.Atoi(setRounds); err == nil {
+			rounds = intRounds
+		}
+	}
 	for i := 0; i < rounds; i++ {
 
 		{
