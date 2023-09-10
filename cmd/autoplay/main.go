@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/nieuwsma/dimension/internal/tasks"
+	"github.com/nieuwsma/dimension/internal/autoplayer"
 	"github.com/nieuwsma/dimension/pkg/logic"
 )
 
@@ -30,17 +30,22 @@ func main() {
 	//	fmt.Printf("%s: %d\n", color.LongHand(), count)
 	//}
 
+	maxScore := 0
 	for i := 0; i < 1000; i++ {
 
 		trainingSession := logic.NewTrainingSession(6, 12345)
 
-		dimension, _ := logic.NewDimension()
-		trainingSession.PlayTurn("autopilot", *dimension)
+		var ai autoplayer.Mk0
+		dimension := ai.Solve(trainingSession.Tasks)
+		turn := trainingSession.PlayTurn("Mk0-Autoplayer", dimension)
 
-		tasksCollection, _ := tasks.NewTasksCollection(trainingSession.Tasks)
-		if len(tasksCollection.Tasks) == 5 {
+		if turn.Score > maxScore {
+			maxScore = turn.Score
+
 			fmt.Println(fmt.Sprintf("TEST CASE %v", i))
-			fmt.Println(tasksCollection)
+			fmt.Println(ai.TaskCollection.String())
+			fmt.Println(turn)
+
 		}
 	}
 }

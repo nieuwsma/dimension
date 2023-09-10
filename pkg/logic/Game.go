@@ -3,6 +3,7 @@ package logic
 import (
 	"errors"
 	"fmt"
+	"strings"
 	"time"
 )
 
@@ -42,6 +43,27 @@ type Turn struct {
 	Score          int
 	Bonus          bool
 	TaskViolations []string
+}
+
+func (t Turn) String() string {
+	bonusStr := "No"
+	if t.Bonus {
+		bonusStr = "Yes"
+	}
+
+	violationsStr := "None"
+	if len(t.TaskViolations) > 0 {
+		violationsStr = strings.Join(t.TaskViolations, "; ")
+	}
+
+	return fmt.Sprintf(
+		"Player: %s\nDimension: %s\nScore: %d\nBonus: %s\nTask Violations: %s",
+		t.PlayerName,
+		t.Dimension,
+		t.Score,
+		bonusStr,
+		violationsStr,
+	)
 }
 
 type Game struct {
