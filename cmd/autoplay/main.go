@@ -12,7 +12,7 @@ func main() {
 
 	trainingSession := logic.NewTrainingSession(6, 12345)
 	var TurnStatistics = make(map[string][]TurnStatistic)
-	rounds := 1000
+	rounds := 100000
 
 	setRounds := os.Getenv("ROUNDS")
 	if setRounds != "" {

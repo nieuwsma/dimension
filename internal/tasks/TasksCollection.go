@@ -19,6 +19,13 @@ type Counts struct {
 	Min int
 }
 
+func (c *Counts) Zero() bool {
+	if c.Max == 0 && c.Min == 0 {
+		return true
+	}
+	return false
+}
+
 type Quantity struct {
 	Number int
 	Color  logic.Color
