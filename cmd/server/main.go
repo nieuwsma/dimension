@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/gin-contrib/cors"
 	"github.com/namsral/flag"
 	"github.com/nieuwsma/dimension/internal/api"
 	"github.com/nieuwsma/dimension/internal/logger"
@@ -112,6 +113,9 @@ func doRest(serverPort string) {
 	logger.Log.Info("**RUNNING -- Listening on " + defaultPORT)
 
 	router := api.NewRouter()
+
+	// Add CORS middleware
+	router.Use(cors.Default())
 
 	srv := &http.Server{
 		Addr:    ":" + serverPort,
