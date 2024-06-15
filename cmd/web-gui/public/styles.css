@@ -1,0 +1,152 @@
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+.card {
+    width: 150px;
+    height: 200px;
+    border: 1px solid #000;
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+}
+.card:hover .task-name {
+    display: block;
+}
+.task-name {
+    display: none;
+    position: absolute;
+    top: -20px;
+    background-color: #fff;
+    padding: 2px 5px;
+    border: 1px solid #000;
+    border-radius: 3px;
+    font-size: 12px;
+    white-space: nowrap;
+}
+.circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    border: 1px solid black; /* Add thin black border to circles */
+}
+.green { background-color: green; }
+.blue { background-color: blue; }
+.black { background-color: black; }
+.orange { background-color: orange; }
+.white { background-color: white; }
+.gradient {
+    background: linear-gradient(to right,
+    blue 0%, blue 20%,
+    white 20%, white 40%,
+    black 40%, black 60%,
+    orange 60%, orange 80%,
+    green 80%, green 100%);
+}
+.side-by-side {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative; /* Make the container relative */
+}
+.side-by-side.gt .symbol {
+    font-size: 24px;
+    margin: 0 10px; /* Add space between the circles */
+}
+.notouch .cross {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the cross */
+}
+.notouch .cross:before,
+.notouch .cross:after {
+    content: '';
+    position: absolute;
+    background-color: red;
+    transform: rotate(45deg); /* Rotate to make it a cross */
+}
+.notouch .cross:before {
+    top: 0;
+    left: 50%;
+    width: 5px;
+    height: 100%;
+    transform: translateX(-50%) rotate(45deg);
+}
+.notouch .cross:after {
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 5px;
+    transform: translateY(-50%) rotate(45deg);
+}
+.sum .circle {
+    background: linear-gradient(to right, green 50%, blue 50%);
+}
+.sum .number {
+    position: absolute;
+    font-size: 20px;
+    font-weight: bold;
+    top: 40px; /* Position below the circle */
+    left: 50%;
+    transform: translateX(-50%);
+}
+.top, .bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+.top .circle.gradient, .bottom .circle.gradient {
+    position: relative;
+}
+.top .circle.gradient .cross, .bottom .circle.gradient .cross {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1; /* Ensure the cross is above the circle */
+}
+.bottom .circle.gradient .cross {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.top .cross:before,
+.top .cross:after,
+.bottom .cross:before,
+.bottom .cross:after {
+    content: '';
+    position: absolute;
+    background-color: red;
+    transform: rotate(45deg); /* Rotate to make it a cross */
+}
+.top .cross:before,
+.bottom .cross:before {
+    top: 0;
+    left: 50%;
+    width: 5px;
+    height: 100%;
+    transform: translateX(-50%) rotate(45deg);
+}
+.top .cross:after,
+.bottom .cross:after {
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 5px;
+    transform: translateY(-50%) rotate(45deg);
+}
