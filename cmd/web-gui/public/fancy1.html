@@ -61,13 +61,10 @@
         .white { background-color: white; }
         .gray { background-color: gray; }
         .red { background-color: red; }
-        .venn, .gt, .sum {
+        .side-by-side {
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-        .notouch .circle {
-            margin: 0; /* Butt circles against each other */
         }
         .notouch .cross {
             position: absolute;
@@ -208,27 +205,31 @@
                                           <div class="number">${parts[1]}</div>`;
                     break;
                 case 'TOUCH':
-                    card.className += ' venn';
-                    card.innerHTML += `<div class="circle ${getColorClass(parts[1])}"></div>
-                                          <div class="circle ${getColorClass(parts[2])}"></div>`;
+                    card.innerHTML += `<div class="side-by-side">
+                                             <div class="circle ${getColorClass(parts[1])}"></div>
+                                             <div class="circle ${getColorClass(parts[2])}"></div>
+                                           </div>`;
                     break;
                 case 'NOTOUCH':
-                    card.className += ' notouch';
-                    card.innerHTML += `<div class="circle ${getColorClass(parts[1])}"></div>
-                                          <div class="circle ${getColorClass(parts[2])}"></div>
-                                          <div class="cross"></div>`;
+                    card.innerHTML += `<div class="side-by-side">
+                                             <div class="circle ${getColorClass(parts[1])}"></div>
+                                             <div class="circle ${getColorClass(parts[2])}"></div>
+                                             <div class="cross"></div>
+                                           </div>`;
                     break;
                 case 'SUM':
-                    card.className += ' sum';
-                    card.innerHTML += `<div class="circle ${getColorClass(parts[2])}"></div>
-                                          <div class="circle ${getColorClass(parts[3])}"></div>
-                                          <div class="number">${parts[1]}</div>`;
+                    card.innerHTML += `<div class="side-by-side">
+                                             <div class="circle ${getColorClass(parts[2])}"></div>
+                                             <div class="circle ${getColorClass(parts[3])}"></div>
+                                           </div>
+                                           <div class="number">${parts[1]}</div>`;
                     break;
                 case 'GT':
-                    card.className += ' gt';
-                    card.innerHTML += `<div class="circle ${getColorClass(parts[1])}"></div>
-                                          <div class="symbol">></div>
-                                          <div class="circle ${getColorClass(parts[2])}"></div>`;
+                    card.innerHTML += `<div class="side-by-side">
+                                             <div class="circle ${getColorClass(parts[1])}"></div>
+                                             <div class="symbol">></div>
+                                             <div class="circle ${getColorClass(parts[2])}"></div>
+                                           </div>`;
                     break;
                 case 'TOP':
                     card.className += ' top';
