@@ -1,3 +1,10 @@
+button {
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
 .card-container {
     display: flex;
     flex-wrap: wrap;
@@ -150,3 +157,13 @@
     height: 5px;
     transform: translateY(-50%) rotate(45deg);
 }
+
+.description {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    font-size: 12px;
+    text-align: center;
+}
+
+

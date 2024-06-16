@@ -1,20 +1,28 @@
-function renderTasks(tasks) {
+function renderTasks(tasks, containerId = 'card-container', includeDescription = false) {
     if (!tasks || tasks.length === 0) {
         console.error('No tasks to render.');
         return;
     }
 
-    const container = document.getElementById('card-container');
+    const container = document.getElementById(containerId);
+    if (!container) {
+        console.error(`Container with ID ${containerId} not found.`);
+        return;
+    }
     container.innerHTML = ''; // Clear previous content
 
     tasks.forEach(task => {
+        console.log('Task:', task);  // Debugging line to log each task
+
+        const { Name, Description } = task;
+        const parts = Name.split('-');
+
         const card = document.createElement('div');
         card.className = 'card';
         const taskName = document.createElement('div');
         taskName.className = 'task-name';
-        taskName.textContent = task;
+        taskName.textContent = Name;
         card.appendChild(taskName);
-        const parts = task.split('-');
 
         // Create a graphical representation based on the task type
         switch(parts[0]) {
@@ -64,7 +72,14 @@ function renderTasks(tasks) {
                                     </div>`;
                 break;
             default:
-                card.innerHTML = `<p>Unknown Task: ${task}</p>`;
+                card.innerHTML = `<p>Unknown Task: ${Name}</p>`;
+        }
+
+        if (includeDescription && Description) {
+            const descriptionDiv = document.createElement('div');
+            descriptionDiv.className = 'description';
+            descriptionDiv.textContent = Description;
+            card.appendChild(descriptionDiv);
         }
 
         container.appendChild(card);
@@ -80,4 +95,16 @@ function getColorClass(colorCode) {
         case 'W': return 'white';
         default: return 'gray';
     }
+}
+
+function renderSessions(sessions) {
+    const container = document.getElementById('session-list');
+    container.innerHTML = ''; // Clear previous content
+
+    sessions.forEach(session => {
+        const sessionDiv = document.createElement('div');
+        sessionDiv.className = 'session';
+        sessionDiv.innerHTML = `Session ID: ${session} <button onclick="joinSession('${session}')">Join</button>`;
+        container.appendChild(sessionDiv);
+    });
 }

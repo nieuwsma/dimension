@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dimension Game - Home</title>
+    <title>Dimension Game - Training Session</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<h1>Dimension Game - Home</h1>
-<button onclick="viewRules()">View Rules</button>
-<h2>Active Training Sessions</h2>
-<div id="session-list"></div>
-<button onclick="startNewSession()">Start New Session</button>
+<h1>Dimension Game - Training Session</h1>
+<div id="session-id"></div>
+<div id="card-container" class="card-container"></div>
+<button onclick="regenerateTasks()">Regenerate</button>
 <script src="api.js"></script>
 <script src="render.js"></script>
-<script src="main.js"></script>
+<script src="training.js"></script>
 </body>
 </html>
