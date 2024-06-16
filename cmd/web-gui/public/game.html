@@ -15,38 +15,44 @@
         }
         #play-area {
             width: 50%;
+            position: relative;
         }
         #available-choices {
             width: 30%;
         }
         #game-board {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            margin-top: 20px;
+            /*TODO*/
+            position: relative;
+            width: 100px;
+            height: 300px;
+            border: 1px solid black;
         }
         .layer {
+            position: relative;
+            width: 100px;
+            height: 100px;
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
             align-items: center;
-            border: 1px solid #000;
-            padding: 10px;
-            position: relative;
+            border-bottom: 1px solid black;
         }
-        .layer label {
+        .layer:last-child {
+            border-bottom: none;
+        }
+        .layer-label {
             position: absolute;
-            top: -10px;
+            top: 10px;
             left: 10px;
             background-color: #fff;
-            padding: 0 5px;
-        }
-        .slot {
-            width: 50px;
-            height: 50px;
+            padding: 2px 5px;
             border: 1px solid #000;
+        }
+        .sphere {
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
-            margin: 5px;
+            border: 1px solid black;
+            position: absolute;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -57,9 +63,6 @@
                     #f0f0f0 10px,
                     #f0f0f0 20px
             );
-            cursor: pointer;
-            color: black;
-            font-weight: bold;
         }
         .polar {
             background-color: #f8f8f8;
@@ -130,12 +133,14 @@
             gap: 5px;
             margin-top: 10px;
         }
-        .sphere {
+        .available-sphere {
             width: 30px;
             height: 30px;
             border-radius: 50%;
             border: 1px solid black;
-            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .green-sphere { background-color: green; }
         .black-sphere { background-color: black; }
@@ -168,28 +173,29 @@
         <input type="text" id="player-name" required>
     </div>
     <div id="game-board">
-        <div class="layer polar">
-            <label>Polar Layer</label>
-            <div class="slot" id="slot-n">n</div>
+        <div class="layer polar" id="polar-layer">
+<!--            <div class="layer-label">Polar Layer</div>-->
+            <div class="sphere" id="slot-n" style="left: 35px; top: 35px;">n</div>
         </div>
-        <div class="layer tropical">
-            <label>Tropical Layer</label>
-            <div class="slot" id="slot-i">i</div>
-            <div class="slot" id="slot-j">j</div>
-            <div class="slot" id="slot-k">k</div>
-            <div class="slot" id="slot-l">l</div>
-            <div class="slot" id="slot-m">m</div>
-            <div class="slot" id="slot-h">h</div>
+        <div class="layer tropical" id="tropical-layer">
+<!--            <div class="layer-label">Tropical Layer</div>-->
+            <div class="sphere" id="slot-i" style="left: 5px; top: 35px;">i</div>
+            <div class="sphere" id="slot-l" style="left: 65px; top: 35px;">l</div>
+            <div class="sphere" id="slot-m" style="left: 20px; top: 5px;">m</div>
+            <div class="sphere" id="slot-h" style="left: 50px; top: 5px;">h</div>
+            <div class="sphere" id="slot-k" style="left: 20px; top: 65px;">k</div>
+            <div class="sphere" id="slot-j" style="left: 50px; top: 65px;">j</div>
         </div>
-        <div class="layer equatorial">
-            <label>Equatorial Layer</label>
-            <div class="slot" id="slot-a">a</div>
-            <div class="slot" id="slot-b">b</div>
-            <div class="slot" id="slot-c">c</div>
-            <div class="slot" id="slot-d">d</div>
-            <div class="slot" id="slot-e">e</div>
-            <div class="slot" id="slot-f">f</div>
-            <div class="slot" id="slot-g">g</div>
+
+        <div class="layer equatorial" id="equatorial-layer">
+<!--            <div class="layer-label">Equatorial Layer</div>-->
+            <div class="sphere" id="slot-a" style="left: 35px; top: 35px;">a</div>
+            <div class="sphere" id="slot-b" style="left: 35px; top: 5px;">b</div>
+            <div class="sphere" id="slot-c" style="left: 61px; top: 20px;">c</div>
+            <div class="sphere" id="slot-d" style="left: 61px; top: 50px;">d</div>
+            <div class="sphere" id="slot-e" style="left: 35px; top: 65px;">e</div>
+            <div class="sphere" id="slot-f" style="left: 9px; top: 50px;">f</div>
+            <div class="sphere" id="slot-g" style="left: 9px; top: 20px;">g</div>
         </div>
     </div>
     <div id="controls">
@@ -200,21 +206,21 @@
 <div id="available-choices">
     <h2>Available Spheres</h2>
     <div id="available-spheres">
-        <div class="sphere green-sphere" data-color="g"></div>
-        <div class="sphere green-sphere" data-color="g"></div>
-        <div class="sphere green-sphere" data-color="g"></div>
-        <div class="sphere black-sphere" data-color="k"></div>
-        <div class="sphere black-sphere" data-color="k"></div>
-        <div class="sphere black-sphere" data-color="k"></div>
-        <div class="sphere blue-sphere" data-color="b"></div>
-        <div class="sphere blue-sphere" data-color="b"></div>
-        <div class="sphere blue-sphere" data-color="b"></div>
-        <div class="sphere white-sphere" data-color="w"></div>
-        <div class="sphere white-sphere" data-color="w"></div>
-        <div class="sphere white-sphere" data-color="w"></div>
-        <div class="sphere orange-sphere" data-color="o"></div>
-        <div class="sphere orange-sphere" data-color="o"></div>
-        <div class="sphere orange-sphere" data-color="o"></div>
+        <div class="available-sphere green-sphere" data-color="g"></div>
+        <div class="available-sphere green-sphere" data-color="g"></div>
+        <div class="available-sphere green-sphere" data-color="g"></div>
+        <div class="available-sphere black-sphere" data-color="k"></div>
+        <div class="available-sphere black-sphere" data-color="k"></div>
+        <div class="available-sphere black-sphere" data-color="k"></div>
+        <div class="available-sphere blue-sphere" data-color="b"></div>
+        <div class="available-sphere blue-sphere" data-color="b"></div>
+        <div class="available-sphere blue-sphere" data-color="b"></div>
+        <div class="available-sphere white-sphere" data-color="w"></div>
+        <div class="available-sphere white-sphere" data-color="w"></div>
+        <div class="available-sphere white-sphere" data-color="w"></div>
+        <div class="available-sphere orange-sphere" data-color="o"></div>
+        <div class="available-sphere orange-sphere" data-color="o"></div>
+        <div class="available-sphere orange-sphere" data-color="o"></div>
     </div>
 </div>
 <div id="color-picker" class="color-picker">
@@ -228,12 +234,12 @@
 <script>
     const slots = document.querySelectorAll('.slot');
     const colorPicker = document.getElementById('color-picker');
-    const spheres = document.querySelectorAll('.sphere');
+    const spheres = document.querySelectorAll('.available-sphere');
     const playerNameInput = document.getElementById('player-name');
 
     let currentSlot = null;
 
-    slots.forEach(slot => {
+    document.querySelectorAll('.sphere').forEach(slot => {
         slot.addEventListener('click', (event) => {
             currentSlot = event.target;
             const rect = currentSlot.getBoundingClientRect();
@@ -264,7 +270,7 @@
         const previousColor = slot.getAttribute('data-color');
 
         if (previousColor) {
-            const availableSphere = document.querySelector(`.sphere.${previousColor}-sphere.line-through`);
+            const availableSphere = document.querySelector(`.available-sphere.${previousColor}-sphere.line-through`);
             if (availableSphere) {
                 availableSphere.classList.remove('line-through');
             }
@@ -288,7 +294,7 @@
         const previousColor = slot.getAttribute('data-color');
 
         if (previousColor) {
-            const availableSphere = document.querySelector(`.sphere.${previousColor}-sphere.line-through`);
+            const availableSphere = document.querySelector(`.available-sphere.${previousColor}-sphere.line-through`);
             if (availableSphere) {
                 availableSphere.classList.remove('line-through');
             }
@@ -310,7 +316,7 @@
             'o': 0
         };
 
-        document.querySelectorAll('.slot[data-color]').forEach(slot => {
+        document.querySelectorAll('.sphere[data-color]').forEach(slot => {
             const color = slot.getAttribute('data-color');
             if (color) {
                 colorCounts[color]++;
@@ -326,7 +332,7 @@
             }
         });
 
-        document.querySelectorAll('.sphere').forEach(sphere => {
+        document.querySelectorAll('.available-sphere').forEach(sphere => {
             const color = sphere.getAttribute('data-color');
             const sphereCount = colorCounts[color];
             if (sphereCount > 0) {
@@ -347,7 +353,7 @@
 
         const slotData = {};
 
-        document.querySelectorAll('.slot').forEach(slot => {
+        document.querySelectorAll('.sphere').forEach(slot => {
             const slotId = slot.getAttribute('id');
             const color = slot.getAttribute('data-color');
             if (color) {
@@ -368,7 +374,7 @@
     });
 
     function resetAll() {
-        document.querySelectorAll('.slot').forEach(slot => {
+        document.querySelectorAll('.sphere').forEach(slot => {
             resetSlot(slot);
         });
     }
@@ -402,7 +408,7 @@
 
     // Hide color picker when clicking outside
     document.addEventListener('click', (event) => {
-        if (!colorPicker.contains(event.target) && !event.target.classList.contains('slot')) {
+        if (!colorPicker.contains(event.target) && !event.target.classList.contains('sphere')) {
             colorPicker.style.display = 'none';
         }
     });
