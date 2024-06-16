@@ -172,6 +172,9 @@ document.getElementById('submit-btn').addEventListener('click', async () => {
         return;
     }
 
+    const trainID = urlParams.get('sessionID');
+
+    // const trainID = 'your-training-id-here'; // Replace this with the actual trainID
     const slotData = {};
 
     document.querySelectorAll('.sphere').forEach(slot => {
@@ -183,12 +186,13 @@ document.getElementById('submit-btn').addEventListener('click', async () => {
     });
 
     if (validateSubmission(slotData)) {
-        const response = await submitTurn(playerName, slotData);
+        const response = await submitTurn(trainID, playerName, slotData);
         handleServerResponse(response);
     } else {
         alert('Validation failed: A color can be used only 3 times.');
     }
 });
+
 
 document.getElementById('reset-btn').addEventListener('click', () => {
     resetAll();
@@ -208,12 +212,14 @@ function validateSubmission(slotData) {
     return !Object.values(colorCounts).some(count => count > 3);
 }
 
-async function submitTurn(playerName, slotData) {
+async function submitTurn(trainID, playerName, slotData) {
+
+    console.log(trainID,playerName,slotData)
     const payload = {
         playerName: playerName,
         slots: slotData
     };
-    const response = await fetch('http://localhost:8080/training/{trainID}/turn/{playerName}', {
+    const response = await fetch(`http://localhost:8080/training/${trainID}/turn/${playerName}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -222,6 +228,7 @@ async function submitTurn(playerName, slotData) {
     });
     return await response.json();
 }
+
 
 function handleServerResponse(response) {
     // Handle the server response to show the result of the turn
