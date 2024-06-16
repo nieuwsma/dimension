@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dimension Game</title>
+    <style>
+        :root {
+            --board-width: 25vw; /* Set the width of the game board as a percentage */
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            margin: 20px;
+        }
+
+        #training-section {
+            width: 100%;
+            margin-bottom: 20px;
+            border: 1px solid black;
+            padding: 20px;
+        }
+
+        #main-content {
+            display: flex;
+            width: 100%;
+        }
+
+        #play-area {
+            width: 60%;
+            position: relative;
+            margin-right: 20px;
+        }
+
+        #side-content {
+            width: 40%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #available-choices,
+        #results {
+            margin-bottom: 20px;
+            border: 1px solid black;
+            padding: 20px;
+        }
+
+        #game-board {
+            position: relative;
+            width: var(--board-width); /* Use the CSS variable for the width */
+            height: calc(var(--board-width) * 3); /* Set the height to 3 times the width */
+            border: 1px solid black;
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto;
+        }
+
+        .layer {
+            position: relative;
+            width: 100%; /* Full width of the parent */
+            height: 33.33%; /* Each layer takes up a third of the game board height */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid black;
+        }
+
+        .layer:last-child {
+            border-bottom: none;
+        }
+
+        .layer-label {
+            position: absolute;
+            top: 1vw; /* Adjusted from 10px to percentage */
+            left: 1vw; /* Adjusted from 10px to percentage */
+            background-color: #fff;
+            padding: 0.2vw 0.5vw; /* Adjusted from 2px 5px to percentage */
+            border: 1px solid #000;
+        }
+
+        .sphere {
+            width: 30%;
+            height: 30%;
+            border-radius: 50%;
+            border: 1px solid black;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: repeating-linear-gradient(
+                    45deg,
+                    #ffffff,
+                    #ffffff 10px,
+                    #f0f0f0 10px,
+                    #f0f0f0 20px
+            );
+        }
+
+        .polar {
+            background-color: #f8f8f8;
+        }
+
+        .tropical {
+            background-color: #e0e0e0;
+        }
+
+        .equatorial {
+            background-color: #c8c8c8;
+        }
+
+        .color-picker {
+            display: none;
+            position: absolute;
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .color-option, .trash-option {
+            width: 30px;
+            height: 30px;
+            margin: 5px;
+            border: 1px solid black;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .green { background-color: green; }
+        .black { background-color: black; }
+        .blue { background-color: blue; }
+        .white { background-color: white; }
+        .orange { background-color: orange; }
+        .line-through {
+            position: relative;
+            opacity: 0.5;
+        }
+
+        .line-through::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 5px,
+                    red 5px,
+                    red 10px
+            );
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .trash-option::before {
+            content: '🗑️';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #available-spheres {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .available-sphere {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 1px solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .green-sphere { background-color: green; }
+        .black-sphere { background-color: black; }
+        .blue-sphere { background-color: blue; }
+        .white-sphere { background-color: white; }
+        .orange-sphere { background-color: orange; }
+
+        #controls button {
+            margin: 5px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #submit-btn {
+            background-color: green;
+            color: white;
+        }
+
+        #reset-btn {
+            background-color: red;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div id="training-section">
+        <h2>Training Session</h2>
+        <div id="session-id"></div>
+        <div id="card-container" class="card-container"></div>
+        <button onclick="regenerateTasks()">Regenerate</button>
+    </div>
+
+    <div id="main-content">
+        <div id="play-area">
+            <h2>Play Game</h2>
+            <div>
+                <label for="player-name">Player Name:</label>
+                <input type="text" id="player-name" required>
+            </div>
+            <div id="game-board">
+                <div class="layer polar" id="polar-layer">
+                    <div class="sphere" id="slot-n" style="left: 35%; top: 35%;">n</div>
+                </div>
+                <div class="layer tropical" id="tropical-layer">
+                    <div class="sphere" id="slot-i" style="left: 5%; top: 35%;">i</div>
+                    <div class="sphere" id="slot-l" style="left: 65%; top: 35%;">l</div>
+                    <div class="sphere" id="slot-m" style="left: 20%; top: 5%;">m</div>
+                    <div class="sphere" id="slot-h" style="left: 50%; top: 5%;">h</div>
+                    <div class="sphere" id="slot-k" style="left: 20%; top: 65%;">k</div>
+                    <div class="sphere" id="slot-j" style="left: 50%; top: 65%;">j</div>
+                </div>
+                <div class="layer equatorial" id="equatorial-layer">
+                    <div class="sphere" id="slot-a" style="left: 35%; top: 35%;">a</div>
+                    <div class="sphere" id="slot-b" style="left: 35%; top: 5%;">b</div>
+                    <div class="sphere" id="slot-c" style="left: 61%; top: 20%;">c</div>
+                    <div class="sphere" id="slot-d" style="left: 61%; top: 50%;">d</div>
+                    <div class="sphere" id="slot-e" style="left: 35%; top: 65%;">e</div>
+                    <div class="sphere" id="slot-f" style="left: 9%; top: 50%;">f</div>
+                    <div class="sphere" id="slot-g" style="left: 9%; top: 20%;">g</div>
+                </div>
+            </div>
+            <div id="controls">
+                <button id="submit-btn">Submit</button>
+                <button id="reset-btn">Reset</button>
+            </div>
+        </div>
+
+        <div id="side-content">
+            <div id="available-choices">
+                <h2>Available Spheres</h2>
+                <div id="available-spheres">
+                    <div class="available-sphere green-sphere" data-color="g"></div>
+                    <div class="available-sphere green-sphere" data-color="g"></div>
+                    <div class="available-sphere green-sphere" data-color="g"></div>
+                    <div class="available-sphere black-sphere" data-color="k"></div>
+                    <div class="available-sphere black-sphere" data-color="k"></div>
+                    <div class="available-sphere black-sphere" data-color="k"></div>
+                    <div class="available-sphere blue-sphere" data-color="b"></div>
+                    <div class="available-sphere blue-sphere" data-color="b"></div>
+                    <div class="available-sphere blue-sphere" data-color="b"></div>
+                    <div class="available-sphere white-sphere" data-color="w"></div>
+                    <div class="available-sphere white-sphere" data-color="w"></div>
+                    <div class="available-sphere white-sphere" data-color="w"></div>
+                    <div class="available-sphere orange-sphere" data-color="o"></div>
+                    <div class="available-sphere orange-sphere" data-color="o"></div>
+                    <div class="available-sphere orange-sphere" data-color="o"></div>
+                </div>
+            </div>
+
+            <div id="results">
+                <h2>Results</h2>
+                <div id="result-content">
+                    <!-- Results will be displayed here after submission -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="color-picker" class="color-picker">
+    <div class="color-option green" data-color="g"></div>
+    <div class="color-option black" data-color="k"></div>
+    <div class="color-option blue" data-color="b"></div>
+    <div class="color-option white" data-color="w"></div>
+    <div class="color-option orange" data-color="o"></div>
+    <div class="trash-option"></div> <!-- Trash can icon -->
+</div>
+
+<script>
+    const slots = document.querySelectorAll('.slot');
+    const colorPicker = document.getElementById('color-picker');
+    const spheres = document.querySelectorAll('.available-sphere');
+    const playerNameInput = document.getElementById('player-name');
+    const resultsDiv = document.getElementById('result-content');
+
+    let currentSlot = null;
+
+    document.querySelectorAll('.sphere').forEach(slot => {
+        slot.addEventListener('click', (event) => {
+            currentSlot = event.target;
+            const rect = currentSlot.getBoundingClientRect();
+            colorPicker.style.top = `${rect.bottom + window.scrollY}px`;
+            colorPicker.style.left = `${rect.left + window.scrollX}px`;
+            colorPicker.style.display = 'block';
+        });
+    });
+
+    document.querySelectorAll('.color-option, .trash-option').forEach(option => {
+        option.addEventListener('click', () => {
+            const color = option.getAttribute('data-color');
+
+            if (option.classList.contains('trash-option')) {
+                resetSlot(currentSlot);
+            } else if (currentSlot.getAttribute('data-color') === color) {
+                resetSlot(currentSlot);
+            } else if (!option.classList.contains('line-through')) {
+                setColor(currentSlot, color, option.classList[1]);
+            }
+
+            colorPicker.style.display = 'none';
+            updateColorPicker();
+        });
+    });
+
+    function setColor(slot, color, colorName) {
+        const previousColor = slot.getAttribute('data-color');
+
+        if (previousColor) {
+            const availableSphere = document.querySelector(`.available-sphere.${previousColor}-sphere.line-through`);
+            if (availableSphere) {
+                availableSphere.classList.remove('line-through');
+            }
+        }
+
+        slot.style.background = colorName;
+        slot.style.backgroundColor = colorName;
+        slot.style.backgroundImage = "none";
+        slot.setAttribute('data-color', color);
+
+        if (color === 'g' || color === 'k' || color === 'b') {
+            slot.style.color = 'white';
+        } else {
+            slot.style.color = 'black';
+        }
+
+        updateColorPicker();
+    }
+
+    function resetSlot(slot) {
+        const previousColor = slot.getAttribute('data-color');
+
+        if (previousColor) {
+            const availableSphere = document.querySelector(`.available-sphere.${previousColor}-sphere.line-through`);
+            if (availableSphere) {
+                availableSphere.classList.remove('line-through');
+            }
+        }
+
+        slot.style.background = "repeating-linear-gradient(45deg, #ffffff, #ffffff 10px, #f0f0f0 10px, #f0f0f0 20px)";
+        slot.style.color = 'black';
+        slot.removeAttribute('data-color');
+
+        updateColorPicker();
+    }
+
+    function updateColorPicker() {
+        const colorCounts = {
+            'g': 0,
+            'k': 0,
+            'b': 0,
+            'w': 0,
+            'o': 0
+        };
+
+        document.querySelectorAll('.sphere[data-color]').forEach(slot => {
+            const color = slot.getAttribute('data-color');
+            if (color) {
+                colorCounts[color]++;
+            }
+        });
+
+        document.querySelectorAll('.color-option').forEach(option => {
+            const color = option.getAttribute('data-color');
+            if (colorCounts[color] >= 3) {
+                option.classList.add('line-through');
+            } else {
+                option.classList.remove('line-through');
+            }
+        });
+
+        document.querySelectorAll('.available-sphere').forEach(sphere => {
+            const color = sphere.getAttribute('data-color');
+            const sphereCount = colorCounts[color];
+            if (sphereCount > 0) {
+                sphere.classList.add('line-through');
+                colorCounts[color]--;
+            } else {
+                sphere.classList.remove('line-through');
+            }
+        });
+    }
+
+    document.getElementById('submit-btn').addEventListener('click', async () => {
+        const playerName = playerNameInput.value.trim();
+        if (!playerName) {
+            alert('Player name is required.');
+            return;
+        }
+
+        const slotData = {};
+
+        document.querySelectorAll('.sphere').forEach(slot => {
+            const slotId = slot.getAttribute('id');
+            const color = slot.getAttribute('data-color');
+            if (color) {
+                slotData[slotId] = color;
+            }
+        });
+
+        if (validateSubmission(slotData)) {
+            const response = await submitTurn(playerName, slotData);
+            handleServerResponse(response);
+        } else {
+            alert('Validation failed: A color can be used only 3 times.');
+        }
+    });
+
+    document.getElementById('reset-btn').addEventListener('click', () => {
+        resetAll();
+    });
+
+    function resetAll() {
+        document.querySelectorAll('.sphere').forEach(slot => {
+            resetSlot(slot);
+        });
+    }
+
+    function validateSubmission(slotData) {
+        const colorCounts = {};
+        Object.values(slotData).forEach(color => {
+            colorCounts[color] = (colorCounts[color] || 0) + 1;
+        });
+        return !Object.values(colorCounts).some(count => count > 3);
+    }
+
+    async function submitTurn(playerName, slotData) {
+        const payload = {
+            playerName: playerName,
+            slots: slotData
+        };
+        const response = await fetch('http://localhost:8080/training/{trainID}/turn/{playerName}', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+        return await response.json();
+    }
+
+    function handleServerResponse(response) {
+        // Handle the server response to show the result of the turn
+        resultsDiv.innerHTML = JSON.stringify(response, null, 2); // Example of displaying the result
+    }
+
+    // Hide color picker when clicking outside
+    document.addEventListener('click', (event) => {
+        if (!colorPicker.contains(event.target) && !event.target.classList.contains('sphere')) {
+            colorPicker.style.display = 'none';
+        }
+    });
+
+    updateColorPicker();
+
+
+</script>
+<script src="api.js"></script>
+<script src="render.js"></script>
+<script src="training.js"></script>
+</body>
+</html>
