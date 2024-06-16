@@ -106,7 +106,7 @@ function renderSessions(sessions) {
         const sessionButton = document.createElement('button');
         sessionButton.className = 'session-button';
         sessionButton.textContent = `${session}`;
-        sessionButton.onclick = () => joinSession(session);
+        sessionButton.onclick = () => joinGame(session);
         container.appendChild(sessionButton);
     });
 }
