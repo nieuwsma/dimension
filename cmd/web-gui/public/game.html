@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dimension Game</title>
     <style>
+
+        :root {
+            --board-width: 25vw; /* Set the width of the game board as a percentage */
+        }
+
         body {
             display: flex;
             justify-content: center;
@@ -23,14 +28,14 @@
         #game-board {
             /*TODO*/
             position: relative;
-            width: 100px;
-            height: 300px;
+            width: var(--board-width); /* Use the CSS variable for the width */
+            height: calc(var(--board-width) * 3); /* Set the height to 3 times the width */
             border: 1px solid black;
         }
         .layer {
             position: relative;
-            width: 100px;
-            height: 100px;
+            width: 100%; /* Full width of the parent */
+            height: 33.33%; /* Each layer takes up a third of the game board height */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -48,8 +53,8 @@
             border: 1px solid #000;
         }
         .sphere {
-            width: 30px;
-            height: 30px;
+            width: 30%;
+            height: 30%;
             border-radius: 50%;
             border: 1px solid black;
             position: absolute;
@@ -175,27 +180,27 @@
     <div id="game-board">
         <div class="layer polar" id="polar-layer">
 <!--            <div class="layer-label">Polar Layer</div>-->
-            <div class="sphere" id="slot-n" style="left: 35px; top: 35px;">n</div>
+            <div class="sphere" id="slot-n" style="left: 35%; top: 35%;">n</div>
         </div>
         <div class="layer tropical" id="tropical-layer">
 <!--            <div class="layer-label">Tropical Layer</div>-->
-            <div class="sphere" id="slot-i" style="left: 5px; top: 35px;">i</div>
-            <div class="sphere" id="slot-l" style="left: 65px; top: 35px;">l</div>
-            <div class="sphere" id="slot-m" style="left: 20px; top: 5px;">m</div>
-            <div class="sphere" id="slot-h" style="left: 50px; top: 5px;">h</div>
-            <div class="sphere" id="slot-k" style="left: 20px; top: 65px;">k</div>
-            <div class="sphere" id="slot-j" style="left: 50px; top: 65px;">j</div>
+            <div class="sphere" id="slot-i" style="left: 5%; top: 35%;">i</div>
+            <div class="sphere" id="slot-l" style="left: 65%; top: 35%;">l</div>
+            <div class="sphere" id="slot-m" style="left: 20%; top: 5%;">m</div>
+            <div class="sphere" id="slot-h" style="left: 50%; top: 5%;">h</div>
+            <div class="sphere" id="slot-k" style="left: 20%; top: 65%;">k</div>
+            <div class="sphere" id="slot-j" style="left: 50%; top: 65%;">j</div>
         </div>
 
         <div class="layer equatorial" id="equatorial-layer">
 <!--            <div class="layer-label">Equatorial Layer</div>-->
-            <div class="sphere" id="slot-a" style="left: 35px; top: 35px;">a</div>
-            <div class="sphere" id="slot-b" style="left: 35px; top: 5px;">b</div>
-            <div class="sphere" id="slot-c" style="left: 61px; top: 20px;">c</div>
-            <div class="sphere" id="slot-d" style="left: 61px; top: 50px;">d</div>
-            <div class="sphere" id="slot-e" style="left: 35px; top: 65px;">e</div>
-            <div class="sphere" id="slot-f" style="left: 9px; top: 50px;">f</div>
-            <div class="sphere" id="slot-g" style="left: 9px; top: 20px;">g</div>
+            <div class="sphere" id="slot-a" style="left: 35%; top: 35%;">a</div>
+            <div class="sphere" id="slot-b" style="left: 35%; top: 5%;">b</div>
+            <div class="sphere" id="slot-c" style="left: 61%; top: 20%;">c</div>
+            <div class="sphere" id="slot-d" style="left: 61%; top: 50%;">d</div>
+            <div class="sphere" id="slot-e" style="left: 35%; top: 65%;">e</div>
+            <div class="sphere" id="slot-f" style="left: 9%; top: 50%;">f</div>
+            <div class="sphere" id="slot-g" style="left: 9%; top: 20%;">g</div>
         </div>
     </div>
     <div id="controls">
