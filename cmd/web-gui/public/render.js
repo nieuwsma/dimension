@@ -97,14 +97,17 @@ function getColorClass(colorCode) {
     }
 }
 
+
 function renderSessions(sessions) {
     const container = document.getElementById('session-list');
     container.innerHTML = ''; // Clear previous content
 
     sessions.forEach(session => {
-        const sessionDiv = document.createElement('div');
-        sessionDiv.className = 'session';
-        sessionDiv.innerHTML = `Session ID: ${session} <button onclick="joinSession('${session}')">Join</button>`;
-        container.appendChild(sessionDiv);
+        const sessionButton = document.createElement('button');
+        sessionButton.className = 'session-button';
+        sessionButton.textContent = `${session}`;
+        sessionButton.onclick = () => joinSession(session);
+        container.appendChild(sessionButton);
     });
 }
+

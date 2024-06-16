@@ -4,9 +4,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (sessionID) {
         document.getElementById('session-id').textContent = `Session ID: ${sessionID}`;
-        const tasks = await fetchTasks();  // Fetch tasks for the specific session ID
-        console.log('Tasks:', tasks);  // Debugging line to log the tasks
-        renderTasks(tasks);
+        const response = await fetchTasks();  // Fetch tasks for the specific session ID
+        if (response && response.tasks) {
+            const tasks = response.tasks;
+            console.log('Tasks:', tasks);  // Debugging line to log the tasks
+            renderTasks(tasks);
+        } else {
+            console.error('Failed to fetch tasks for the session.');
+        }
     } else {
         console.error('No session ID found.');
     }
@@ -17,9 +22,14 @@ async function regenerateTasks() {
     const sessionID = urlParams.get('sessionID');
 
     if (sessionID) {
-        const tasks = await regenerateTasks(sessionID);
-        console.log('Regenerated Tasks:', tasks);  // Debugging line to log the tasks
-        renderTasks(tasks);
+        const response = await regenerateTasks(sessionID);
+        if (response && response.tasks) {
+            const tasks = response.tasks;
+            console.log('Regenerated Tasks:', tasks);  // Debugging line to log the tasks
+            renderTasks(tasks);
+        } else {
+            console.error('Failed to regenerate tasks for the session.');
+        }
     } else {
         console.error('No session ID found for regeneration.');
     }
