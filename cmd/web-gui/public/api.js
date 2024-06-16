@@ -88,7 +88,7 @@ async function regenerateTasks(trainID) {
         console.log('Regenerated Tasks:', data);  // Debugging line to log the response
         // Convert tasks to an array of objects with Name and Description
         return {
-            tasks: data.tasks.map(task => ({ Name: task, Description: '' })) // Add empty description
+            tasks: data.tasks.map(task => ({ Name: task, Description: '' }))
         };
     } catch (error) {
         console.error('Error regenerating tasks:', error);
