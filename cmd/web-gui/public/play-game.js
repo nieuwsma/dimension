@@ -22,39 +22,6 @@ function homePage() {
     window.location.href = 'index.html';
 }
 
-//todo why is regenerateTasks() not called?
-async function regenerateTasks() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const sessionID = urlParams.get('sessionID');
-
-    if (sessionID) {
-        try {
-            const response = await fetch(`http://localhost:8080/training/${sessionID}/regenerate`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
-            console.log('Regenerated Tasks:', data);  // Debugging line to log the tasks
-
-            // Convert tasks to an array of objects with Name and Description
-            const tasks = data.tasks.map(task => ({Name: task, Description: ''}));
-
-            // Render the tasks
-            renderTasks(tasks);
-        } catch (error) {
-            console.error('Error regenerating tasks:', error);
-        }
-    } else {
-        console.error('No session ID found for regeneration.');
-    }
-}
 
 const slots = document.querySelectorAll('.slot');
 const colorPicker = document.getElementById('color-picker');
@@ -193,7 +160,7 @@ document.getElementById('submit-btn').addEventListener('click', async () => {
 
     if (validateSubmission(slotData)) {
         const response = await submitTurn(trainID, playerName, slotData);
-        handleServerResponse(response);
+        await renderResult(response);
     } else {
         alert('Validation failed: A color can be used only 3 times.');
     }
@@ -217,99 +184,13 @@ function validateSubmission(slotData) {
     return !Object.values(colorCounts).some(count => count > 3);
 }
 
-async function submitTurn(trainID, playerName, slotData) {
-    console.log('Submitting turn');  // Debugging line to check function call
-    console.log('Train ID:', trainID);  // Debugging line to log trainID
-    console.log('Player Name:', playerName);  // Debugging line to log playerName
-    console.log('Slot Data:', slotData);  // Debugging line to log slotData
-
-    const payload = slotData;
-    const encodedPlayerName = encodeURIComponent(playerName);
-    try {
-        const response = await fetch(`http://localhost:8080/training/${encodeURIComponent(trainID)}/turn/${encodedPlayerName}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            return { error: errorData };
-        }
-
-        return await response.json();
-    } catch (error) {
-        console.error('Error submitting turn:', error);
-        return { error: { detail: 'Network error, please try again later.' } };
-    }
-}
-
-
-async function fetchRuleDescriptions() {
-    try {
-        const response = await fetch(`http://localhost:8080/rules`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        return Array.isArray(data.Tasks) ? data.Tasks : [];
-    } catch (error) {
-        console.error('Error fetching rule descriptions:', error);
-        return [];
-    }
-}
-
-function mapTasksToViolations(tasks, ruleDescriptions) {
+function mapTasksToRulesDescriptions(tasks, ruleDescriptions) {
     return tasks.map(task => {
         const rule = ruleDescriptions.find(r => task.includes(r.Name));
         return rule ? rule.Description : task;
     });
 }
 
-async function handleServerResponse(response) {
-    if (response.error) {
-        const errorMessage = response.error.detail || 'An unknown error occurred.';
-        const resultsHTML = `
-            <h3>Error</h3>
-            <p>${errorMessage}</p>
-        `;
-        resultsDiv.innerHTML = resultsHTML;
-        return;
-    }
-
-    console.log(response);
-    const { turn, tasks, expirationTime } = response;
-    const { playerName, score, bonusPoints, dimension, taskViolations } = turn;
-
-    // Fetch rule descriptions
-    const ruleDescriptions = await fetchRuleDescriptions();
-
-    // Map violations to descriptions
-    const violations = Array.isArray(taskViolations) ? mapTasksToViolations(tasks, ruleDescriptions) : [];
-
-    // Construct the results HTML
-    const resultsHTML = `
-        <h3>Player: ${playerName}</h3>
-        <p>Score: ${score}</p>
-        <p>Bonus Points: ${bonusPoints ? "Yes" : "No"}</p>
-        <h4>Task Violations:</h4>
-        <ul>
-            ${taskViolations.map(taskViolation => `<li>${taskViolation}</li>`).join('')}
-        </ul>
-        <h4>Task Explanations:</h4>
-         <ul>
-            ${violations.map(violation => `<li>${violation}</li>`).join('')}
-        </ul>
-        <p>Expiration Time: ${new Date(expirationTime).toLocaleString()}</p>
-    `;
-
-
-
-    // Display the results
-    resultsDiv.innerHTML = resultsHTML;
-}
 
 // Hide color picker when clicking outside
 document.addEventListener('click', (event) => {

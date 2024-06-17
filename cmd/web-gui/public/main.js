@@ -13,12 +13,7 @@ function viewRules() {
     window.location.href = 'rules.html';
 }
 
-
-
-
-
-
-function startGame() {
+function createGame() {
     createTrainingSession().then(data => {
         if (data) {
             console.log('New Session Data:', data);  // Debugging line to log new session data

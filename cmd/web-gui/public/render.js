@@ -14,7 +14,7 @@ function renderTasks(tasks, containerId = 'card-container', includeDescription =
     tasks.forEach(task => {
         console.log('Task:', task);  // Debugging line to log each task
 
-        const { Name, Description } = task;
+        const {Name, Description} = task;
         const parts = Name.split('-');
 
         const card = document.createElement('div');
@@ -25,7 +25,7 @@ function renderTasks(tasks, containerId = 'card-container', includeDescription =
         card.appendChild(taskName);
 
         // Create a graphical representation based on the task type
-        switch(parts[0]) {
+        switch (parts[0]) {
             case 'QUANTITY':
                 card.className += ' quantity';
                 card.innerHTML += `<div class="circle ${getColorClass(parts[2])}"></div>
@@ -87,13 +87,19 @@ function renderTasks(tasks, containerId = 'card-container', includeDescription =
 }
 
 function getColorClass(colorCode) {
-    switch(colorCode) {
-        case 'G': return 'green';
-        case 'B': return 'blue';
-        case 'K': return 'black';
-        case 'O': return 'orange';
-        case 'W': return 'white';
-        default: return 'gray';
+    switch (colorCode) {
+        case 'G':
+            return 'green';
+        case 'B':
+            return 'blue';
+        case 'K':
+            return 'black';
+        case 'O':
+            return 'orange';
+        case 'W':
+            return 'white';
+        default:
+            return 'gray';
     }
 }
 
@@ -111,3 +117,59 @@ function renderSessions(sessions) {
     });
 }
 
+async function renderResult(response) {
+    if (response.error) {
+        const errorMessage = response.error.detail || 'An unknown error occurred.';
+        const resultsHTML = `
+            <h3>Error</h3>
+            <p>${errorMessage}</p>
+        `;
+        resultsDiv.innerHTML = resultsHTML;
+        return;
+    }
+
+    console.log(response);
+    const {turn, tasks, expirationTime} = response;
+    const {playerName, score, bonusPoints, dimension, taskViolations} = turn;
+
+    // Fetch rule descriptions
+    const ruleDescriptions = await fetchRuleDescriptions();
+
+    // Map violations to descriptions
+    const describedTasks = mapTasksToRulesDescriptions(tasks, ruleDescriptions);
+
+    // Construct the results HTML
+    let headerHTML = `
+        <h3>Player: ${playerName}</h3>
+        <p>Score: ${score}</p>
+        <p>Bonus Points: ${bonusPoints ? "Yes" : "No"}</p>
+        `;
+
+    let violationHTML = '';
+    if (taskViolations && taskViolations.length > 0) {
+        violationHTML = `
+            <h4>Task Violations:</h4>
+            <ul>
+                ${taskViolations.map(taskViolation => `<li>${taskViolation}</li>`).join('')}
+            </ul>
+            `;
+    }
+
+    let explainationHTML = '';
+    if (describedTasks && describedTasks.length > 0) {
+        explainationHTML = `
+            <h4>Task Explanations:</h4>
+            <ul>
+                ${describedTasks.map(describedTask => `<li>${describedTask}</li>`).join('')}
+            </ul>
+            <p>Expiration Time: ${new Date(expirationTime).toLocaleString()}</p>
+        `;
+    }
+
+    let resultsHTML = headerHTML;
+    resultsHTML += violationHTML;
+    resultsHTML += explainationHTML;
+
+    // Display the results
+    resultsDiv.innerHTML = resultsHTML;
+}
