@@ -17,12 +17,17 @@ function renderTasks(tasks, containerId = 'card-container', includeDescription =
         const {Name, Description} = task;
         const parts = Name.split('-');
 
-        const card = document.createElement('div');
-        card.className = 'card';
-        const taskName = document.createElement('div');
-        taskName.className = 'task-name';
-        taskName.textContent = Name;
-        card.appendChild(taskName);
+        let card = document.createElement('div');
+        if (includeDescription) {
+            card.className = 'card-with-description';
+        } else {
+            card.className = 'card';
+        }
+        // i changed my mind, I dont want to render the hover element
+        // const taskName = document.createElement('div');
+        // taskName.className = 'task-name';
+        // taskName.textContent = Description;
+        // card.appendChild(taskName);
 
         // Create a graphical representation based on the task type
         switch (parts[0]) {
