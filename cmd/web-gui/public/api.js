@@ -1,4 +1,3 @@
-
 async function fetchActiveSessions() {
     try {
         const response = await fetch('http://localhost:8080/training', {
@@ -43,8 +42,35 @@ async function fetchRules() {
     }
 }
 
+async function retrieveTrainingSession(ID) {
+    const trainID = encodeURIComponent(ID);
 
-async function fetchTasks() {
+    try {
+        const response = await fetch(`http://localhost:8080/training/${trainID}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('API Response:', data);  // Debugging line to log the response
+        // Convert tasks to an array of objects with Name and Description
+        return {
+            trainID: data.trainID,
+            tasks: data.tasks.map(task => ({Name: task, Description: ''})) // Add empty description
+        };
+    } catch (error) {
+        console.error('Error fetching tasks:', error);
+        return null;
+    }
+}
+
+async function createTrainingSession() {
     try {
         const response = await fetch('http://localhost:8080/training', {
             method: 'POST',
@@ -63,7 +89,7 @@ async function fetchTasks() {
         // Convert tasks to an array of objects with Name and Description
         return {
             trainID: data.trainID,
-            tasks: data.tasks.map(task => ({ Name: task, Description: '' })) // Add empty description
+            tasks: data.tasks.map(task => ({Name: task, Description: ''})) // Add empty description
         };
     } catch (error) {
         console.error('Error fetching tasks:', error);
@@ -71,28 +97,28 @@ async function fetchTasks() {
     }
 }
 
-async function regenerateTasks(trainID) {
-    try {
-        const response = await fetch(`http://localhost:8080/training/${trainID}/regenerate`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        console.log('Regenerated Tasks:', data);  // Debugging line to log the response
-        // Convert tasks to an array of objects with Name and Description
-        return {
-            tasks: data.tasks.map(task => ({ Name: task, Description: '' }))
-        };
-    } catch (error) {
-        console.error('Error regenerating tasks:', error);
-        return null;
-    }
-}
+// async function regenerateTasks(trainID) {
+//     try {
+//         const response = await fetch(`http://localhost:8080/training/${trainID}/regenerate`, {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             }
+//         });
+//
+//         if (!response.ok) {
+//             throw new Error(`HTTP error! status: ${response.status}`);
+//         }
+//
+//         const data = await response.json();
+//         console.log('Regenerated Tasks:', data);  // Debugging line to log the response
+//         // Convert tasks to an array of objects with Name and Description
+//         return {
+//             tasks: data.tasks.map(task => ({ Name: task, Description: '' }))
+//         };
+//     } catch (error) {
+//         console.error('Error regenerating tasks:', error);
+//         return null;
+//     }
+// }
 
