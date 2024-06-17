@@ -1,20 +1,20 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
-    const sessionID = urlParams.get('sessionID');
-    console.log('Session ID:', sessionID); // Debugging line to log session ID
+    const trainID = urlParams.get('trainID');
+    console.log('trainID:', trainID); // Debugging line to log trainID
 
-    if (sessionID) {
-        document.getElementById('session-id').textContent = `Session ID: ${sessionID}`;
-        const response = await retrieveTrainingSession(sessionID);  // Fetch tasks for the specific session ID
+    if (trainID) {
+        document.getElementById('train-id').textContent = `Training Session ID: ${trainID}`;
+        const response = await fetchTrainingSession(trainID);  // Fetch tasks for the specific trainID
         if (response && response.tasks) {
             const tasks = response.tasks;
             console.log('Tasks:', tasks);  // Debugging line to log the tasks
             renderTasks(tasks);
         } else {
-            console.error('Failed to fetch tasks for the session.');
+            console.error('Failed to fetch tasks for the training session.');
         }
     } else {
-        console.error('No session ID found.');
+        console.error('No  trainID found.');
     }
 });
 
@@ -145,7 +145,7 @@ document.getElementById('submit-btn').addEventListener('click', async () => {
     }
 
     const urlParams = new URLSearchParams(window.location.search);  // Ensure urlParams is declared here
-    const trainID = urlParams.get('sessionID');
+    const trainID = urlParams.get('trainID');
     console.log('Train ID:', trainID);  // Debugging line to log trainID
     console.log('Player Name:', playerName);  // Debugging line to log playerName
 

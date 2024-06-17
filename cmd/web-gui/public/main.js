@@ -1,12 +1,12 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    const sessions = await fetchActiveSessions();
-    console.log('Sessions:', sessions);  // Debugging line to log the sessions
+    const trainingSessions = await fetchActiveTrainingSessions();
+    console.log('Sessions:', trainingSessions);  // Debugging line to log the trainingSessions
 
-    // Sort sessions alphabetically
-    sessions.sort();
+    // Sort trainingSessions alphabetically
+    trainingSessions.sort();
 
-    // Render sessions
-    renderSessions(sessions);
+    // Render trainingSessions
+    renderTrainingSessions(trainingSessions);
 });
 
 function viewRules() {
@@ -16,19 +16,19 @@ function viewRules() {
 function createGame() {
     createTrainingSession().then(data => {
         if (data) {
-            console.log('New Session Data:', data);  // Debugging line to log new session data
+            console.log('New Training Session Data:', data);  // Debugging line to log new session data
             const { trainID, tasks } = data;
-            console.log('New Session ID:', trainID);  // Debugging line to log new session ID
-            console.log('New Session Tasks:', tasks);  // Debugging line to log new session tasks
-            // Redirect to training page with new session ID and tasks
-            window.location.href = `play-game.html?sessionID=${trainID}`;
+            console.log('New Training Session ID:', trainID);  // Debugging line to log new session ID
+            console.log('New Training Session Tasks:', tasks);  // Debugging line to log new session tasks
+            // Redirect to training page with new  trainID and tasks
+            window.location.href = `play-game.html?trainID=${trainID}`;
         } else {
             console.error('Failed to create a new game.');
         }
     });
 }
 
-function joinGame(sessionID) {
-    // Logic to join a session, e.g., redirect to training page with session ID
-    window.location.href = `play-game.html?sessionID=${sessionID}`;
+function joinGame(trainID) {
+    // Logic to join a training session, e.g., redirect to training page with  trainID
+    window.location.href = `play-game.html?trainID=${trainID}`;
 }

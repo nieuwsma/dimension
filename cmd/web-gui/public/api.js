@@ -1,4 +1,4 @@
-async function fetchActiveSessions() {
+async function fetchActiveTrainingSessions() {
     try {
         const response = await fetch('http://localhost:8080/training', {
             method: 'GET',
@@ -12,10 +12,10 @@ async function fetchActiveSessions() {
         }
 
         const data = await response.json();
-        console.log('Active Sessions:', data);  // Debugging line to log the response
+        console.log('Active Training Sessions:', data);  // Debugging line to log the response
         return data.trainingSessions;
     } catch (error) {
-        console.error('Error fetching active sessions:', error);
+        console.error('Error fetching active training sessions:', error);
         return [];
     }
 }
@@ -42,7 +42,7 @@ async function fetchRules() {
     }
 }
 
-async function retrieveTrainingSession(ID) {
+async function fetchTrainingSession(ID) {
     const trainID = encodeURIComponent(ID);
 
     try {
@@ -99,11 +99,11 @@ async function createTrainingSession() {
 
 async function regenerateTasks() {
     const urlParams = new URLSearchParams(window.location.search);
-    const sessionID = urlParams.get('sessionID');
+    const trainID = urlParams.get('trainID');
 
-    if (sessionID) {
+    if (trainID) {
         try {
-            const response = await fetch(`http://localhost:8080/training/${sessionID}/regenerate`, {
+            const response = await fetch(`http://localhost:8080/training/${trainID}/regenerate`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -126,7 +126,7 @@ async function regenerateTasks() {
             console.error('Error regenerating tasks:', error);
         }
     } else {
-        console.error('No session ID found for regeneration.');
+        console.error('No  trainID found for regeneration.');
     }
 }
 

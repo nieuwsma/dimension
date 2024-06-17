@@ -104,16 +104,16 @@ function getColorClass(colorCode) {
 }
 
 
-function renderSessions(sessions) {
+function renderTrainingSessions(trainingSessions) {
     const container = document.getElementById('session-list');
     container.innerHTML = ''; // Clear previous content
 
-    sessions.forEach(session => {
-        const sessionButton = document.createElement('button');
-        sessionButton.className = 'session-button';
-        sessionButton.textContent = `${session}`;
-        sessionButton.onclick = () => joinGame(session);
-        container.appendChild(sessionButton);
+    trainingSessions.forEach(session => {
+        const trainingSessionButton = document.createElement('button');
+        trainingSessionButton.className = 'session-button';
+        trainingSessionButton.textContent = `${session}`;
+        trainingSessionButton.onclick = () => joinGame(session);
+        container.appendChild(trainingSessionButton);
     });
 }
 
