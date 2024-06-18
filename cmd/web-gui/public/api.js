@@ -1,26 +1,28 @@
 function getApiBaseUrl() {
     const hostname = window.location.hostname;
     if (hostname === 'localhost') {
+        console.log('running on localhost')
         return 'http://localhost:8080';
     }
     return `http://${hostname}:8080`; // Assumes API is on the same host
 }
 
 const apiBaseUrl = getApiBaseUrl();
+console.log('API Base URL:', apiBaseUrl); // Add a debug log to verify the API URL
 
-function fetchData() {
-    fetch(`${apiBaseUrl}/training`)
-        .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => console.error('Error fetching data:', error));
-}
-
-fetchData();
+// function fetchData() {
+//     fetch(`${apiBaseUrl}/training`)
+//         .then(response => response.json())
+//         .then(data => console.log(data))
+//         .catch(error => console.error('Error fetching data:', error));
+// }
+//
+// fetchData();
 
 
 async function fetchActiveTrainingSessions() {
     try {
-        const response = await fetch('${apiBaseUrl}/training', {
+        const response = await fetch(`${apiBaseUrl}/training`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -42,12 +44,15 @@ async function fetchActiveTrainingSessions() {
 
 async function fetchRules() {
     try {
-        const response = await fetch('${apiBaseUrl}/rules', {
+        const response = await fetch(`${apiBaseUrl}/rules`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             }
         });
+
+        console.log("ANdrew")
+        console.log(apiBaseUrl)
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -92,7 +97,7 @@ async function fetchTrainingSession(ID) {
 
 async function createTrainingSession() {
     try {
-        const response = await fetch('${apiBaseUrl}/training', {
+        const response = await fetch(`${apiBaseUrl}/training`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
