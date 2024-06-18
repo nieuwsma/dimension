@@ -17,8 +17,8 @@ func removeColors(slice []logic.Color, s logic.Color) []logic.Color {
 	return result
 }
 
-func removeTask(slice []string, s string) []string {
-	var result []string
+func removeTask(slice []TaskTuple, s TaskTuple) []TaskTuple {
+	var result []TaskTuple
 	for _, item := range slice {
 		if item != s {
 			result = append(result, item)
@@ -53,8 +53,8 @@ func accountForColor(l *list.List) map[logic.Color]int {
 	return colorMap
 }
 
-func colorCounts(l *list.List) map[logic.Color]int {
-	colorMap := make(map[logic.Color]int)
+func colorCounts(l *list.List) map[logic.Color]Counts {
+	colorMap := make(map[logic.Color]Counts)
 	counter := 0
 
 	for e := l.Back(); e != nil; e = e.Prev() {
@@ -64,8 +64,25 @@ func colorCounts(l *list.List) map[logic.Color]int {
 			continue
 		}
 
-		colorMap[color] = counter
+		counts := colorMap[color]
+		counts.Min = counter
+		colorMap[color] = counts
 		counter++
+	}
+
+	counter = 3
+
+	for e := l.Front(); e != nil; e = e.Next() {
+		color := e.Value.(logic.Color)
+		if color.Equals(logic.Empty) {
+			counter = 3
+			continue
+		}
+
+		counts := colorMap[color]
+		counts.Max = counter
+		colorMap[color] = counts
+		counter--
 	}
 
 	return colorMap
@@ -131,14 +148,14 @@ func addRelation(ancestor logic.Color, descendant logic.Color, l *list.List) err
 	return nil
 }
 
-func deduplicateTasks(strings []string) []string {
-	seen := make(map[string]bool)
-	result := []string{}
+func deduplicateTasks(tasks []TaskTuple) []TaskTuple {
+	seen := make(map[TaskTuple]bool)
+	result := []TaskTuple{}
 
-	for _, str := range strings {
-		if _, exists := seen[str]; !exists {
-			seen[str] = true
-			result = append(result, str)
+	for _, task := range tasks {
+		if _, exists := seen[task]; !exists {
+			seen[task] = true
+			result = append(result, task)
 		}
 	}
 

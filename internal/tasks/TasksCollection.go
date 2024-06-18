@@ -19,6 +19,13 @@ type Counts struct {
 	Min int
 }
 
+func (c *Counts) Zero() bool {
+	if c.Max == 0 && c.Min == 0 {
+		return true
+	}
+	return false
+}
+
 type Quantity struct {
 	Number int
 	Color  logic.Color
@@ -50,6 +57,58 @@ type NoTouch struct {
 	Colors ColorPair
 }
 
+func NewTaskTuple(task string) (tt TaskTuple) {
+	if strings.Contains(task, "QUANTITY") {
+		tt = TaskTuple{
+			Task: task,
+			Type: QUANTITY,
+		}
+		return
+	} else if strings.Contains(task, "SUM") {
+		tt = TaskTuple{
+			Task: task,
+			Type: SUM,
+		}
+		return
+	} else if strings.Contains(task, "GT") {
+		tt = TaskTuple{
+			Task: task,
+			Type: GT,
+		}
+		return
+	} else if strings.Contains(task, "NOTOUCH") {
+		tt = TaskTuple{
+			Task: task,
+			Type: NOTOUCH,
+		}
+		return
+	} else if strings.Contains(task, "TOUCH") {
+		tt = TaskTuple{
+			Task: task,
+			Type: TOUCH,
+		}
+		return
+	} else if strings.Contains(task, "TOP") {
+		tt = TaskTuple{
+			Task: task,
+			Type: TOP,
+		}
+		return
+	} else if strings.Contains(task, "BOTTOM") {
+		tt = TaskTuple{
+			Task: task,
+			Type: BOTTOM,
+		}
+		return
+	}
+	return
+}
+
+type TaskTuple struct {
+	Task string
+	Type TaskType
+}
+
 type TasksCollection struct {
 	NoTouch                     map[string]NoTouch
 	Touch                       map[string]Touch
@@ -60,14 +119,14 @@ type TasksCollection struct {
 	Quantity                    map[string]Quantity
 	Tasks                       logic.Tasks
 	RequiredQuantity            map[logic.Color]int
-	RequiredGreaterThanLessThan map[logic.Color]int
+	RequiredGreaterThanLessThan map[logic.Color]Counts
 	RequiredSums                map[logic.Color]Sums
 	RequiredTop                 []logic.Color
 	RequiredBottom              []logic.Color
 	AllowedTouches              map[logic.Color][]logic.Color
 	RequiredTouches             map[logic.Color][]logic.Color
-	ColorTaskDependency         map[logic.Color][]string
-	Relations                   [][]string
+	ColorTaskDependency         map[logic.Color][]TaskTuple
+	Relations                   [][]TaskTuple
 }
 
 func NewTasksCollection(tasks logic.Tasks) (t *TasksCollection, err error) {
@@ -81,13 +140,13 @@ func NewTasksCollection(tasks logic.Tasks) (t *TasksCollection, err error) {
 		Quantity:                    make(map[string]Quantity),
 		Tasks:                       tasks,
 		RequiredQuantity:            make(map[logic.Color]int),
-		RequiredGreaterThanLessThan: make(map[logic.Color]int),
+		RequiredGreaterThanLessThan: make(map[logic.Color]Counts),
 		RequiredSums:                make(map[logic.Color]Sums),
 		//RequiredTop:                 make([]logic.Color),
 		//RequiredBottom:              []logic.Color
 		AllowedTouches:      make(map[logic.Color][]logic.Color),
 		RequiredTouches:     make(map[logic.Color][]logic.Color),
-		ColorTaskDependency: make(map[logic.Color][]string),
+		ColorTaskDependency: make(map[logic.Color][]TaskTuple),
 	}
 
 	//special rule, if there is a 2 & 1 quantity task for the same color, add them!
@@ -376,37 +435,37 @@ func (t *TasksCollection) String() string {
 // A couple of ways to think about this... by color; a map of colors to Tasks that they are involved in
 // by task; first order connections (which is based on color)
 // by task; second+ order connections (basically a connection of all Tasks that are related to the nth degree)
-func (t *TasksCollection) fillColorTasksDependency() (colors map[logic.Color][]string) {
-	colors = make(map[logic.Color][]string)
+func (t *TasksCollection) fillColorTasksDependency() (colors map[logic.Color][]TaskTuple) {
+	colors = make(map[logic.Color][]TaskTuple)
 
 	for task, v := range t.Top {
-		colors[v.Color] = append(colors[v.Color], task)
+		colors[v.Color] = append(colors[v.Color], TaskTuple{task, TOP})
 	}
 	for task, v := range t.Bottom {
-		colors[v.Color] = append(colors[v.Color], task)
+		colors[v.Color] = append(colors[v.Color], TaskTuple{task, BOTTOM})
 	}
 	for task, v := range t.Quantity {
-		colors[v.Color] = append(colors[v.Color], task)
+		colors[v.Color] = append(colors[v.Color], TaskTuple{task, QUANTITY})
 	}
 	for task, v := range t.GreaterThan {
-		colors[v.GreaterColor] = append(colors[v.GreaterColor], task)
-		colors[v.LesserColor] = append(colors[v.LesserColor], task)
+		colors[v.GreaterColor] = append(colors[v.GreaterColor], TaskTuple{task, GT})
+		colors[v.LesserColor] = append(colors[v.LesserColor], TaskTuple{task, GT})
 
 	}
 	for task, v := range t.Sum {
 
-		colors[v.A] = append(colors[v.A], task)
-		colors[v.B] = append(colors[v.B], task)
+		colors[v.A] = append(colors[v.A], TaskTuple{task, SUM})
+		colors[v.B] = append(colors[v.B], TaskTuple{task, SUM})
 
 	}
 	for task, v := range t.Touch {
-		colors[v.Colors.A] = append(colors[v.Colors.A], task)
-		colors[v.Colors.B] = append(colors[v.Colors.B], task)
+		colors[v.Colors.A] = append(colors[v.Colors.A], TaskTuple{task, TOUCH})
+		colors[v.Colors.B] = append(colors[v.Colors.B], TaskTuple{task, TOUCH})
 
 	}
 	for task, v := range t.NoTouch {
-		colors[v.Colors.A] = append(colors[v.Colors.A], task)
-		colors[v.Colors.B] = append(colors[v.Colors.B], task)
+		colors[v.Colors.A] = append(colors[v.Colors.A], TaskTuple{task, NOTOUCH})
+		colors[v.Colors.B] = append(colors[v.Colors.B], TaskTuple{task, NOTOUCH})
 	}
 
 	for color, tasks := range colors {
@@ -424,13 +483,14 @@ func (t *TasksCollection) fillRequiredQuantities() (colors map[logic.Color]int) 
 	return
 }
 
-func (t *TasksCollection) fillRequiredGreaterThanLessThan() (colors map[logic.Color]int) {
+func (t *TasksCollection) fillRequiredGreaterThanLessThan() (colors map[logic.Color]Counts) {
 	colorsList := list.New()
 
 	for _, v := range t.GreaterThan {
 		err := addRelation(v.GreaterColor, v.LesserColor, colorsList)
 		if err != nil {
 			//fmt.Println("Error:", err)
+			//todo debug this
 		}
 	}
 	colors = colorCounts(colorsList)

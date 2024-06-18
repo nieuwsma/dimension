@@ -5,7 +5,7 @@ networks:
 services:
   dimension:
     build:
-      dockerfile: Dockerfile
+      dockerfile: d_API.dockerfile
     environment:
       - LOG_LEVEL=TRACE
       - PORT=8080

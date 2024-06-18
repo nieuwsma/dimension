@@ -125,8 +125,14 @@ func PlayTrainingSessionTurn(c *gin.Context) {
 		WriteJsonWithHeaders(c, pb)
 		return
 	}
-	dimension, _ := parameters.ToLogicDimension()
-
+	dimension, err := parameters.ToLogicDimension()
+	if err != nil {
+		err := errors.New("invalid dimension:" + err.Error())
+		pb := presentation.BuildErrorPassback(http.StatusBadRequest, err)
+		logger.Log.WithFields(logrus.Fields{"ERROR": err, "HttpStatusCode": pb.StatusCode}).Error("bad request")
+		WriteJsonWithHeaders(c, pb)
+		return
+	}
 	trainingSession, err := middleware.PlayTrainingSession(trainID, playerName, *dimension)
 
 	if err != nil {

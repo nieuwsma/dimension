@@ -25,7 +25,7 @@ func main() {
 		{
 			var mk0 autoplayer.Mk0
 			dimension := mk0.Solve(trainingSession.Tasks)
-			turn := trainingSession.PlayTurn("Mk0-Autoplayer", dimension)
+			turn := trainingSession.PlayTurn(logic.PlayerName(mk0.Name()), dimension)
 			TurnStatistics[string(turn.PlayerName)] = append(TurnStatistics[string(turn.PlayerName)], TurnStatistic{
 				Score:           turn.Score,
 				Bonus:           turn.Bonus,
@@ -36,7 +36,18 @@ func main() {
 		{
 			var mk1 autoplayer.Mk1
 			dimension := mk1.Solve(trainingSession.Tasks)
-			turn := trainingSession.PlayTurn("Mk1-Autoplayer", dimension)
+			turn := trainingSession.PlayTurn(logic.PlayerName(mk1.Name()), dimension)
+			TurnStatistics[string(turn.PlayerName)] = append(TurnStatistics[string(turn.PlayerName)], TurnStatistic{
+				Score:           turn.Score,
+				Bonus:           turn.Bonus,
+				TaskViolations:  len(turn.TaskViolations),
+				DimensionLength: len(dimension.Dimension),
+			})
+		}
+		{
+			var mk2 autoplayer.Mk2
+			dimension := mk2.Solve(trainingSession.Tasks)
+			turn := trainingSession.PlayTurn(logic.PlayerName(mk2.Name()), dimension)
 			TurnStatistics[string(turn.PlayerName)] = append(TurnStatistics[string(turn.PlayerName)], TurnStatistic{
 				Score:           turn.Score,
 				Bonus:           turn.Bonus,
