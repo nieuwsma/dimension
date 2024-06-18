@@ -1,6 +1,26 @@
+function getApiBaseUrl() {
+    const hostname = window.location.hostname;
+    if (hostname === 'localhost') {
+        return 'http://localhost:8080';
+    }
+    return `http://${hostname}:8080`; // Assumes API is on the same host
+}
+
+const apiBaseUrl = getApiBaseUrl();
+
+function fetchData() {
+    fetch(`${apiBaseUrl}/training`)
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error fetching data:', error));
+}
+
+fetchData();
+
+
 async function fetchActiveTrainingSessions() {
     try {
-        const response = await fetch('http://localhost:8080/training', {
+        const response = await fetch('${apiBaseUrl}/training', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -22,7 +42,7 @@ async function fetchActiveTrainingSessions() {
 
 async function fetchRules() {
     try {
-        const response = await fetch('http://localhost:8080/rules', {
+        const response = await fetch('${apiBaseUrl}/rules', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -46,7 +66,7 @@ async function fetchTrainingSession(ID) {
     const trainID = encodeURIComponent(ID);
 
     try {
-        const response = await fetch(`http://localhost:8080/training/${trainID}`, {
+        const response = await fetch(`${apiBaseUrl}/training/${trainID}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -72,7 +92,7 @@ async function fetchTrainingSession(ID) {
 
 async function createTrainingSession() {
     try {
-        const response = await fetch('http://localhost:8080/training', {
+        const response = await fetch('${apiBaseUrl}/training', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -103,7 +123,7 @@ async function regenerateTasks() {
 
     if (trainID) {
         try {
-            const response = await fetch(`http://localhost:8080/training/${trainID}/regenerate`, {
+            const response = await fetch(`${apiBaseUrl}/training/${trainID}/regenerate`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -139,7 +159,7 @@ async function submitTurn(trainID, playerName, slotData) {
     const payload = slotData;
     const encodedPlayerName = encodeURIComponent(playerName);
     try {
-        const response = await fetch(`http://localhost:8080/training/${encodeURIComponent(trainID)}/turn/${encodedPlayerName}`, {
+        const response = await fetch(`${apiBaseUrl}/training/${encodeURIComponent(trainID)}/turn/${encodedPlayerName}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -162,7 +182,7 @@ async function submitTurn(trainID, playerName, slotData) {
 
 async function fetchRuleDescriptions() {
     try {
-        const response = await fetch(`http://localhost:8080/rules`);
+        const response = await fetch(`${apiBaseUrl}/rules`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
