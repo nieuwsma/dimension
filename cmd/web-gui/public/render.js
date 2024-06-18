@@ -178,3 +178,66 @@ async function renderResult(response) {
     // Display the results
     resultsDiv.innerHTML = resultsHTML;
 }
+
+
+function renderStatistics(tasks, turns, expirationTime) {
+    const container = document.getElementById('training-section');
+
+    // Clear any existing content
+    container.innerHTML = '<h2>Game Statistics</h2>';
+
+    // // Create a section for tasks
+    // const tasksSection = document.createElement('div');
+    // tasksSection.innerHTML = '<h3>Tasks</h3>';
+    // const tasksList = document.createElement('ul');
+    // tasks.forEach(task => {
+    //     const taskItem = document.createElement('li');
+    //     taskItem.textContent = task;
+    //     tasksList.appendChild(taskItem);
+    // });
+    // tasksSection.appendChild(tasksList);
+    // container.appendChild(tasksSection);
+
+    // Create a section for turns
+    if (turns && Array.isArray(turns)) {
+        const turnsSection = document.createElement('div');
+        turnsSection.innerHTML = '<h3>Turns</h3>';
+        const turnsTable = document.createElement('table');
+        turnsTable.innerHTML = `
+            <tr>
+                <th>Player Name</th>
+                <th>Score</th>
+                <th>Bonus Points</th>
+<!--                <th>Dimension</th>-->
+<!--                <th>Task Violations</th>-->
+            </tr>
+        `;
+        turns.forEach(turn => {
+            const turnRow = document.createElement('tr');
+            turnRow.innerHTML = `
+                <td>${turn.playerName}</td>
+                <td>${turn.score}</td>
+                <td>${turn.bonusPoints}</td>
+                `;
+            // <td>${Object.entries(turn.dimension).map(([key, value]) => `${key}: ${value}`).join(', ')}</td>
+            // <td>${turn.taskViolations ? turn.taskViolations.join(', ') : 'None'}</td>
+
+            turnsTable.appendChild(turnRow);
+        });
+        turnsSection.appendChild(turnsTable);
+        container.appendChild(turnsSection);
+    } else {
+        console.error('Turns data is not available or not an array.');
+    }
+
+    // Create a section for expiration time
+    if (expirationTime) {
+        const expirationSection = document.createElement('div');
+        expirationSection.innerHTML = `<h3>Expiration Time</h3><p>${new Date(expirationTime).toLocaleString()}</p>`;
+        container.appendChild(expirationSection);
+    } else {
+        console.error('Expiration time data is not available.');
+    }
+}
+
+

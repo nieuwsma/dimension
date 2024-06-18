@@ -10,15 +10,6 @@ function getApiBaseUrl() {
 const apiBaseUrl = getApiBaseUrl();
 console.log('API Base URL:', apiBaseUrl); // Add a debug log to verify the API URL
 
-// function fetchData() {
-//     fetch(`${apiBaseUrl}/training`)
-//         .then(response => response.json())
-//         .then(data => console.log(data))
-//         .catch(error => console.error('Error fetching data:', error));
-// }
-//
-// fetchData();
-
 
 async function fetchActiveTrainingSessions() {
     try {
@@ -66,6 +57,39 @@ async function fetchRules() {
         return [];
     }
 }
+
+async function fetchTrainingStatistics(ID) {
+    const trainID = encodeURIComponent(ID);
+
+    try {
+        const response = await fetch(`${apiBaseUrl}/training/${trainID}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('API Response:', data);  // Debugging line to log the response
+
+        // Ensure the returned object has tasks, turn, and expirationTime properties
+        return {
+            trainID: data.trainID,
+            tasks: data.tasks,
+            turn: data.turn || [],
+            expirationTime: data.expirationTime
+        };
+    } catch (error) {
+        console.error('Error fetching statistics:', error);
+        return null;
+    }
+}
+
+
 
 async function fetchTrainingSession(ID) {
     const trainID = encodeURIComponent(ID);

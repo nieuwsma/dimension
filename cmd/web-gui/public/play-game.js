@@ -18,11 +18,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-function homePage() {
-    window.location.href = 'index.html';
-}
-
-
 const slots = document.querySelectorAll('.slot');
 const colorPicker = document.getElementById('color-picker');
 const spheres = document.querySelectorAll('.available-sphere');

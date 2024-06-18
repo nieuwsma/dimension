@@ -9,10 +9,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderTrainingSessions(trainingSessions);
 });
 
-function viewRules() {
-    window.location.href = 'rules.html';
-}
-
 function createGame() {
     createTrainingSession().then(data => {
         if (data) {

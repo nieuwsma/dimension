@@ -26,3 +26,12 @@ Mk1-Autoplayer : Avg Score: 1.77 | Avg Dimension Length: 3.07 | Avg Task Violati
 ### Added
 
 - Training API is operational
+
+
+## [2.0.0] - 2024-06-17
+
+### Added
+
+- Added Mk2-Autoplayer (it still needs a lot of work)
+- Added webapp to play the game with friends over LAN
+
